@@ -23,7 +23,7 @@ class LabReportExtractor {
   final MistralChat _chat;
 
   /// Version of the prompt, stored with every extraction.
-  static const promptVersion = 'lab-report-v1';
+  static const promptVersion = 'lab-report-v2';
 
   String get id => 'llm:mistral/${_chat.model}@$promptVersion';
 
@@ -35,6 +35,11 @@ Rules:
   do not convert units, do not correct spelling, keep the decimal separator.
 - Only actual results are results. Reference ranges, page numbers, dates,
   addresses and phone numbers are not results.
+- Headings, notes, comments, information texts (e.g. "Spendeinformation")
+  and names of devices, kits or methods without a result of their own are
+  not results.
+- When a test is listed with a share in percent and an absolute count,
+  output both as separate results with their own unit.
 - "reference" is the reference range as printed, e.g. "60 - 170" or "< 5,0".
 - "flag" is an abnormal marker as printed, e.g. "H", "L", "+", "*", "↑".
 - "panel" is the heading the result is listed under, e.g. "Blutbild".

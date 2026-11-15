@@ -61,7 +61,7 @@ void main() {
     expect(result.results.first.unit, 'µg/dl');
     expect(result.results.last.value, '12,9');
     expect(result.results.last.page, 2);
-    expect(extractor.id, 'llm:mistral/mistral-medium-latest@lab-report-v1');
+    expect(extractor.id, 'llm:mistral/mistral-medium-latest@lab-report-v2');
   });
 
   test('an answer that is not json is not retried', () {
