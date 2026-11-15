@@ -1,0 +1,11 @@
+name: ucum
+description: Parse printed units of lab results into UCUM and convert between them.
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+
+resolution: workspace
+
+dev_dependencies:
+  test: ^1.31.0
