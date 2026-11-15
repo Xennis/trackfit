@@ -96,5 +96,20 @@
   "reportStatusReview": "Ready to review",
   "reportStatusDone": "Done",
   "reportStatusFailed": "Failed",
-  "loadFailed": "Could not load data"
+  "loadFailed": "Could not load data",
+  "reportTabOriginal": "Original",
+  "reportTabText": "Text",
+  "reportTabValues": "Values",
+  "reportTextEmpty": "The recognized text will show up here.",
+  "reportValuesEmpty": "Values will show up here once they are read.",
+  "reportNotFound": "This report no longer exists.",
+  "reportFileMissing": "The file is missing.",
+  "reportFileLabel": "File {number}",
+  "@reportFileLabel": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  }
 }

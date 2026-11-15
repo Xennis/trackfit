@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:trackfit_core/trackfit_core.dart';
 import 'package:trackfit_db/trackfit_db.dart';
 
+import '../../app/router.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../common/empty_state.dart';
 import '../import/import_flow.dart';
@@ -78,7 +79,7 @@ class ReportTile extends StatelessWidget {
               child: CircularProgressIndicator(strokeWidth: 2),
             )
           : const Icon(Icons.chevron_right),
-      onTap: () => context.go('/reports/${report.id}'),
+      onTap: () => context.go(Routes.report(report.id)),
     );
   }
 }

@@ -166,4 +166,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loadFailed => 'Could not load data';
+
+  @override
+  String get reportTabOriginal => 'Original';
+
+  @override
+  String get reportTabText => 'Text';
+
+  @override
+  String get reportTabValues => 'Values';
+
+  @override
+  String get reportTextEmpty => 'The recognized text will show up here.';
+
+  @override
+  String get reportValuesEmpty =>
+      'Values will show up here once they are read.';
+
+  @override
+  String get reportNotFound => 'This report no longer exists.';
+
+  @override
+  String get reportFileMissing => 'The file is missing.';
+
+  @override
+  String reportFileLabel(int number) {
+    return 'File $number';
+  }
 }

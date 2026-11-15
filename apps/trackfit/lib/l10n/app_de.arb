@@ -39,5 +39,13 @@
   "reportStatusReview": "Bereit zur Prüfung",
   "reportStatusDone": "Fertig",
   "reportStatusFailed": "Fehlgeschlagen",
-  "loadFailed": "Daten konnten nicht geladen werden"
+  "loadFailed": "Daten konnten nicht geladen werden",
+  "reportTabOriginal": "Original",
+  "reportTabText": "Text",
+  "reportTabValues": "Werte",
+  "reportTextEmpty": "Der erkannte Text erscheint hier.",
+  "reportValuesEmpty": "Werte erscheinen hier, sobald sie ausgelesen sind.",
+  "reportNotFound": "Dieser Befund existiert nicht mehr.",
+  "reportFileMissing": "Die Datei fehlt.",
+  "reportFileLabel": "Datei {number}"
 }

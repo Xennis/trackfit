@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../ui/more/more_page.dart';
 import '../ui/overview/overview_page.dart';
+import '../ui/reports/report_detail_page.dart';
 import '../ui/reports/reports_page.dart';
 import '../ui/shell/app_shell.dart';
 import '../ui/values/values_page.dart';
@@ -14,6 +15,8 @@ abstract final class Routes {
   static const values = '/values';
   static const reports = '/reports';
   static const more = '/more';
+
+  static String report(int id) => '$reports/$id';
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -26,7 +29,18 @@ final routerProvider = Provider<GoRouter>((ref) {
         branches: [
           _branch(Routes.overview, const OverviewPage()),
           _branch(Routes.values, const ValuesPage()),
-          _branch(Routes.reports, const ReportsPage()),
+          _branch(
+            Routes.reports,
+            const ReportsPage(),
+            routes: [
+              GoRoute(
+                path: ':id',
+                builder: (context, state) => ReportDetailPage(
+                  reportId: int.parse(state.pathParameters['id']!),
+                ),
+              ),
+            ],
+          ),
           _branch(Routes.more, const MorePage()),
         ],
       ),
@@ -36,6 +50,12 @@ final routerProvider = Provider<GoRouter>((ref) {
   return router;
 });
 
-StatefulShellBranch _branch(String path, Widget page) => StatefulShellBranch(
-  routes: [GoRoute(path: path, builder: (context, state) => page)],
+StatefulShellBranch _branch(
+  String path,
+  Widget page, {
+  List<RouteBase> routes = const [],
+}) => StatefulShellBranch(
+  routes: [
+    GoRoute(path: path, builder: (context, state) => page, routes: routes),
+  ],
 );

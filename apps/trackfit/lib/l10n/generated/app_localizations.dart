@@ -337,6 +337,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not load data'**
   String get loadFailed;
+
+  /// No description provided for @reportTabOriginal.
+  ///
+  /// In en, this message translates to:
+  /// **'Original'**
+  String get reportTabOriginal;
+
+  /// No description provided for @reportTabText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get reportTabText;
+
+  /// No description provided for @reportTabValues.
+  ///
+  /// In en, this message translates to:
+  /// **'Values'**
+  String get reportTabValues;
+
+  /// No description provided for @reportTextEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'The recognized text will show up here.'**
+  String get reportTextEmpty;
+
+  /// No description provided for @reportValuesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Values will show up here once they are read.'**
+  String get reportValuesEmpty;
+
+  /// No description provided for @reportNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This report no longer exists.'**
+  String get reportNotFound;
+
+  /// No description provided for @reportFileMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'The file is missing.'**
+  String get reportFileMissing;
+
+  /// No description provided for @reportFileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'File {number}'**
+  String reportFileLabel(int number);
 }
 
 class _AppLocalizationsDelegate
