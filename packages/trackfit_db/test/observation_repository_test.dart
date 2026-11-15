@@ -86,4 +86,29 @@ void main() {
     final shown = await observations.watchReportReadings(reportId).first;
     expect(shown.single.valueNum, 55);
   });
+  test('a correction replaces the reading and keeps the original', () async {
+    final original = await observations.insert(reading('Eisen'), now: testNow);
+
+    await observations.amend(
+      original,
+      NewObservation(
+        reading('Eisen').row.copyWith(valueNum: const Value(25)),
+        reading('Eisen').coding,
+      ),
+      now: testNow,
+    );
+
+    final shown = await observations.watchReportReadings(reportId).first;
+    expect(shown.single.valueNum, 25);
+    expect((await observations.get(original)).valueNum, 52);
+  });
+
+  test('a retracted reading disappears but stays stored', () async {
+    final id = await observations.insert(reading('Eisen'), now: testNow);
+
+    await observations.retract(id, now: testNow);
+
+    expect(await observations.watchReportReadings(reportId).first, isEmpty);
+    expect(await db.select(db.observation).get(), hasLength(2));
+  });
 }

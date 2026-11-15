@@ -171,6 +171,48 @@ class ObservationRepository {
         );
   }
 
+  /// The stored row of an observation.
+  Future<ObservationRow> get(int observationId) => (_db.select(
+    _db.observation,
+  )..where((o) => o.id.equals(observationId))).getSingle();
+
+  /// Writes [corrected] as a new row that replaces [originalId].
+  ///
+  /// The original row is kept unchanged; reads show only the correction.
+  Future<int> amend(
+    int originalId,
+    NewObservation corrected, {
+    required DateTime now,
+  }) => insert(
+    NewObservation(
+      corrected.row.copyWith(
+        amends: Value(originalId),
+        status: const Value(ObservationStatus.finalStatus),
+      ),
+      corrected.coding,
+    ),
+    now: now,
+    cause: CodingCause.correct,
+  );
+
+  /// Marks a reading as entered in error. A new row retracts it; nothing is
+  /// deleted.
+  Future<int> retract(int observationId, {required DateTime now}) async {
+    final original = await get(observationId);
+    return _db
+        .into(_db.observation)
+        .insert(
+          original
+              .toCompanion(true)
+              .copyWith(
+                id: const Value.absent(),
+                status: const Value(ObservationStatus.enteredInError),
+                amends: Value(observationId),
+                createdAt: Value(now),
+              ),
+        );
+  }
+
   /// Replaces the readings of a report that nobody corrected by [rows].
   ///
   /// Readings a person corrected or added stay, so reading a report again
