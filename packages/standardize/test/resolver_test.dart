@@ -40,8 +40,10 @@ const _golden = <(String name, String value, String unit, String code)>[
   ('TSH', '1,2', 'µIU/ml', '3016-3'),
   ('fT4', '1,3', 'ng/dl', '3024-7'),
   ('fT4', '16', 'pmol/l', '14920-3'),
-  ('25-OH-Vitamin D', '24,3', 'ng/ml', '1989-3'),
-  ('Vitamin D3 (25-OH)', '61', 'nmol/l', '62292-8'),
+  ('25-OH-Vitamin D', '24,3', 'ng/ml', '62292-8'),
+  ('Vitamin D', '61', 'nmol/l', '68438-1'),
+  ('25-OH-Vitamin D3', '24,3', 'ng/ml', '1989-3'),
+  ('Vitamin D3 (25-OH)', '61', 'nmol/l', '14635-7'),
   ('Vitamin B12', '350', 'pg/ml', '2132-9'),
   ('Natrium', '140', 'mmol/l', '2951-2'),
   ('Kalium', '4,2', 'mmol/l', '2823-3'),
@@ -70,6 +72,13 @@ void main() {
         expect(result.code, expected);
       });
     }
+  });
+
+  test('total vitamin D and vitamin D3 stay apart', () {
+    expect(
+      code('Vitamin D', '24', 'ng/ml').groupId,
+      isNot(code('25-OH-Vitamin D3', '24', 'ng/ml').groupId),
+    );
   });
 
   test('iron, ferritin, transferrin and saturation stay apart', () {
@@ -123,6 +132,6 @@ void main() {
     );
     expect(reading.valueCanonical, closeTo(24.44, 0.01));
     expect(reading.coding.canonicalUnit, 'ng/mL');
-    expect(reading.seriesId, 'loinc:62292-8');
+    expect(reading.seriesId, 'loinc:14635-7');
   });
 }
