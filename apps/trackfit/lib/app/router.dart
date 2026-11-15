@@ -9,6 +9,7 @@ import '../ui/overview/overview_page.dart';
 import '../ui/reports/report_detail_page.dart';
 import '../ui/reports/reports_page.dart';
 import '../ui/shell/app_shell.dart';
+import '../ui/values/value_detail_page.dart';
 import '../ui/values/values_page.dart';
 
 /// Route paths of the top level destinations.
@@ -36,7 +37,17 @@ final routerProvider = Provider<GoRouter>((ref) {
             AppShell(navigationShell: navigationShell),
         branches: [
           _branch(Routes.overview, const OverviewPage()),
-          _branch(Routes.values, const ValuesPage()),
+          _branch(
+            Routes.values,
+            const ValuesPage(),
+            routes: [
+              GoRoute(
+                path: ':key',
+                builder: (context, state) =>
+                    ValueDetailPage(seriesKey: state.pathParameters['key']!),
+              ),
+            ],
+          ),
           _branch(
             Routes.reports,
             const ReportsPage(),
