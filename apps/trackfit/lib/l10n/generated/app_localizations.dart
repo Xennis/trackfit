@@ -427,6 +427,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Report deleted'**
   String get reportDeleted;
+
+  /// No description provided for @settingsRecognition.
+  ///
+  /// In en, this message translates to:
+  /// **'Recognition'**
+  String get settingsRecognition;
+
+  /// No description provided for @settingsRecognitionSubtitleReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Mistral AI · ready'**
+  String get settingsRecognitionSubtitleReady;
+
+  /// No description provided for @settingsRecognitionSubtitleMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Mistral AI · not set up'**
+  String get settingsRecognitionSubtitleMissing;
+
+  /// No description provided for @recognitionIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'trackfit sends reports to Mistral AI to recognize text and values. The results are stored only on this device.'**
+  String get recognitionIntro;
+
+  /// No description provided for @recognitionApiKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Mistral API key'**
+  String get recognitionApiKey;
+
+  /// No description provided for @recognitionApiKeyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste your key'**
+  String get recognitionApiKeyHint;
+
+  /// No description provided for @recognitionSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get recognitionSave;
+
+  /// No description provided for @recognitionRemoveKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove key'**
+  String get recognitionRemoveKey;
+
+  /// No description provided for @recognitionKeySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Key saved'**
+  String get recognitionKeySaved;
+
+  /// No description provided for @recognitionKeyRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Key removed'**
+  String get recognitionKeyRemoved;
+
+  /// No description provided for @recognitionShowKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Show key'**
+  String get recognitionShowKey;
+
+  /// No description provided for @recognitionHideKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide key'**
+  String get recognitionHideKey;
+
+  /// No description provided for @recognitionConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reports to Mistral AI'**
+  String get recognitionConsent;
+
+  /// No description provided for @recognitionConsentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Required for recognition. You can withdraw it at any time.'**
+  String get recognitionConsentBody;
 }
 
 class _AppLocalizationsDelegate

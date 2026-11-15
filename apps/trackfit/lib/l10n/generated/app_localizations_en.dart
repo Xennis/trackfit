@@ -215,4 +215,48 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportDeleted => 'Report deleted';
+
+  @override
+  String get settingsRecognition => 'Recognition';
+
+  @override
+  String get settingsRecognitionSubtitleReady => 'Mistral AI · ready';
+
+  @override
+  String get settingsRecognitionSubtitleMissing => 'Mistral AI · not set up';
+
+  @override
+  String get recognitionIntro =>
+      'trackfit sends reports to Mistral AI to recognize text and values. The results are stored only on this device.';
+
+  @override
+  String get recognitionApiKey => 'Mistral API key';
+
+  @override
+  String get recognitionApiKeyHint => 'Paste your key';
+
+  @override
+  String get recognitionSave => 'Save';
+
+  @override
+  String get recognitionRemoveKey => 'Remove key';
+
+  @override
+  String get recognitionKeySaved => 'Key saved';
+
+  @override
+  String get recognitionKeyRemoved => 'Key removed';
+
+  @override
+  String get recognitionShowKey => 'Show key';
+
+  @override
+  String get recognitionHideKey => 'Hide key';
+
+  @override
+  String get recognitionConsent => 'Send reports to Mistral AI';
+
+  @override
+  String get recognitionConsentBody =>
+      'Required for recognition. You can withdraw it at any time.';
 }

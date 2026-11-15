@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../ui/more/more_page.dart';
+import '../ui/more/recognition_settings_page.dart';
 import '../ui/overview/overview_page.dart';
 import '../ui/reports/report_detail_page.dart';
 import '../ui/reports/reports_page.dart';
@@ -15,6 +16,8 @@ abstract final class Routes {
   static const values = '/values';
   static const reports = '/reports';
   static const more = '/more';
+
+  static const recognitionSettings = '$more/recognition';
 
   static String report(int id) => '$reports/$id';
 }
@@ -41,7 +44,16 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          _branch(Routes.more, const MorePage()),
+          _branch(
+            Routes.more,
+            const MorePage(),
+            routes: [
+              GoRoute(
+                path: 'recognition',
+                builder: (context, state) => const RecognitionSettingsPage(),
+              ),
+            ],
+          ),
         ],
       ),
     ],

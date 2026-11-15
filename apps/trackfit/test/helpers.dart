@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/misc.dart';
+import 'package:trackfit/application/recognition_settings.dart';
 import 'package:trackfit/data/database_providers.dart';
+import 'package:trackfit/data/secret_store.dart';
 import 'package:trackfit_db/trackfit_db.dart';
 
 /// A fresh in-memory database.
@@ -31,9 +33,10 @@ Uint8List fakeJpeg([String tag = '']) => Uint8List.fromList([
 ]);
 
 /// Provider overrides that run the app on [db] instead of a file.
-List<Override> testOverrides(TrackfitDatabase db) => [
+List<Override> testOverrides(TrackfitDatabase db, {SecretStore? secrets}) => [
   databaseProvider.overrideWithValue(db),
   deviceTimeZoneProvider.overrideWith((ref) => 'Europe/Berlin'),
+  secretStoreProvider.overrideWithValue(secrets ?? MemorySecretStore()),
 ];
 
 /// A valid 1x1 PNG.

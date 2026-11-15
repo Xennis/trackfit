@@ -118,5 +118,19 @@
   "reportDeleteValues": "Also delete the values read from it",
   "cancel": "Cancel",
   "delete": "Delete",
-  "reportDeleted": "Report deleted"
+  "reportDeleted": "Report deleted",
+  "settingsRecognition": "Recognition",
+  "settingsRecognitionSubtitleReady": "Mistral AI · ready",
+  "settingsRecognitionSubtitleMissing": "Mistral AI · not set up",
+  "recognitionIntro": "trackfit sends reports to Mistral AI to recognize text and values. The results are stored only on this device.",
+  "recognitionApiKey": "Mistral API key",
+  "recognitionApiKeyHint": "Paste your key",
+  "recognitionSave": "Save",
+  "recognitionRemoveKey": "Remove key",
+  "recognitionKeySaved": "Key saved",
+  "recognitionKeyRemoved": "Key removed",
+  "recognitionShowKey": "Show key",
+  "recognitionHideKey": "Hide key",
+  "recognitionConsent": "Send reports to Mistral AI",
+  "recognitionConsentBody": "Required for recognition. You can withdraw it at any time."
 }

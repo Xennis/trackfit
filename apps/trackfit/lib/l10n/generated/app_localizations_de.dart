@@ -216,4 +216,49 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get reportDeleted => 'Befund gelöscht';
+
+  @override
+  String get settingsRecognition => 'Erkennung';
+
+  @override
+  String get settingsRecognitionSubtitleReady => 'Mistral AI · bereit';
+
+  @override
+  String get settingsRecognitionSubtitleMissing =>
+      'Mistral AI · nicht eingerichtet';
+
+  @override
+  String get recognitionIntro =>
+      'trackfit sendet Befunde an Mistral AI, um Text und Werte zu erkennen. Die Ergebnisse werden nur auf diesem Gerät gespeichert.';
+
+  @override
+  String get recognitionApiKey => 'Mistral-API-Schlüssel';
+
+  @override
+  String get recognitionApiKeyHint => 'Schlüssel einfügen';
+
+  @override
+  String get recognitionSave => 'Speichern';
+
+  @override
+  String get recognitionRemoveKey => 'Schlüssel entfernen';
+
+  @override
+  String get recognitionKeySaved => 'Schlüssel gespeichert';
+
+  @override
+  String get recognitionKeyRemoved => 'Schlüssel entfernt';
+
+  @override
+  String get recognitionShowKey => 'Schlüssel anzeigen';
+
+  @override
+  String get recognitionHideKey => 'Schlüssel verbergen';
+
+  @override
+  String get recognitionConsent => 'Befunde an Mistral AI senden';
+
+  @override
+  String get recognitionConsentBody =>
+      'Nötig für die Erkennung. Du kannst das jederzeit widerrufen.';
 }
