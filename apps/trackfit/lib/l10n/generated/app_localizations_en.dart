@@ -460,4 +460,52 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get valueNoChart =>
       'A chart needs numbers; this value is not numeric.';
+
+  @override
+  String get editValueTitle => 'Edit value';
+
+  @override
+  String get addValueTitle => 'Add value';
+
+  @override
+  String get addValue => 'Add value';
+
+  @override
+  String get editName => 'Test';
+
+  @override
+  String get editValue => 'Value';
+
+  @override
+  String get editUnit => 'Unit';
+
+  @override
+  String get editReference => 'Reference range';
+
+  @override
+  String get editFlag => 'Flag';
+
+  @override
+  String get editOriginalKept => 'The original stays stored.';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get markAsError => 'Mark as error';
+
+  @override
+  String get valueSaved => 'Value saved';
+
+  @override
+  String get valueRetracted => 'Value marked as error';
+
+  @override
+  String get editNeedsName => 'Enter the name of the test';
+
+  @override
+  String get addValueNeedsDate => 'Set the report date first.';
+
+  @override
+  String get showPage => 'Show page';
 }

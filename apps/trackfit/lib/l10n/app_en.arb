@@ -246,5 +246,21 @@
   },
   "valueNotFound": "This value has no measurements.",
   "valueUnit": "Unit",
-  "valueNoChart": "A chart needs numbers; this value is not numeric."
+  "valueNoChart": "A chart needs numbers; this value is not numeric.",
+  "editValueTitle": "Edit value",
+  "addValueTitle": "Add value",
+  "addValue": "Add value",
+  "editName": "Test",
+  "editValue": "Value",
+  "editUnit": "Unit",
+  "editReference": "Reference range",
+  "editFlag": "Flag",
+  "editOriginalKept": "The original stays stored.",
+  "save": "Save",
+  "markAsError": "Mark as error",
+  "valueSaved": "Value saved",
+  "valueRetracted": "Value marked as error",
+  "editNeedsName": "Enter the name of the test",
+  "addValueNeedsDate": "Set the report date first.",
+  "showPage": "Show page"
 }

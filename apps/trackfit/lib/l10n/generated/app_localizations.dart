@@ -859,6 +859,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A chart needs numbers; this value is not numeric.'**
   String get valueNoChart;
+
+  /// No description provided for @editValueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit value'**
+  String get editValueTitle;
+
+  /// No description provided for @addValueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add value'**
+  String get addValueTitle;
+
+  /// No description provided for @addValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Add value'**
+  String get addValue;
+
+  /// No description provided for @editName.
+  ///
+  /// In en, this message translates to:
+  /// **'Test'**
+  String get editName;
+
+  /// No description provided for @editValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get editValue;
+
+  /// No description provided for @editUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get editUnit;
+
+  /// No description provided for @editReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference range'**
+  String get editReference;
+
+  /// No description provided for @editFlag.
+  ///
+  /// In en, this message translates to:
+  /// **'Flag'**
+  String get editFlag;
+
+  /// No description provided for @editOriginalKept.
+  ///
+  /// In en, this message translates to:
+  /// **'The original stays stored.'**
+  String get editOriginalKept;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @markAsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as error'**
+  String get markAsError;
+
+  /// No description provided for @valueSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Value saved'**
+  String get valueSaved;
+
+  /// No description provided for @valueRetracted.
+  ///
+  /// In en, this message translates to:
+  /// **'Value marked as error'**
+  String get valueRetracted;
+
+  /// No description provided for @editNeedsName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the name of the test'**
+  String get editNeedsName;
+
+  /// No description provided for @addValueNeedsDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Set the report date first.'**
+  String get addValueNeedsDate;
+
+  /// No description provided for @showPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Show page'**
+  String get showPage;
 }
 
 class _AppLocalizationsDelegate

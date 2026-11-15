@@ -464,4 +464,52 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get valueNoChart =>
       'Für einen Graphen braucht es Zahlen; dieser Wert ist nicht numerisch.';
+
+  @override
+  String get editValueTitle => 'Wert bearbeiten';
+
+  @override
+  String get addValueTitle => 'Wert hinzufügen';
+
+  @override
+  String get addValue => 'Wert hinzufügen';
+
+  @override
+  String get editName => 'Test';
+
+  @override
+  String get editValue => 'Wert';
+
+  @override
+  String get editUnit => 'Einheit';
+
+  @override
+  String get editReference => 'Referenzbereich';
+
+  @override
+  String get editFlag => 'Markierung';
+
+  @override
+  String get editOriginalKept => 'Das Original bleibt gespeichert.';
+
+  @override
+  String get save => 'Speichern';
+
+  @override
+  String get markAsError => 'Als fehlerhaft markieren';
+
+  @override
+  String get valueSaved => 'Wert gespeichert';
+
+  @override
+  String get valueRetracted => 'Wert als fehlerhaft markiert';
+
+  @override
+  String get editNeedsName => 'Gib den Namen des Tests ein';
+
+  @override
+  String get addValueNeedsDate => 'Setze zuerst das Befunddatum.';
+
+  @override
+  String get showPage => 'Seite zeigen';
 }

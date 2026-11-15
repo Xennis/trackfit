@@ -3,8 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trackfit_core/trackfit_core.dart';
 import 'package:trackfit_db/trackfit_db.dart';
 
+import '../../application/processing_providers.dart';
+
 import '../../l10n/generated/app_localizations.dart';
 import '../common/empty_state.dart';
+import '../values/edit_value_dialog.dart';
 import '../values/value_format.dart';
 import 'report_providers.dart';
 
@@ -24,11 +27,31 @@ class ReportValuesView extends ConsumerWidget {
     if (readings == null) {
       return const Center(child: CircularProgressIndicator());
     }
+    final hasDate =
+        ref.watch(reportProvider(reportId)).value?.reportDate != null;
+    final addButton = Padding(
+      padding: const EdgeInsets.all(16),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: OutlinedButton.icon(
+          onPressed: hasDate ? () => _add(context, ref) : null,
+          icon: const Icon(Icons.add),
+          label: Text(l10n.addValue),
+        ),
+      ),
+    );
     if (readings.isEmpty) {
-      return EmptyState(
-        icon: Icons.list_alt_outlined,
-        title: l10n.reportTabValues,
-        body: l10n.reportValuesEmpty,
+      return Column(
+        children: [
+          Expanded(
+            child: EmptyState(
+              icon: Icons.list_alt_outlined,
+              title: l10n.reportTabValues,
+              body: l10n.reportValuesEmpty,
+            ),
+          ),
+          if (hasDate) addButton,
+        ],
       );
     }
     final panels = <String, List<VObservationData>>{};
@@ -50,17 +73,68 @@ class ReportValuesView extends ConsumerWidget {
             ),
           ),
           for (final reading in rows)
-            _ValueTile(reading: reading, onOpenPage: onOpenPage),
+            _ValueTile(
+              reading: reading,
+              onOpenPage: onOpenPage,
+              onEdit: () => _edit(context, ref, reading),
+            ),
         ],
+        addButton,
       ],
     );
+  }
+
+  Future<void> _edit(
+    BuildContext context,
+    WidgetRef ref,
+    VObservationData reading,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final result = await showEditValueDialog(
+      context,
+      initial: ObservationDraft(
+        name: reading.nameText,
+        value: reading.valueText,
+        unit: reading.unitText,
+        reference: reading.refText,
+        flag: reading.flagText,
+        specimen: reading.specimenText,
+        panel: reading.panelText,
+      ),
+    );
+    if (result == null) return;
+    final corrections = await ref.read(readingCorrectionsProvider.future);
+    switch (result) {
+      case SaveValue(:final draft):
+        await corrections.edit(reading.id, draft);
+        messenger.showSnackBar(SnackBar(content: Text(l10n.valueSaved)));
+      case RetractValue():
+        await corrections.retract(reading.id);
+        messenger.showSnackBar(SnackBar(content: Text(l10n.valueRetracted)));
+    }
+  }
+
+  Future<void> _add(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final result = await showEditValueDialog(context);
+    if (result is! SaveValue) return;
+    final corrections = await ref.read(readingCorrectionsProvider.future);
+    await corrections.addToReport(reportId, result.draft);
+    messenger.showSnackBar(SnackBar(content: Text(l10n.valueSaved)));
   }
 }
 
 class _ValueTile extends StatelessWidget {
-  const _ValueTile({required this.reading, this.onOpenPage});
+  const _ValueTile({
+    required this.reading,
+    required this.onEdit,
+    this.onOpenPage,
+  });
 
   final VObservationData reading;
+  final VoidCallback onEdit;
   final ValueChanged<int>? onOpenPage;
 
   @override
@@ -78,9 +152,14 @@ class _ValueTile extends StatelessWidget {
     return ListTile(
       title: Text(readingName(reading)),
       subtitle: details.isEmpty ? null : Text(details.join(' · ')),
-      onTap: page == null || onOpenPage == null
+      onTap: onEdit,
+      leading: page == null || onOpenPage == null
           ? null
-          : () => onOpenPage!(page),
+          : IconButton(
+              tooltip: l10n.showPage,
+              icon: const Icon(Icons.find_in_page_outlined),
+              onPressed: () => onOpenPage!(page),
+            ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

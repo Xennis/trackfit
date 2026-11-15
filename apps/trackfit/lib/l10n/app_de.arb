@@ -126,5 +126,21 @@
   "valueCode": "LOINC {code}",
   "valueNotFound": "Für diesen Wert gibt es keine Messungen.",
   "valueUnit": "Einheit",
-  "valueNoChart": "Für einen Graphen braucht es Zahlen; dieser Wert ist nicht numerisch."
+  "valueNoChart": "Für einen Graphen braucht es Zahlen; dieser Wert ist nicht numerisch.",
+  "editValueTitle": "Wert bearbeiten",
+  "addValueTitle": "Wert hinzufügen",
+  "addValue": "Wert hinzufügen",
+  "editName": "Test",
+  "editValue": "Wert",
+  "editUnit": "Einheit",
+  "editReference": "Referenzbereich",
+  "editFlag": "Markierung",
+  "editOriginalKept": "Das Original bleibt gespeichert.",
+  "save": "Speichern",
+  "markAsError": "Als fehlerhaft markieren",
+  "valueSaved": "Wert gespeichert",
+  "valueRetracted": "Wert als fehlerhaft markiert",
+  "editNeedsName": "Gib den Namen des Tests ein",
+  "addValueNeedsDate": "Setze zuerst das Befunddatum.",
+  "showPage": "Seite zeigen"
 }
