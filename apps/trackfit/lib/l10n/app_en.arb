@@ -64,5 +64,37 @@
   "open": "Open",
   "importDropOverlay": "Drop PDFs or images to add reports",
   "importCamera": "Take a photo",
-  "importGallery": "Choose from gallery"
+  "importGallery": "Choose from gallery",
+  "reportUntitled": "New report",
+  "reportFiles": "{count, plural, =1{1 file} other{{count} files}}",
+  "@reportFiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reportValues": "{count, plural, =0{No values} =1{1 value} other{{count} values}}",
+  "@reportValues": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reportOpenQuestions": "{count, plural, =1{1 open question} other{{count} open questions}}",
+  "@reportOpenQuestions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reportStatusPending": "Waiting for recognition",
+  "reportStatusOcr": "Recognizing text…",
+  "reportStatusExtracting": "Reading values…",
+  "reportStatusReview": "Ready to review",
+  "reportStatusDone": "Done",
+  "reportStatusFailed": "Failed",
+  "loadFailed": "Could not load data"
 }

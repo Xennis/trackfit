@@ -271,6 +271,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose from gallery'**
   String get importGallery;
+
+  /// No description provided for @reportUntitled.
+  ///
+  /// In en, this message translates to:
+  /// **'New report'**
+  String get reportUntitled;
+
+  /// No description provided for @reportFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 file} other{{count} files}}'**
+  String reportFiles(int count);
+
+  /// No description provided for @reportValues.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No values} =1{1 value} other{{count} values}}'**
+  String reportValues(int count);
+
+  /// No description provided for @reportOpenQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 open question} other{{count} open questions}}'**
+  String reportOpenQuestions(int count);
+
+  /// No description provided for @reportStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for recognition'**
+  String get reportStatusPending;
+
+  /// No description provided for @reportStatusOcr.
+  ///
+  /// In en, this message translates to:
+  /// **'Recognizing text…'**
+  String get reportStatusOcr;
+
+  /// No description provided for @reportStatusExtracting.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading values…'**
+  String get reportStatusExtracting;
+
+  /// No description provided for @reportStatusReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to review'**
+  String get reportStatusReview;
+
+  /// No description provided for @reportStatusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get reportStatusDone;
+
+  /// No description provided for @reportStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get reportStatusFailed;
+
+  /// No description provided for @loadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load data'**
+  String get loadFailed;
 }
 
 class _AppLocalizationsDelegate

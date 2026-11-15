@@ -28,5 +28,16 @@
   "open": "Öffnen",
   "importDropOverlay": "PDFs oder Bilder ablegen, um Befunde hinzuzufügen",
   "importCamera": "Foto aufnehmen",
-  "importGallery": "Aus Galerie wählen"
+  "importGallery": "Aus Galerie wählen",
+  "reportUntitled": "Neuer Befund",
+  "reportFiles": "{count, plural, =1{1 Datei} other{{count} Dateien}}",
+  "reportValues": "{count, plural, =0{Keine Werte} =1{1 Wert} other{{count} Werte}}",
+  "reportOpenQuestions": "{count, plural, =1{1 offene Frage} other{{count} offene Fragen}}",
+  "reportStatusPending": "Wartet auf Erkennung",
+  "reportStatusOcr": "Text wird erkannt…",
+  "reportStatusExtracting": "Werte werden ausgelesen…",
+  "reportStatusReview": "Bereit zur Prüfung",
+  "reportStatusDone": "Fertig",
+  "reportStatusFailed": "Fehlgeschlagen",
+  "loadFailed": "Daten konnten nicht geladen werden"
 }

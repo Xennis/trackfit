@@ -109,4 +109,62 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get importGallery => 'Aus Galerie wählen';
+
+  @override
+  String get reportUntitled => 'Neuer Befund';
+
+  @override
+  String reportFiles(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Dateien',
+      one: '1 Datei',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reportValues(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Werte',
+      one: '1 Wert',
+      zero: 'Keine Werte',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reportOpenQuestions(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count offene Fragen',
+      one: '1 offene Frage',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reportStatusPending => 'Wartet auf Erkennung';
+
+  @override
+  String get reportStatusOcr => 'Text wird erkannt…';
+
+  @override
+  String get reportStatusExtracting => 'Werte werden ausgelesen…';
+
+  @override
+  String get reportStatusReview => 'Bereit zur Prüfung';
+
+  @override
+  String get reportStatusDone => 'Fertig';
+
+  @override
+  String get reportStatusFailed => 'Fehlgeschlagen';
+
+  @override
+  String get loadFailed => 'Daten konnten nicht geladen werden';
 }
