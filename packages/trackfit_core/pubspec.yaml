@@ -1,0 +1,8 @@
+name: trackfit_core
+description: Shared types of trackfit, such as observation drafts and enums.
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+
+resolution: workspace
