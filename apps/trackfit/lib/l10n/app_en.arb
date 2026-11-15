@@ -1,0 +1,7 @@
+{
+  "@@locale": "en",
+  "appTitle": "trackfit",
+  "@appTitle": {
+    "description": "Name of the app."
+  }
+}
