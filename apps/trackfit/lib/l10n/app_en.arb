@@ -61,5 +61,6 @@
     }
   },
   "importFailed": "Import failed",
-  "open": "Open"
+  "open": "Open",
+  "importDropOverlay": "Drop PDFs or images to add reports"
 }

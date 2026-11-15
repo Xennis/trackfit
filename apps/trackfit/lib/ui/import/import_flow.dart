@@ -36,7 +36,7 @@ Future<void> showImportSheet(BuildContext context, WidgetRef ref) =>
                   pickAndImportFiles(context, ref);
                 },
               ),
-              if (_isDesktop)
+              if (isDesktop)
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
                   child: Text(
@@ -50,7 +50,8 @@ Future<void> showImportSheet(BuildContext context, WidgetRef ref) =>
       },
     );
 
-bool get _isDesktop =>
+/// Whether the app runs on a desktop operating system.
+bool get isDesktop =>
     !kIsWeb &&
     (defaultTargetPlatform == TargetPlatform.linux ||
         defaultTargetPlatform == TargetPlatform.macOS ||

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../l10n/generated/app_localizations.dart';
+import '../import/file_drop_zone.dart';
+import '../import/import_flow.dart';
 
 /// Width below which the bottom navigation bar is used (Material 3 compact).
 const double compactBreakpoint = 600;
@@ -29,7 +31,9 @@ class AppShell extends StatelessWidget {
 
     if (width < compactBreakpoint) {
       return Scaffold(
-        body: navigationShell,
+        body: isDesktop
+            ? FileDropZone(child: navigationShell)
+            : navigationShell,
         bottomNavigationBar: NavigationBar(
           selectedIndex: navigationShell.currentIndex,
           onDestinationSelected: _onSelect,
@@ -46,30 +50,29 @@ class AppShell extends StatelessWidget {
     }
 
     final extended = width >= expandedBreakpoint;
-    return Scaffold(
-      body: Row(
-        children: [
-          NavigationRail(
-            selectedIndex: navigationShell.currentIndex,
-            onDestinationSelected: _onSelect,
-            extended: extended,
-            labelType: extended
-                ? NavigationRailLabelType.none
-                : NavigationRailLabelType.all,
-            destinations: [
-              for (final d in destinations)
-                NavigationRailDestination(
-                  icon: Icon(d.icon),
-                  selectedIcon: Icon(d.selectedIcon),
-                  label: Text(d.label),
-                ),
-            ],
-          ),
-          const VerticalDivider(width: 1),
-          Expanded(child: navigationShell),
-        ],
-      ),
+    final body = Row(
+      children: [
+        NavigationRail(
+          selectedIndex: navigationShell.currentIndex,
+          onDestinationSelected: _onSelect,
+          extended: extended,
+          labelType: extended
+              ? NavigationRailLabelType.none
+              : NavigationRailLabelType.all,
+          destinations: [
+            for (final d in destinations)
+              NavigationRailDestination(
+                icon: Icon(d.icon),
+                selectedIcon: Icon(d.selectedIcon),
+                label: Text(d.label),
+              ),
+          ],
+        ),
+        const VerticalDivider(width: 1),
+        Expanded(child: navigationShell),
+      ],
     );
+    return Scaffold(body: isDesktop ? FileDropZone(child: body) : body);
   }
 
   List<_Destination> _destinations(AppLocalizations l10n) => [

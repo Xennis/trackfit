@@ -99,4 +99,8 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get open => 'Öffnen';
+
+  @override
+  String get importDropOverlay =>
+      'PDFs oder Bilder ablegen, um Befunde hinzuzufügen';
 }

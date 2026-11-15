@@ -253,6 +253,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open'**
   String get open;
+
+  /// No description provided for @importDropOverlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop PDFs or images to add reports'**
+  String get importDropOverlay;
 }
 
 class _AppLocalizationsDelegate

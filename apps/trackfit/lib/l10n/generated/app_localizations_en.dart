@@ -99,4 +99,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get open => 'Open';
+
+  @override
+  String get importDropOverlay => 'Drop PDFs or images to add reports';
 }
