@@ -62,6 +62,14 @@ class LexicalCoder implements Coder {
     ];
     final coded = results.where((r) => r.isCoded).toList();
     if (coded.length == 1) return coded.single;
+    if (coded.length > 1 && unitUcum.isEmpty) {
+      // E.g. a share and a count of one cell type: only the unit decides.
+      return const CodingResult.uncoded(
+        CodingOutcome.needsInput,
+        'unit:missing',
+        rule: 'engine:lexical',
+      );
+    }
     if (coded.length > 1) {
       return CodingResult(
         outcome: CodingOutcome.needsInput,
@@ -114,7 +122,9 @@ class LexicalCoder implements Coder {
     if (!quantitative) return _coded(scaled.first, rule, ['name', 'scale']);
 
     if (unitUcum.isEmpty) {
-      if (scaled.length == 1 && (scaled.first.units.isEmpty || absent)) {
+      // Only one code fits a number of this test, so the missing unit
+      // cannot pick a wrong one.
+      if (scaled.length == 1) {
         return _coded(scaled.first, rule, ['name']);
       }
       return CodingResult.uncoded(
@@ -185,6 +195,28 @@ class LexicalCoder implements Coder {
     'rel',
   ];
 
+  /// Names of analyzers or test systems a report prints before the test,
+  /// e.g. `Siemens Atellica CMV IgG`.
+  static const _devicePrefixes = [
+    'siemens atellica',
+    'siemens',
+    'atellica',
+    'roche cobas',
+    'roche elecsys',
+    'roche',
+    'cobas',
+    'elecsys',
+    'abbott architect',
+    'abbott alinity',
+    'abbott',
+    'architect',
+    'alinity',
+    'diasorin liaison',
+    'liaison',
+    'beckman coulter',
+    'sysmex',
+  ];
+
   /// Measure words at the end of a compound, as in `Leukozytenzahl`.
   static const _measureSuffixes = ['konzentration', 'anzahl', 'zahl'];
 
@@ -242,6 +274,9 @@ class LexicalCoder implements Coder {
   static String? _reduceOnce(String key) {
     final marks = key.replaceAll(RegExp(r'[\s*↑↓!+]+$'), '');
     if (marks != key) return marks;
+    for (final device in _devicePrefixes) {
+      if (key.startsWith('$device ')) return key.substring(device.length + 1);
+    }
     // A short code in front of the name, e.g. the material `(GB) Ferritin`.
     final leading = RegExp(r'^\([^()]{1,8}\)\s*(.+)$').firstMatch(key);
     if (leading != null) return leading.group(1);
