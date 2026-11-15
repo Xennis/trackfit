@@ -103,6 +103,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'trackfit'**
   String get appTitle;
+
+  /// Navigation destination for the start page.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get navOverview;
+
+  /// Navigation destination for all measured values.
+  ///
+  /// In en, this message translates to:
+  /// **'Values'**
+  String get navValues;
+
+  /// Navigation destination for imported lab reports.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports'**
+  String get navReports;
+
+  /// Navigation destination for settings and info.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get navMore;
+
+  /// No description provided for @overviewEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first report'**
+  String get overviewEmptyTitle;
+
+  /// No description provided for @overviewEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Import a lab report as PDF or photo to get started.'**
+  String get overviewEmptyBody;
+
+  /// No description provided for @valuesEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No values yet'**
+  String get valuesEmptyTitle;
+
+  /// No description provided for @valuesEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Values from your reports will show up here.'**
+  String get valuesEmptyBody;
+
+  /// No description provided for @reportsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No reports yet'**
+  String get reportsEmptyTitle;
+
+  /// No description provided for @reportsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported PDFs and photos will show up here.'**
+  String get reportsEmptyBody;
+
+  /// No description provided for @moreAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get moreAbout;
+
+  /// No description provided for @moreDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'trackfit does not diagnose or give medical advice.'**
+  String get moreDisclaimer;
 }
 
 class _AppLocalizationsDelegate

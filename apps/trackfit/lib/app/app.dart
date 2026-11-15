@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/generated/app_localizations.dart';
+import 'router.dart';
 import 'theme.dart';
 
 /// Root widget of the app.
-class TrackfitApp extends StatelessWidget {
+class TrackfitApp extends ConsumerWidget {
   const TrackfitApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -22,11 +24,7 @@ class TrackfitApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      home: Builder(
-        builder: (context) => Scaffold(
-          body: Center(child: Text(AppLocalizations.of(context).appTitle)),
-        ),
-      ),
+      routerConfig: ref.watch(routerProvider),
     );
   }
 }

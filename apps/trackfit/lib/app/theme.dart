@@ -21,10 +21,7 @@ abstract final class AppTheme {
         backgroundColor: colorScheme.surface,
         foregroundColor: colorScheme.onSurface,
       ),
-      cardTheme: const CardThemeData(
-        elevation: 0,
-        margin: EdgeInsets.zero,
-      ),
+      cardTheme: const CardThemeData(elevation: 0, margin: EdgeInsets.zero),
     );
   }
 }

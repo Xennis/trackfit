@@ -1,4 +1,16 @@
 {
   "@@locale": "de",
-  "appTitle": "trackfit"
+  "appTitle": "trackfit",
+  "navOverview": "Übersicht",
+  "navValues": "Werte",
+  "navReports": "Befunde",
+  "navMore": "Mehr",
+  "overviewEmptyTitle": "Ersten Befund hinzufügen",
+  "overviewEmptyBody": "Importiere einen Laborbefund als PDF oder Foto, um loszulegen.",
+  "valuesEmptyTitle": "Noch keine Werte",
+  "valuesEmptyBody": "Werte aus deinen Befunden erscheinen hier.",
+  "reportsEmptyTitle": "Noch keine Befunde",
+  "reportsEmptyBody": "Importierte PDFs und Fotos erscheinen hier.",
+  "moreAbout": "Über",
+  "moreDisclaimer": "trackfit stellt keine Diagnosen und ersetzt keine ärztliche Beratung."
 }

@@ -3,5 +3,29 @@
   "appTitle": "trackfit",
   "@appTitle": {
     "description": "Name of the app."
-  }
+  },
+  "navOverview": "Overview",
+  "@navOverview": {
+    "description": "Navigation destination for the start page."
+  },
+  "navValues": "Values",
+  "@navValues": {
+    "description": "Navigation destination for all measured values."
+  },
+  "navReports": "Reports",
+  "@navReports": {
+    "description": "Navigation destination for imported lab reports."
+  },
+  "navMore": "More",
+  "@navMore": {
+    "description": "Navigation destination for settings and info."
+  },
+  "overviewEmptyTitle": "Add your first report",
+  "overviewEmptyBody": "Import a lab report as PDF or photo to get started.",
+  "valuesEmptyTitle": "No values yet",
+  "valuesEmptyBody": "Values from your reports will show up here.",
+  "reportsEmptyTitle": "No reports yet",
+  "reportsEmptyBody": "Imported PDFs and photos will show up here.",
+  "moreAbout": "About",
+  "moreDisclaimer": "trackfit does not diagnose or give medical advice."
 }
