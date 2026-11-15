@@ -3,11 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:trackfit/app/app.dart';
 
+import '../helpers.dart';
+
 Future<void> _pumpApp(WidgetTester tester, Size size) async {
   tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
-  await tester.pumpWidget(const ProviderScope(child: TrackfitApp()));
+  final db = memoryDatabase();
+  addTearDown(db.close);
+  await tester.pumpWidget(
+    ProviderScope(overrides: testOverrides(db), child: const TrackfitApp()),
+  );
   await tester.pumpAndSettle();
 }
 

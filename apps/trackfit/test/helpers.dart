@@ -2,12 +2,22 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:flutter_riverpod/misc.dart';
+import 'package:trackfit/data/database_providers.dart';
 import 'package:trackfit_db/trackfit_db.dart';
 
 /// A fresh in-memory database.
+///
+/// Streams close synchronously, so widget tests do not end with a pending
+/// timer from drift.
 TrackfitDatabase memoryDatabase() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
-  return TrackfitDatabase(NativeDatabase.memory());
+  return TrackfitDatabase(
+    DatabaseConnection(
+      NativeDatabase.memory(),
+      closeStreamsSynchronously: true,
+    ),
+  );
 }
 
 /// Bytes that are detected as a PDF; [tag] makes them unique.
@@ -19,3 +29,9 @@ Uint8List fakeJpeg([String tag = '']) => Uint8List.fromList([
   0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A, 0x46, 0x49, 0x46, 0x00, //
   ...utf8.encode(tag),
 ]);
+
+/// Provider overrides that run the app on [db] instead of a file.
+List<Override> testOverrides(TrackfitDatabase db) => [
+  databaseProvider.overrideWithValue(db),
+  deviceTimeZoneProvider.overrideWith((ref) => 'Europe/Berlin'),
+];
