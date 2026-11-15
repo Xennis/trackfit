@@ -11,6 +11,7 @@ resolution: workspace
 dependencies:
   crypto: ^3.0.8
   desktop_drop: ^0.8.0
+  drift: ^2.34.0
   drift_flutter: ^0.3.1
   file_picker: ^13.3.3
   flutter:
@@ -29,13 +30,14 @@ dependencies:
   mime: ^2.1.0
   path_provider: ^2.1.6
   pdfrx: ^2.4.8
+  standardize:
+    path: ../../packages/standardize
   trackfit_core:
     path: ../../packages/trackfit_core
   trackfit_db:
     path: ../../packages/trackfit_db
 
 dev_dependencies:
-  drift: ^2.34.0
   flutter_test:
     sdk: flutter
 
