@@ -81,15 +81,29 @@ class ObservationRepository {
   });
 
   /// Replaces the coding of an existing observation, e.g. after a person
-  /// confirmed what a name means.
+  /// confirmed what a name means or a new terminology arrived.
+  ///
+  /// The printed fields stay untouched. Columns derived from them (unit in
+  /// UCUM and the keys built from it) are refreshed, because a newer
+  /// version may derive them better.
   Future<void> recode(
     int observationId,
     NewObservation observation, {
     required DateTime now,
     required CodingCause cause,
-  }) => _db.transaction(
-    () => _writeCoding(observationId, observation, now: now, cause: cause),
-  );
+  }) => _db.transaction(() async {
+    final row = observation.row;
+    await (_db.update(
+      _db.observation,
+    )..where((o) => o.id.equals(observationId))).write(
+      ObservationCompanion(
+        unitUcum: row.unitUcum,
+        localKey: row.localKey,
+        streamKey: row.streamKey,
+      ),
+    );
+    await _writeCoding(observationId, observation, now: now, cause: cause);
+  });
 
   Future<void> _writeCoding(
     int observationId,
