@@ -74,5 +74,9 @@
   "consentOnlyStore": "Nur ablegen",
   "consentAgree": "Zustimmen",
   "consentNeedsKey": "Füge einen Mistral-API-Schlüssel hinzu, um die Erkennung zu starten.",
-  "consentOpenSettings": "Einstellungen"
+  "consentOpenSettings": "Einstellungen",
+  "reportRetry": "Erneut versuchen",
+  "reportSetUpRecognition": "Erkennung einrichten",
+  "reportWaitingForSetup": "Die Erkennung ist noch nicht eingerichtet.",
+  "reportFailedReason": "Erkennung fehlgeschlagen: {reason}"
 }

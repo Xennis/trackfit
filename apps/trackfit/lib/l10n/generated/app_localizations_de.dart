@@ -281,4 +281,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get consentOpenSettings => 'Einstellungen';
+
+  @override
+  String get reportRetry => 'Erneut versuchen';
+
+  @override
+  String get reportSetUpRecognition => 'Erkennung einrichten';
+
+  @override
+  String get reportWaitingForSetup =>
+      'Die Erkennung ist noch nicht eingerichtet.';
+
+  @override
+  String reportFailedReason(String reason) {
+    return 'Erkennung fehlgeschlagen: $reason';
+  }
 }

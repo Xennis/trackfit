@@ -138,5 +138,16 @@
   "consentOnlyStore": "Only store",
   "consentAgree": "Agree",
   "consentNeedsKey": "Add a Mistral API key to start recognition.",
-  "consentOpenSettings": "Settings"
+  "consentOpenSettings": "Settings",
+  "reportRetry": "Try again",
+  "reportSetUpRecognition": "Set up recognition",
+  "reportWaitingForSetup": "Recognition is not set up yet.",
+  "reportFailedReason": "Recognition failed: {reason}",
+  "@reportFailedReason": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  }
 }

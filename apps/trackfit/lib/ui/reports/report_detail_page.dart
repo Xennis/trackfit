@@ -10,6 +10,7 @@ import '../../l10n/generated/app_localizations.dart';
 import '../common/empty_state.dart';
 import 'delete_report_dialog.dart';
 import 'original_view.dart';
+import 'processing_banner.dart';
 import 'report_labels.dart';
 import 'report_providers.dart';
 
@@ -57,19 +58,26 @@ class ReportDetailPage extends ConsumerWidget {
             ],
           ),
         ),
-        body: TabBarView(
-          physics: const NeverScrollableScrollPhysics(),
+        body: Column(
           children: [
-            OriginalView(files: files),
-            EmptyState(
-              icon: Icons.notes_outlined,
-              title: l10n.reportTabText,
-              body: l10n.reportTextEmpty,
-            ),
-            EmptyState(
-              icon: Icons.list_alt_outlined,
-              title: l10n.reportTabValues,
-              body: l10n.reportValuesEmpty,
+            if (report != null) ProcessingBanner(report: report),
+            Expanded(
+              child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  OriginalView(files: files),
+                  EmptyState(
+                    icon: Icons.notes_outlined,
+                    title: l10n.reportTabText,
+                    body: l10n.reportTextEmpty,
+                  ),
+                  EmptyState(
+                    icon: Icons.list_alt_outlined,
+                    title: l10n.reportTabValues,
+                    body: l10n.reportValuesEmpty,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

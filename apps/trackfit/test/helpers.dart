@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:trackfit/application/recognition_settings.dart';
 import 'package:trackfit/data/database_providers.dart';
+import 'package:trackfit/data/file_store.dart';
 import 'package:trackfit/data/secret_store.dart';
 import 'package:trackfit/platform/ocr/ocr.dart';
 import 'package:trackfit_db/trackfit_db.dart';
@@ -34,8 +36,16 @@ Uint8List fakeJpeg([String tag = '']) => Uint8List.fromList([
 ]);
 
 /// Provider overrides that run the app on [db] instead of a file.
-List<Override> testOverrides(TrackfitDatabase db, {SecretStore? secrets}) => [
+List<Override> testOverrides(
+  TrackfitDatabase db, {
+  SecretStore? secrets,
+  FileStore? files,
+}) => [
   databaseProvider.overrideWithValue(db),
+  fileStoreProvider.overrideWith(
+    (ref) =>
+        files ?? FileStore(Directory.systemTemp.createTempSync('trackfit')),
+  ),
   deviceTimeZoneProvider.overrideWith((ref) => 'Europe/Berlin'),
   secretStoreProvider.overrideWithValue(secrets ?? MemorySecretStore()),
 ];

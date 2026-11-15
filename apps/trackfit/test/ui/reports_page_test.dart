@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:trackfit/app/app.dart';
-import 'package:trackfit/data/database_providers.dart';
 import 'package:trackfit/data/file_store.dart';
 import 'package:trackfit_core/trackfit_core.dart';
 import 'package:trackfit_db/trackfit_db.dart';
@@ -75,10 +74,7 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          ...testOverrides(db),
-          fileStoreProvider.overrideWith((ref) => store),
-        ],
+        overrides: testOverrides(db, files: store),
         child: const TrackfitApp(),
       ),
     );
@@ -96,5 +92,55 @@ void main() {
     expect(find.text('File 1'), findsOneWidget);
     expect(find.text('File 2'), findsOneWidget);
     expect(find.byType(Image), findsOneWidget);
+    expect(find.text('Recognition is not set up yet.'), findsOneWidget);
+  });
+  testWidgets('a failed report shows the reason and can be retried', (
+    tester,
+  ) async {
+    final db = memoryDatabase();
+    addTearDown(db.close);
+    final reports = ReportRepository(db);
+    final personId = await PersonRepository(
+      db,
+    ).ensureDefaultPerson(defaultTz: 'UTC', now: DateTime.utc(2026));
+    final reportId = await reports.createReport(
+      personId: personId,
+      files: [
+        NewSourceFile(
+          contentHash: 'c' * 64,
+          fileName: 'befund.pdf',
+          mimeType: 'application/pdf',
+          byteSize: 1,
+          storedPath: 'files/missing.pdf',
+          kind: FileKind.pdf,
+          importChannel: ImportChannel.filePicker,
+        ),
+      ],
+      now: DateTime.utc(2026, 11, 15),
+    );
+    await reports.setStatus(
+      reportId,
+      ReportStatus.failed,
+      error: 'Mistral OCR answered 401',
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(overrides: testOverrides(db), child: const TrackfitApp()),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Reports'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('New report'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('Recognition failed: Mistral OCR answered 401'),
+      findsOneWidget,
+    );
+    await tester.tap(find.text('Try again'));
+    await tester.pump();
+    await tester.pump();
+
+    expect((await reports.getReport(reportId))!.status, ReportStatus.pending);
   });
 }

@@ -547,6 +547,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get consentOpenSettings;
+
+  /// No description provided for @reportRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get reportRetry;
+
+  /// No description provided for @reportSetUpRecognition.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up recognition'**
+  String get reportSetUpRecognition;
+
+  /// No description provided for @reportWaitingForSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Recognition is not set up yet.'**
+  String get reportWaitingForSetup;
+
+  /// No description provided for @reportFailedReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Recognition failed: {reason}'**
+  String reportFailedReason(String reason);
 }
 
 class _AppLocalizationsDelegate

@@ -278,4 +278,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get consentOpenSettings => 'Settings';
+
+  @override
+  String get reportRetry => 'Try again';
+
+  @override
+  String get reportSetUpRecognition => 'Set up recognition';
+
+  @override
+  String get reportWaitingForSetup => 'Recognition is not set up yet.';
+
+  @override
+  String reportFailedReason(String reason) {
+    return 'Recognition failed: $reason';
+  }
 }
