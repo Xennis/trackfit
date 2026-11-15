@@ -32,29 +32,49 @@ class LexicalCoder implements Coder {
         rule: 'engine:lexical',
       );
     }
-    final group = _resolveGroup(nameKey);
-    if (group is _Conflict) {
+    final groups = _resolveGroups(nameKey);
+    if (groups is _Conflict) {
       return CodingResult(
         outcome: CodingOutcome.needsInput,
         rule: 'engine:lexical',
         reason: 'name:ambiguous',
         candidates: [
-          for (final g in group.groups)
+          for (final g in groups.groups)
             ...terminology.membersOf(g).map((e) => e.code),
         ],
       );
     }
-    if (group is! _Found) {
+    if (groups is! _Found) {
       return const CodingResult.uncoded(
         CodingOutcome.needsInput,
         'engine:no-match',
         rule: 'engine:lexical',
       );
     }
-    return codeInGroup(
-      group.groupId,
-      unitUcum: unitUcum,
-      valueKind: valueKind,
+    final results = [
+      for (final group in groups.groups)
+        codeInGroup(
+          group,
+          unitUcum: unitUcum,
+          valueKind: valueKind,
+          rule: 'engine:lexical',
+        ),
+    ];
+    final coded = results.where((r) => r.isCoded).toList();
+    if (coded.length == 1) return coded.single;
+    if (coded.length > 1) {
+      return CodingResult(
+        outcome: CodingOutcome.needsInput,
+        rule: 'engine:lexical',
+        reason: 'name:ambiguous',
+        candidates: [for (final r in coded) r.code!],
+      );
+    }
+    // Nothing fits: report the reason all analytes agree on, if any.
+    final reasons = {for (final r in results) r.reason};
+    return CodingResult.uncoded(
+      CodingOutcome.needsInput,
+      reasons.length == 1 ? reasons.single : 'unit:conflict',
       rule: 'engine:lexical',
     );
   }
@@ -128,53 +148,118 @@ class LexicalCoder implements Coder {
       );
 
   /// The analyte a folded name stands for, null when unknown or ambiguous.
-  String? groupOf(String nameKey) => switch (_resolveGroup(nameKey)) {
-    _Found(:final groupId) => groupId,
+  String? groupOf(String nameKey) => switch (_resolveGroups(nameKey)) {
+    _Found(:final groups) when groups.length == 1 => groups.single,
     _ => null,
   };
 
-  /// The analyte a folded name stands for.
+  /// Words a report adds after the name that do not change the test, e.g.
+  /// the lab section (`Zentrallabor`) or the purpose (`Freigabe`).
+  static const _qualifiers = [
+    'zentrallabor',
+    'freigabeparameter',
+    'freigabe',
+    'screening',
+    'suchtest',
+    'pool',
+    'bestimmung',
+    'quantitativ',
+    'qualitativ',
+    'im serum',
+    'i.s.',
+    'serum',
+    'plasma',
+    'vollblut',
+    'edta',
+    'gesamt',
+  ];
+
+  /// Measure words at the end of a compound, as in `Leukozytenzahl`.
+  static const _measureSuffixes = ['konzentration', 'anzahl', 'zahl'];
+
+  /// The analytes a folded name stands for.
   ///
-  /// Tries the name as printed, then spelling variants, then a trailing
-  /// mark such as `*` or `↑` removed. `Name (ABBR)` must agree: when name
-  /// and abbreviation name two analytes, it is ambiguous.
-  _Resolution _resolveGroup(String nameKey) {
+  /// Tries the name as printed (and spelling variants), then `Name (ABBR)`,
+  /// which must agree, then the name with trailing marks and qualifiers
+  /// removed one by one.
+  _Resolution _resolveGroups(String nameKey) {
     final direct = _lookup(nameKey);
-    if (direct != null) return _Found(direct);
+    if (direct.isNotEmpty) return _Found(direct);
 
     final paren = RegExp(r'^(.+?)\s*\(([^()]+)\)$').firstMatch(nameKey);
     if (paren != null) {
-      final stem = _lookup(paren.group(1)!);
+      final stem = _lookupReduced(paren.group(1)!);
       final abbreviation = _lookup(paren.group(2)!);
-      if (stem != null && abbreviation != null && stem != abbreviation) {
-        return _Conflict([stem, abbreviation]);
+      if (stem.isNotEmpty &&
+          abbreviation.isNotEmpty &&
+          stem.intersection(abbreviation).isEmpty) {
+        return _Conflict([...stem, ...abbreviation]);
       }
-      final found = stem ?? abbreviation;
-      if (found != null) return _Found(found);
+      if (stem.isNotEmpty) return _Found(stem);
+      if (abbreviation.isNotEmpty) return _Found(abbreviation);
     }
-
-    final stripped = nameKey
-        .replaceAll(RegExp(r'[\s*↑↓!+]+$'), '')
-        .replaceAll(RegExp(r'\s*(bestimmung|gesamt|i\.s\.|im serum)$'), '');
-    if (stripped != nameKey && stripped.isNotEmpty) {
-      return _resolveGroup(stripped);
-    }
-    return const _NotFound();
+    final reduced = _lookupReduced(nameKey);
+    return reduced.isEmpty ? const _NotFound() : _Found(reduced);
   }
 
-  String? _lookup(String key) {
-    for (final variant in _variants(key)) {
-      final group = terminology.groupOf(variant);
-      if (group != null) return group;
+  Set<String> _lookupReduced(String key) {
+    for (final candidate in _reductions(key)) {
+      final groups = _lookup(candidate);
+      if (groups.isNotEmpty) return groups;
+    }
+    return const {};
+  }
+
+  /// [key], then shorter forms without one trailing mark, bracket,
+  /// qualifier or measure word each.
+  static Iterable<String> _reductions(String key) sync* {
+    var current = key.trim();
+    yield current;
+    for (var i = 0; i < 8; i++) {
+      final next = _reduceOnce(current)?.trim();
+      if (next == null || next.isEmpty || next == current) return;
+      current = next;
+      yield current;
+    }
+  }
+
+  static String? _reduceOnce(String key) {
+    final marks = key.replaceAll(RegExp(r'[\s*↑↓!+]+$'), '');
+    if (marks != key) return marks;
+    final bracket = RegExp(r'^(.+?)\s*\([^()]*\)$').firstMatch(key);
+    if (bracket != null) return bracket.group(1);
+    for (final qualifier in _qualifiers) {
+      for (final separator in [' - ', ' -', '-', ' ', ', ']) {
+        if (key.endsWith('$separator$qualifier')) {
+          return key.substring(
+            0,
+            key.length - separator.length - qualifier.length,
+          );
+        }
+      }
+    }
+    for (final suffix in _measureSuffixes) {
+      if (key.endsWith(suffix) && key.length > suffix.length + 2) {
+        return key
+            .substring(0, key.length - suffix.length)
+            .replaceAll(RegExp(r'[-\s]+$'), '');
+      }
     }
     return null;
+  }
+
+  Set<String> _lookup(String key) {
+    for (final variant in _variants(key)) {
+      final groups = terminology.groupsOf(variant);
+      if (groups.isNotEmpty) return groups;
+    }
+    return const {};
   }
 
   static Iterable<String> _variants(String key) sync* {
     yield key;
     final spaced = key.replaceAll(RegExp(r'[-_/]'), ' ').trim();
     yield spaced.replaceAll(RegExp(r'\s+'), ' ');
-    yield key.replaceAll(RegExp(r'[\s\-_.]'), '');
   }
 }
 
@@ -183,8 +268,8 @@ sealed class _Resolution {
 }
 
 class _Found extends _Resolution {
-  const _Found(this.groupId);
-  final String groupId;
+  const _Found(this.groups);
+  final Set<String> groups;
 }
 
 class _Conflict extends _Resolution {
