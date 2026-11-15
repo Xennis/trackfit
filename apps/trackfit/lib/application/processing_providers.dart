@@ -15,6 +15,7 @@ import '../platform/terminology/terminology_loader.dart';
 import 'processing_queue.dart';
 import 'question_answers.dart';
 import 'reading_corrections.dart';
+import 'reading_recoder.dart';
 import 'recognition_settings.dart';
 import 'report_extraction.dart';
 import 'report_processor.dart';
@@ -115,3 +116,17 @@ final questionAnswersProvider = Provider<QuestionAnswers>(
     },
   ),
 );
+
+/// Codes stored readings again when the app brought a newer terminology,
+/// so earlier imports profit from new names and codes. Started with the app.
+final terminologyUpgradeProvider = FutureProvider<int>((ref) async {
+  final coder = await ref.watch(coderProvider.future);
+  final personId = await ref.watch(currentPersonIdProvider.future);
+  final recoded = await ReadingRecoder(
+    db: ref.watch(databaseProvider),
+  ).recodeOutdated(personId, coder);
+  if (recoded > 0) {
+    debugPrint('Recoded $recoded readings with ${coder.release}');
+  }
+  return recoded;
+});

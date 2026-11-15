@@ -1,9 +1,8 @@
-import 'package:drift/drift.dart';
 import 'package:standardize/standardize.dart';
 import 'package:trackfit_core/trackfit_core.dart';
 import 'package:trackfit_db/trackfit_db.dart';
 
-import 'reading_builder.dart';
+import 'reading_recoder.dart';
 
 /// Answers to open questions: what a printed name means.
 class QuestionAnswers {
@@ -12,12 +11,12 @@ class QuestionAnswers {
     required Future<Coder> Function() coder,
     DateTime Function()? clock,
   }) : _questions = QuestionRepository(db),
-       _observations = ObservationRepository(db),
+       _recoder = ReadingRecoder(db: db, clock: clock),
        _coder = coder,
        _clock = clock ?? DateTime.now;
 
   final QuestionRepository _questions;
-  final ObservationRepository _observations;
+  final ReadingRecoder _recoder;
 
   /// The coder that knows the answers given so far.
   final Future<Coder> Function() _coder;
@@ -41,42 +40,7 @@ class QuestionAnswers {
     );
     final coder = await _coder();
     final readings = await _questions.openReadingsNamed(personId, nameKey);
-    for (final row in readings) {
-      final reading = standardizeDraft(
-        ObservationDraft(
-          name: row.nameText,
-          value: row.valueText,
-          unit: row.unitText,
-          reference: row.refText,
-          flag: row.flagText,
-          specimen: row.specimenText,
-          method: row.methodText,
-          panel: row.panelText,
-        ),
-        coder,
-      );
-      final rebuilt = buildLabReading(
-        reading,
-        ReadingSource(
-          personId: row.personId,
-          reportId: row.reportId ?? 0,
-          reportDate: row.localDate,
-          timeZone: row.tz,
-          now: now,
-        ),
-        rowIx: row.rowIx ?? 0,
-        terminologyRelease: coder.release,
-      );
-      await _observations.recode(
-        row.id,
-        NewObservation(
-          rebuilt.row.copyWith(unitUcum: Value(row.unitUcum)),
-          rebuilt.coding,
-        ),
-        now: now,
-        cause: CodingCause.recodeAlias,
-      );
-    }
+    await _recoder.recode(readings, coder, cause: CodingCause.recodeAlias);
     return readings.length;
   }
 }

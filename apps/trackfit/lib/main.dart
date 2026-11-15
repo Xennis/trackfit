@@ -12,7 +12,9 @@ void main() {
   container
     ..read(currentPersonIdProvider)
     // Recognize reports in the background, also those left from last time.
-    ..read(processingQueueProvider);
+    ..read(processingQueueProvider)
+    // Code earlier readings again when this version brings new codes.
+    ..read(terminologyUpgradeProvider);
   runApp(
     UncontrolledProviderScope(container: container, child: const TrackfitApp()),
   );
