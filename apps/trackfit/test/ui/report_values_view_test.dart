@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:trackfit/l10n/generated/app_localizations.dart';
+import 'package:trackfit/ui/reports/original_view.dart';
+import 'package:trackfit/ui/reports/report_detail_page.dart';
 import 'package:trackfit/ui/reports/report_values_view.dart';
 import 'package:trackfit_core/trackfit_core.dart';
 
@@ -53,5 +55,35 @@ void main() {
     expect(find.text('12,9 g/dl'), findsOneWidget);
     expect(find.byIcon(Icons.arrow_downward), findsOneWidget);
     expect(find.textContaining('Ref 60 - 170 · p. 1'), findsOneWidget);
+  });
+  testWidgets('shows original and values side by side on wide screens', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1400, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    final db = memoryDatabase();
+    addTearDown(db.close);
+    final reportId = await seedReport(
+      db,
+      reportDate: '2025-03-14',
+      drafts: const [ObservationDraft(name: 'TSH', value: '1,2', unit: 'mU/l')],
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: testOverrides(db),
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: ReportDetailPage(reportId: reportId),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text('Original'), findsNothing);
+    expect(find.text('1,2 mU/l'), findsOneWidget);
+    expect(find.byType(OriginalView), findsOneWidget);
   });
 }
