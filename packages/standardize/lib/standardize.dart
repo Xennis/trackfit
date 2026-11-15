@@ -2,3 +2,4 @@
 library;
 
 export 'src/fold.dart';
+export 'src/parse_value.dart';
