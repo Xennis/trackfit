@@ -311,5 +311,29 @@
   },
   "overviewAbnormal": "Abnormal",
   "overviewNoAbnormal": "No abnormal values in the latest measurements.",
-  "overviewLatestReport": "Latest report"
+  "overviewLatestReport": "Latest report",
+  "settingsTheme": "Appearance",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "settingsData": "Data",
+  "settingsDataSummary": "{reports} reports · {size}",
+  "@settingsDataSummary": {
+    "placeholders": {
+      "reports": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsDataLocation": "Stored in {path}",
+  "@settingsDataLocation": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  }
 }

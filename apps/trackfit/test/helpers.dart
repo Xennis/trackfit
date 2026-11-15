@@ -5,10 +5,12 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:standardize/standardize.dart';
 import 'package:trackfit/application/processing_providers.dart';
 import 'package:trackfit/application/reading_builder.dart';
 import 'package:trackfit/application/recognition_settings.dart';
+import 'package:trackfit/application/storage_info.dart';
 import 'package:trackfit/data/database_providers.dart';
 import 'package:trackfit/data/file_store.dart';
 import 'package:trackfit/data/secret_store.dart';
@@ -46,16 +48,22 @@ List<Override> testOverrides(
   SecretStore? secrets,
   FileStore? files,
   Coder coder = const NoCoder(),
-}) => [
-  coderProvider.overrideWith((ref) => coder),
-  databaseProvider.overrideWithValue(db),
-  fileStoreProvider.overrideWith(
-    (ref) =>
-        files ?? FileStore(Directory.systemTemp.createTempSync('trackfit')),
-  ),
-  deviceTimeZoneProvider.overrideWith((ref) => 'Europe/Berlin'),
-  secretStoreProvider.overrideWithValue(secrets ?? MemorySecretStore()),
-];
+}) {
+  SharedPreferences.setMockInitialValues({});
+  return [
+    coderProvider.overrideWith((ref) => coder),
+    storageInfoProvider.overrideWith(
+      (ref) => const StorageInfo(directory: '/data', bytes: 2048),
+    ),
+    databaseProvider.overrideWithValue(db),
+    fileStoreProvider.overrideWith(
+      (ref) =>
+          files ?? FileStore(Directory.systemTemp.createTempSync('trackfit')),
+    ),
+    deviceTimeZoneProvider.overrideWith((ref) => 'Europe/Berlin'),
+    secretStoreProvider.overrideWithValue(secrets ?? MemorySecretStore()),
+  ];
+}
 
 /// A valid 1x1 PNG.
 final Uint8List tinyPng = base64Decode(

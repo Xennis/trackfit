@@ -606,4 +606,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get overviewLatestReport => 'Latest report';
+
+  @override
+  String get settingsTheme => 'Appearance';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get settingsData => 'Data';
+
+  @override
+  String settingsDataSummary(int reports, String size) {
+    return '$reports reports · $size';
+  }
+
+  @override
+  String settingsDataLocation(String path) {
+    return 'Stored in $path';
+  }
 }

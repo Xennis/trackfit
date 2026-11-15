@@ -163,5 +163,12 @@
   "overviewProcessing": "{count, plural, =1{1 Befund wird verarbeitet} other{{count} Befunde werden verarbeitet}}",
   "overviewAbnormal": "Auffällig",
   "overviewNoAbnormal": "Keine auffälligen Werte in den letzten Messungen.",
-  "overviewLatestReport": "Letzter Befund"
+  "overviewLatestReport": "Letzter Befund",
+  "settingsTheme": "Darstellung",
+  "themeSystem": "System",
+  "themeLight": "Hell",
+  "themeDark": "Dunkel",
+  "settingsData": "Daten",
+  "settingsDataSummary": "{reports} Befunde · {size}",
+  "settingsDataLocation": "Gespeichert in {path}"
 }

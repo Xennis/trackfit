@@ -611,4 +611,29 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get overviewLatestReport => 'Letzter Befund';
+
+  @override
+  String get settingsTheme => 'Darstellung';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get themeLight => 'Hell';
+
+  @override
+  String get themeDark => 'Dunkel';
+
+  @override
+  String get settingsData => 'Daten';
+
+  @override
+  String settingsDataSummary(int reports, String size) {
+    return '$reports Befunde · $size';
+  }
+
+  @override
+  String settingsDataLocation(String path) {
+    return 'Gespeichert in $path';
+  }
 }
