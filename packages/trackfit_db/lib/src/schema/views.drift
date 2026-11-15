@@ -1,0 +1,54 @@
+import 'reports.drift';
+import 'pages.drift';
+import 'observations.drift';
+import 'coding.drift';
+
+-- The one surface to read observations from. A row that was amended by a
+-- later row, or entered in error, is not here; readers never filter on
+-- status themselves.
+CREATE VIEW v_observation AS
+SELECT o.*,
+       k.terminology_release,
+       k.outcome,
+       k.reason AS coding_reason,
+       k.code_system,
+       k.code,
+       k.series_id,
+       k.group_id,
+       k.value_canonical,
+       k.unit_canonical,
+       k.decision_id,
+       c.display,
+       c.display_de,
+       c.short_name,
+       c.category,
+       c.component,
+       c.property,
+       c.time_aspect,
+       c.system,
+       c.scale,
+       c.method
+  FROM observation o
+  JOIN coding_current k ON k.observation_id = o.id
+  LEFT JOIN concept c
+         ON c.terminology_release = k.terminology_release
+        AND c.code_system = k.code_system
+        AND c.code = k.code
+ WHERE o.status = 'final'
+   AND NOT EXISTS (SELECT 1 FROM observation n WHERE n.amends = o.id);
+
+-- Pages of a report counted across its files: file 0 page 0, 0/1, then 1/0 ...
+-- Observations and prompts refer to these report pages.
+CREATE VIEW v_report_page AS
+SELECT f.report_id,
+       f.id AS source_file_id,
+       f.position AS file_position,
+       p.page_ix AS file_page_ix,
+       p.text_origin,
+       ROW_NUMBER() OVER (
+           PARTITION BY f.report_id, p.text_origin
+           ORDER BY f.position, p.page_ix
+       ) - 1 AS report_page_ix,
+       p.markdown
+  FROM source_page p
+  JOIN source_file f ON f.id = p.source_file_id;
