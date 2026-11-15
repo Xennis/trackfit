@@ -111,4 +111,16 @@ void main() {
     expect(await observations.watchReportReadings(reportId).first, isEmpty);
     expect(await db.select(db.observation).get(), hasLength(2));
   });
+  test('finds readings coded with another release', () async {
+    await observations.insert(reading('Eisen'), now: testNow);
+
+    expect(
+      await observations.readingsNotCodedWith(personId, testRelease),
+      isEmpty,
+    );
+    expect(
+      await observations.readingsNotCodedWith(personId, 'newer'),
+      hasLength(1),
+    );
+  });
 }

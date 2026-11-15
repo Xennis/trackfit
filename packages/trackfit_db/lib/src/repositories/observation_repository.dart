@@ -242,6 +242,25 @@ class ObservationRepository {
     }
   });
 
+  /// Current readings of [personId] coded with another terminology release
+  /// than [release], e.g. after an app update brought a new one.
+  Future<List<ObservationRow>> readingsNotCodedWith(
+    int personId,
+    String release,
+  ) async {
+    final v = _db.vObservation;
+    final ids =
+        await (_db.selectOnly(v)
+              ..addColumns([v.id])
+              ..where(
+                v.personId.equals(personId) &
+                    v.terminologyRelease.equals(release).not(),
+              ))
+            .map((row) => row.read(v.id)!)
+            .get();
+    return (_db.select(_db.observation)..where((o) => o.id.isIn(ids))).get();
+  }
+
   /// Current readings of a report, in the order they were read.
   Stream<List<VObservationData>> watchReportReadings(int reportId) =>
       (_db.select(_db.vObservation)
