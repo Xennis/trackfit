@@ -13,7 +13,7 @@ void main(List<String> arguments) {
   final parser = ArgParser()
     ..addOption('seed', defaultsTo: 'packages/standardize/seed')
     ..addOption('out', defaultsTo: 'apps/trackfit/assets/terminology.sqlite')
-    ..addOption('release', defaultsTo: 'seed-2026.11.2');
+    ..addOption('release', defaultsTo: 'seed-2026.11.3');
   final options = parser.parse(arguments);
   final seed = options.option('seed')!;
   final out = File(options.option('out')!);
