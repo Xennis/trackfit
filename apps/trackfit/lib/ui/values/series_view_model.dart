@@ -124,6 +124,7 @@ String categoryLabel(AppLocalizations l10n, String category) =>
       'electrolytes' => l10n.categoryElectrolytes,
       'inflammation' => l10n.categoryInflammation,
       'infection' => l10n.categoryInfection,
+      'coagulation' => l10n.categoryCoagulation,
       _ => l10n.categoryOther,
     };
 
@@ -139,6 +140,7 @@ const categoryOrder = [
   'vitamins',
   'electrolytes',
   'inflammation',
+  'coagulation',
   'infection',
 ];
 

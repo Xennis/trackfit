@@ -358,5 +358,6 @@
         "type": "int"
       }
     }
-  }
+  },
+  "categoryCoagulation": "Coagulation"
 }

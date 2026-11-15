@@ -1177,6 +1177,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 entry hidden} other{{count} entries hidden}}'**
   String questionHidden(int count);
+
+  /// No description provided for @categoryCoagulation.
+  ///
+  /// In en, this message translates to:
+  /// **'Coagulation'**
+  String get categoryCoagulation;
 }
 
 class _AppLocalizationsDelegate
