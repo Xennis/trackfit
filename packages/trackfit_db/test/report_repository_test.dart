@@ -121,4 +121,15 @@ void main() {
       expect(rows.single.reportId, isNull);
     });
   });
+  test('puts interrupted reports back into the queue', () async {
+    final id = await repository.createReport(
+      personId: personId,
+      files: [file('a')],
+      now: testNow,
+    );
+    await repository.setStatus(id, ReportStatus.ocr);
+
+    expect(await repository.resetInterrupted(), 1);
+    expect(await repository.watchPendingIds().first, [id]);
+  });
 }

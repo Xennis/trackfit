@@ -133,6 +133,25 @@ class ReportRepository {
     return [for (final row in rows) row.id];
   }
 
+  /// Puts reports back into the queue whose processing was interrupted,
+  /// e.g. because the app was closed during recognition.
+  Future<int> resetInterrupted() =>
+      (_db.update(_db.report)..where(
+            (r) => r.status.isInValues([
+              ReportStatus.ocr,
+              ReportStatus.extracting,
+            ]),
+          ))
+          .write(const ReportCompanion(status: Value(ReportStatus.pending)));
+
+  /// Pending reports, updated on every change.
+  Stream<List<int>> watchPendingIds() =>
+      (_db.select(_db.report)
+            ..where((r) => r.status.equalsValue(ReportStatus.pending))
+            ..orderBy([(r) => OrderingTerm.asc(r.createdAt)]))
+          .map((row) => row.id)
+          .watch();
+
   /// Sets the processing state; [error] is required for [ReportStatus.failed].
   Future<void> setStatus(
     int reportId,
