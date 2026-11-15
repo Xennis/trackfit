@@ -5,6 +5,7 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:standardize/standardize.dart';
+import 'package:trackfit/application/processing_providers.dart';
 import 'package:trackfit/application/reading_builder.dart';
 import 'package:trackfit/application/recognition_settings.dart';
 import 'package:trackfit/data/database_providers.dart';
@@ -43,7 +44,9 @@ List<Override> testOverrides(
   TrackfitDatabase db, {
   SecretStore? secrets,
   FileStore? files,
+  Coder coder = const NoCoder(),
 }) => [
+  coderProvider.overrideWith((ref) => coder),
   databaseProvider.overrideWithValue(db),
   fileStoreProvider.overrideWith(
     (ref) =>
@@ -128,3 +131,14 @@ Future<int> seedReport(
   ], now: DateTime.utc(2026));
   return reportId;
 }
+
+/// The terminology built from the seed tables, as bundled with the app.
+Terminology seedTerminology() => Terminology.fromSeed(
+  release: 'seed-test',
+  labTests: File(
+    '../../packages/standardize/seed/lab_tests.tsv',
+  ).readAsStringSync(),
+  categories: File(
+    '../../packages/standardize/seed/categories.tsv',
+  ).readAsStringSync(),
+);

@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:standardize/standardize.dart';
 
 import '../data/database_providers.dart';
@@ -8,6 +10,7 @@ import '../platform/llm/lab_report_extractor.dart';
 import '../platform/llm/mistral_chat.dart';
 import '../platform/ocr/mistral_ocr.dart';
 import '../platform/ocr/ocr.dart';
+import '../platform/terminology/terminology_loader.dart';
 import 'processing_queue.dart';
 import 'recognition_settings.dart';
 import 'report_extraction.dart';
@@ -26,8 +29,21 @@ final extractorFactoryProvider =
           (apiKey) => LabReportExtractor(MistralChat(apiKey: apiKey)),
     );
 
-/// Assigns codes to readings.
-final coderProvider = FutureProvider<Coder>((ref) async => const NoCoder());
+/// The bundled terminology, loaded once.
+final terminologyProvider = FutureProvider<Terminology>(
+  (ref) async => loadBundledTerminology(await getApplicationSupportDirectory()),
+);
+
+/// Assigns codes to readings. Without a terminology nothing is coded, and
+/// readings wait as open questions.
+final coderProvider = FutureProvider<Coder>((ref) async {
+  try {
+    return LexicalCoder(await ref.watch(terminologyProvider.future));
+  } on Object catch (error) {
+    debugPrint('Terminology not available: ${error.runtimeType}');
+    return const NoCoder();
+  }
+});
 
 /// Reading values of reports, with the language model when one is set up.
 final reportExtractionProvider = FutureProvider<ReportExtraction>((ref) async {
