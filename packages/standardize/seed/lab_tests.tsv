@@ -73,6 +73,8 @@
 1751-7	albumin	MCnc	Qn	g/dL,g/L	g/dL		liver	Albumin	Albumin	Albumin [Mass/volume] in Serum or Plasma	Albumin	Ser/Plas	albumin|alb|albumin im serum
 5195-3	hbsag	PrThr	Ord				infection	HBsAg	HBs-Antigen	Hepatitis B virus surface Ag [Presence] in Serum	Hepatitis B virus surface Ag	Ser	hbsag|hbs-ag|hbs ag|hbs-antigen|hepatitis b surface antigen
 16933-4	anti-hbc	PrThr	Ord				infection	Anti-HBc	Anti-HBc	Hepatitis B virus core Ab [Presence] in Serum	Hepatitis B virus core Ab	Ser	anti-hbc|anti hbc|hbc-ak|hbc antikörper|hepatitis b core antikörper
+22322-2	anti-hbs	PrThr	Ord				infection	Anti-HBs	Anti-HBs	Hepatitis B virus surface Ab [Presence] in Serum	Hepatitis B virus surface Ab	Ser	anti-hbs|anti hbs|hbs-ak|hbs-antikörper|anti-hbs-ak|hepatitis b surface antikörper
+5193-8	anti-hbs	ACnc	Qn	m[IU]/mL,[IU]/L	m[IU]/mL		infection	Anti-HBs	Anti-HBs	Hepatitis B virus surface Ab [Units/volume] in Serum or Plasma by Immunoassay	Hepatitis B virus surface Ab	Ser/Plas	
 16128-1	anti-hcv	PrThr	Ord				infection	Anti-HCV	Anti-HCV	Hepatitis C virus Ab [Presence] in Serum	Hepatitis C virus Ab	Ser	anti-hcv|anti hcv|hcv-ak|hcv antikörper|hepatitis c antikörper
 7918-6	anti-hiv	PrThr	Ord				infection	Anti-HIV-1/2	Anti-HIV-1/2	HIV 1+2 Ab [Presence] in Serum	HIV 1+2 Ab	Ser	anti-hiv|anti-hiv-1/-2|anti-hiv 1/2|anti-hiv-1/2|hiv-1/-2-ak|hiv 1/2 antikörper|hiv 1+2 antikörper
 22587-0	treponema	PrThr	Ord				infection	TPHA	Treponema-pallidum-Antikörper	Treponema pallidum Ab [Presence] in Serum	Treponema pallidum Ab	Ser	treponema pallidum antikörper|treponema pallidum ak|tp-ak|tpha|tppa|lues-suchtest|syphilis-suchtest
