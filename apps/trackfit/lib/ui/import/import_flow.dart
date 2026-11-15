@@ -101,14 +101,14 @@ Future<void> pickAndImportFiles(BuildContext context, WidgetRef ref) async {
 /// Takes a photo with the camera and imports it.
 Future<void> takePhotoAndImport(BuildContext context, WidgetRef ref) async {
   final photo = await ImagePicker().pickImage(source: ImageSource.camera);
-  if (photo == null || !context.mounted) return;
-  await importCandidates(context, ref, [
-    ImportCandidate(
-      name: photo.name,
-      bytes: await photo.readAsBytes(),
-      channel: ImportChannel.camera,
-    ),
-  ]);
+  if (photo == null) return;
+  final candidate = ImportCandidate(
+    name: photo.name,
+    bytes: await photo.readAsBytes(),
+    channel: ImportChannel.camera,
+  );
+  if (!context.mounted) return;
+  await importCandidates(context, ref, [candidate]);
 }
 
 /// Lets the person choose photos from the gallery and imports them.
