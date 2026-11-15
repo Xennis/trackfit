@@ -1,0 +1,115 @@
+import '../converters.dart';
+import 'person.drift';
+import 'reports.drift';
+import 'pages.drift';
+
+-- One reading, whatever brought it in. The text as printed is kept next to
+-- the typed values derived from it. Rows are append-only: a correction is a
+-- new row whose `amends` points at the row it replaces.
+CREATE TABLE observation (
+    id                 INTEGER NOT NULL PRIMARY KEY,
+    person_id          INTEGER NOT NULL REFERENCES person (id),
+
+    -- Provenance
+    kind               TEXT NOT NULL MAPPED BY `observationKindConverter`
+        CHECK (kind IN ('measurement', 'symptom', 'condition', 'note', 'finding', 'organizer')),
+    modality           TEXT NOT NULL MAPPED BY `modalityConverter`
+        CHECK (modality IN ('lab-report', 'device-sensed', 'self-reported', 'manual', 'derived', 'llm-unverified')),
+    source_kind        TEXT NOT NULL MAPPED BY `sourceKindConverter`
+        CHECK (source_kind IN ('file', 'manual', 'health-connect', 'healthkit', 'device-file')),
+    source_ref         TEXT NOT NULL,
+    -- Id of the record in its source, '' when it has none.
+    source_record_id   TEXT NOT NULL DEFAULT '',
+    extraction_id      INTEGER REFERENCES extraction (id),
+    report_id          INTEGER REFERENCES report (id),
+    -- Page of the report, counted across its files, starting at 0.
+    page_ix            INTEGER CHECK (page_ix IS NULL OR page_ix >= 0),
+    row_ix             INTEGER CHECK (row_ix IS NULL OR row_ix >= 0),
+    vendor             TEXT NOT NULL DEFAULT '',
+    vendor_field       TEXT NOT NULL DEFAULT '',
+    source_class       TEXT NOT NULL MAPPED BY `sourceClassConverter`
+        CHECK (source_class IN ('measurer', 'profile-echo', 'aggregator', 'manual')),
+    -- JSON array of observation ids a derived value was computed from.
+    derived_from       TEXT,
+    member_of          INTEGER REFERENCES observation (id),
+    panel_text         TEXT NOT NULL DEFAULT '',
+
+    -- Time
+    observed_start     INTEGER NOT NULL MAPPED BY `utcMillisConverter`,
+    observed_end       INTEGER NOT NULL MAPPED BY `utcMillisConverter`,
+    tz                 TEXT NOT NULL,
+    tz_source          TEXT NOT NULL MAPPED BY `tzSourceConverter`
+        CHECK (tz_source IN ('iana', 'offset-only', 'floating', 'user-default')),
+    -- Local day of the reading, derived once when written.
+    local_date         TEXT NOT NULL
+        CHECK (local_date GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'),
+    grain              TEXT NOT NULL MAPPED BY `grainConverter`
+        CHECK (grain IN ('instant', 'window', 'day')),
+    stat               TEXT NOT NULL DEFAULT '' MAPPED BY `statConverter`
+        CHECK (stat IN ('', 'average', 'minimum', 'maximum', 'sum', 'count', 'last')),
+
+    -- As printed, never translated
+    name_text          TEXT NOT NULL,
+    value_text         TEXT NOT NULL DEFAULT '',
+    unit_text          TEXT NOT NULL DEFAULT '',
+    ref_text           TEXT NOT NULL DEFAULT '',
+    flag_text          TEXT NOT NULL DEFAULT '',
+    method_text        TEXT NOT NULL DEFAULT '',
+    specimen_text      TEXT NOT NULL DEFAULT '',
+    note_text          TEXT,
+
+    -- Typed, derived when written
+    name_key           TEXT NOT NULL,
+    value_kind         TEXT NOT NULL MAPPED BY `valueKindConverter`
+        CHECK (value_kind IN ('quantity', 'ordinal', 'nominal', 'narrative', 'absent')),
+    value_num          REAL,
+    -- Decimal places as printed, to show the value as it was reported.
+    value_decimals     INTEGER CHECK (value_decimals IS NULL OR value_decimals >= 0),
+    comparator         TEXT NOT NULL DEFAULT '' MAPPED BY `comparatorConverter`
+        CHECK (comparator IN ('', '<', '<=', '>', '>=')),
+    value_code         TEXT NOT NULL DEFAULT '',
+    data_absent_reason TEXT NOT NULL DEFAULT '',
+    -- '' when there is no unit or it did not normalize.
+    unit_ucum          TEXT NOT NULL DEFAULT '',
+    ref_low            REAL,
+    ref_high           REAL,
+    ref_comparator     TEXT NOT NULL DEFAULT '' MAPPED BY `comparatorConverter`
+        CHECK (ref_comparator IN ('', '<', '<=', '>', '>=')),
+    flag               TEXT NOT NULL DEFAULT '' MAPPED BY `flagConverter`
+        CHECK (flag IN ('', 'low', 'high', 'critical-low', 'critical-high', 'abnormal')),
+
+    -- Keys and status
+    -- name_key|unit_ucum: the series of a reading without a code.
+    local_key          TEXT NOT NULL,
+    -- local_key|source_kind:vendor: one physical stream, never averaged with others.
+    stream_key         TEXT NOT NULL,
+    -- Hash over the printed fields and the time; an unchanged re-import writes nothing.
+    fingerprint        TEXT NOT NULL,
+    status             TEXT NOT NULL DEFAULT 'final' MAPPED BY `observationStatusConverter`
+        CHECK (status IN ('final', 'entered-in-error')),
+    amends             INTEGER REFERENCES observation (id),
+    created_at         INTEGER NOT NULL MAPPED BY `utcMillisConverter`,
+
+    CHECK (observed_end >= observed_start),
+    CHECK (grain <> 'instant' OR observed_start = observed_end),
+    CHECK (grain = 'instant' OR stat <> ''),
+    CHECK (value_kind <> 'absent' OR data_absent_reason <> ''),
+    CHECK (value_kind <> 'quantity' OR value_num IS NOT NULL),
+    CHECK (modality <> 'derived' OR derived_from IS NOT NULL),
+    CHECK (status = 'final' OR amends IS NOT NULL),
+    CHECK (ref_low IS NULL OR ref_high IS NULL OR ref_low <= ref_high)
+) AS ObservationRow;
+
+-- Identity of a reading: who, what as printed, when, from which source and
+-- record, in which panel, and which correction. NULLs are distinct in a
+-- plain UNIQUE, hence the COALESCEs.
+CREATE UNIQUE INDEX uq_observation_identity ON observation (
+    person_id, name_key, observed_start, observed_end, source_ref,
+    source_record_id, COALESCE(member_of, 0), COALESCE(amends, 0)
+);
+CREATE INDEX idx_observation_day ON observation (person_id, local_date);
+CREATE INDEX idx_observation_stream ON observation (person_id, stream_key, observed_start);
+CREATE INDEX idx_observation_source ON observation (source_ref);
+CREATE INDEX idx_observation_report ON observation (report_id) WHERE report_id IS NOT NULL;
+CREATE INDEX idx_observation_amends ON observation (amends) WHERE amends IS NOT NULL;
+CREATE INDEX idx_observation_created ON observation (person_id, created_at);

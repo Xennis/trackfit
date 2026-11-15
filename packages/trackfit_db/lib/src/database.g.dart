@@ -1005,6 +1005,3247 @@ class ReportCompanion extends UpdateCompanion<ReportRow> {
   }
 }
 
+class Extraction extends Table with TableInfo<Extraction, ExtractionRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  Extraction(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL PRIMARY KEY',
+  );
+  static const VerificationMeta _personIdMeta = const VerificationMeta(
+    'personId',
+  );
+  late final GeneratedColumn<int> personId = GeneratedColumn<int>(
+    'person_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL REFERENCES person(id)',
+  );
+  late final GeneratedColumnWithTypeConverter<SourceKind, String>
+  sourceKind = GeneratedColumn<String>(
+    'source_kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints:
+        'NOT NULL CHECK (source_kind IN (\'file\', \'manual\', \'health-connect\', \'healthkit\', \'device-file\'))',
+  ).withConverter<SourceKind>(Extraction.$convertersourceKind);
+  static const VerificationMeta _sourceRefMeta = const VerificationMeta(
+    'sourceRef',
+  );
+  late final GeneratedColumn<String> sourceRef = GeneratedColumn<String>(
+    'source_ref',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _reportIdMeta = const VerificationMeta(
+    'reportId',
+  );
+  late final GeneratedColumn<int> reportId = GeneratedColumn<int>(
+    'report_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'REFERENCES report(id)ON DELETE CASCADE',
+  );
+  static const VerificationMeta _extractorMeta = const VerificationMeta(
+    'extractor',
+  );
+  late final GeneratedColumn<String> extractor = GeneratedColumn<String>(
+    'extractor',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumnWithTypeConverter<ExtractionStatus, String> status =
+      GeneratedColumn<String>(
+        'status',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+        $customConstraints:
+            'NOT NULL CHECK (status IN (\'ok\', \'failed\', \'unverified\'))',
+      ).withConverter<ExtractionStatus>(Extraction.$converterstatus);
+  static const VerificationMeta _reasonMeta = const VerificationMeta('reason');
+  late final GeneratedColumn<String> reason = GeneratedColumn<String>(
+    'reason',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: '',
+  );
+  static const VerificationMeta _digestMeta = const VerificationMeta('digest');
+  late final GeneratedColumn<String> digest = GeneratedColumn<String>(
+    'digest',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumnWithTypeConverter<DateTime, int> createdAt =
+      GeneratedColumn<int>(
+        'created_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+        $customConstraints: 'NOT NULL',
+      ).withConverter<DateTime>(Extraction.$convertercreatedAt);
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    personId,
+    sourceKind,
+    sourceRef,
+    reportId,
+    extractor,
+    status,
+    reason,
+    payload,
+    digest,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'extraction';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ExtractionRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('person_id')) {
+      context.handle(
+        _personIdMeta,
+        personId.isAcceptableOrUnknown(data['person_id']!, _personIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_personIdMeta);
+    }
+    if (data.containsKey('source_ref')) {
+      context.handle(
+        _sourceRefMeta,
+        sourceRef.isAcceptableOrUnknown(data['source_ref']!, _sourceRefMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceRefMeta);
+    }
+    if (data.containsKey('report_id')) {
+      context.handle(
+        _reportIdMeta,
+        reportId.isAcceptableOrUnknown(data['report_id']!, _reportIdMeta),
+      );
+    }
+    if (data.containsKey('extractor')) {
+      context.handle(
+        _extractorMeta,
+        extractor.isAcceptableOrUnknown(data['extractor']!, _extractorMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_extractorMeta);
+    }
+    if (data.containsKey('reason')) {
+      context.handle(
+        _reasonMeta,
+        reason.isAcceptableOrUnknown(data['reason']!, _reasonMeta),
+      );
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    }
+    if (data.containsKey('digest')) {
+      context.handle(
+        _digestMeta,
+        digest.isAcceptableOrUnknown(data['digest']!, _digestMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_digestMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {sourceRef, digest},
+  ];
+  @override
+  ExtractionRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ExtractionRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      personId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}person_id'],
+      )!,
+      sourceKind: Extraction.$convertersourceKind.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}source_kind'],
+        )!,
+      ),
+      sourceRef: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_ref'],
+      )!,
+      reportId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}report_id'],
+      ),
+      extractor: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}extractor'],
+      )!,
+      status: Extraction.$converterstatus.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}status'],
+        )!,
+      ),
+      reason: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}reason'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      ),
+      digest: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}digest'],
+      )!,
+      createdAt: Extraction.$convertercreatedAt.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}created_at'],
+        )!,
+      ),
+    );
+  }
+
+  @override
+  Extraction createAlias(String alias) {
+    return Extraction(attachedDatabase, alias);
+  }
+
+  static TypeConverter<SourceKind, String> $convertersourceKind =
+      sourceKindConverter;
+  static TypeConverter<ExtractionStatus, String> $converterstatus =
+      extractionStatusConverter;
+  static TypeConverter<DateTime, int> $convertercreatedAt = utcMillisConverter;
+  @override
+  List<String> get customConstraints => const [
+    'UNIQUE(source_ref, digest)',
+    'CHECK(status = \'ok\' OR reason <> \'\')',
+    'CHECK(status = \'failed\' OR payload IS NOT NULL)',
+  ];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class ExtractionRow extends DataClass implements Insertable<ExtractionRow> {
+  final int id;
+  final int personId;
+  final SourceKind sourceKind;
+
+  /// e.g. 'report:<id>'.
+  final String sourceRef;
+  final int? reportId;
+
+  /// e.g. 'llm:mistral/<model>@prompt-v1', 'manual'.
+  final String extractor;
+  final ExtractionStatus status;
+  final String reason;
+
+  /// The drafts as JSON; NULL when reading failed.
+  final String? payload;
+
+  /// SHA-256 over source_ref, extractor and payload.
+  final String digest;
+  final DateTime createdAt;
+  const ExtractionRow({
+    required this.id,
+    required this.personId,
+    required this.sourceKind,
+    required this.sourceRef,
+    this.reportId,
+    required this.extractor,
+    required this.status,
+    required this.reason,
+    this.payload,
+    required this.digest,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['person_id'] = Variable<int>(personId);
+    {
+      map['source_kind'] = Variable<String>(
+        Extraction.$convertersourceKind.toSql(sourceKind),
+      );
+    }
+    map['source_ref'] = Variable<String>(sourceRef);
+    if (!nullToAbsent || reportId != null) {
+      map['report_id'] = Variable<int>(reportId);
+    }
+    map['extractor'] = Variable<String>(extractor);
+    {
+      map['status'] = Variable<String>(
+        Extraction.$converterstatus.toSql(status),
+      );
+    }
+    map['reason'] = Variable<String>(reason);
+    if (!nullToAbsent || payload != null) {
+      map['payload'] = Variable<String>(payload);
+    }
+    map['digest'] = Variable<String>(digest);
+    {
+      map['created_at'] = Variable<int>(
+        Extraction.$convertercreatedAt.toSql(createdAt),
+      );
+    }
+    return map;
+  }
+
+  ExtractionCompanion toCompanion(bool nullToAbsent) {
+    return ExtractionCompanion(
+      id: Value(id),
+      personId: Value(personId),
+      sourceKind: Value(sourceKind),
+      sourceRef: Value(sourceRef),
+      reportId: reportId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(reportId),
+      extractor: Value(extractor),
+      status: Value(status),
+      reason: Value(reason),
+      payload: payload == null && nullToAbsent
+          ? const Value.absent()
+          : Value(payload),
+      digest: Value(digest),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory ExtractionRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ExtractionRow(
+      id: serializer.fromJson<int>(json['id']),
+      personId: serializer.fromJson<int>(json['person_id']),
+      sourceKind: serializer.fromJson<SourceKind>(json['source_kind']),
+      sourceRef: serializer.fromJson<String>(json['source_ref']),
+      reportId: serializer.fromJson<int?>(json['report_id']),
+      extractor: serializer.fromJson<String>(json['extractor']),
+      status: serializer.fromJson<ExtractionStatus>(json['status']),
+      reason: serializer.fromJson<String>(json['reason']),
+      payload: serializer.fromJson<String?>(json['payload']),
+      digest: serializer.fromJson<String>(json['digest']),
+      createdAt: serializer.fromJson<DateTime>(json['created_at']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'person_id': serializer.toJson<int>(personId),
+      'source_kind': serializer.toJson<SourceKind>(sourceKind),
+      'source_ref': serializer.toJson<String>(sourceRef),
+      'report_id': serializer.toJson<int?>(reportId),
+      'extractor': serializer.toJson<String>(extractor),
+      'status': serializer.toJson<ExtractionStatus>(status),
+      'reason': serializer.toJson<String>(reason),
+      'payload': serializer.toJson<String?>(payload),
+      'digest': serializer.toJson<String>(digest),
+      'created_at': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  ExtractionRow copyWith({
+    int? id,
+    int? personId,
+    SourceKind? sourceKind,
+    String? sourceRef,
+    Value<int?> reportId = const Value.absent(),
+    String? extractor,
+    ExtractionStatus? status,
+    String? reason,
+    Value<String?> payload = const Value.absent(),
+    String? digest,
+    DateTime? createdAt,
+  }) => ExtractionRow(
+    id: id ?? this.id,
+    personId: personId ?? this.personId,
+    sourceKind: sourceKind ?? this.sourceKind,
+    sourceRef: sourceRef ?? this.sourceRef,
+    reportId: reportId.present ? reportId.value : this.reportId,
+    extractor: extractor ?? this.extractor,
+    status: status ?? this.status,
+    reason: reason ?? this.reason,
+    payload: payload.present ? payload.value : this.payload,
+    digest: digest ?? this.digest,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  ExtractionRow copyWithCompanion(ExtractionCompanion data) {
+    return ExtractionRow(
+      id: data.id.present ? data.id.value : this.id,
+      personId: data.personId.present ? data.personId.value : this.personId,
+      sourceKind: data.sourceKind.present
+          ? data.sourceKind.value
+          : this.sourceKind,
+      sourceRef: data.sourceRef.present ? data.sourceRef.value : this.sourceRef,
+      reportId: data.reportId.present ? data.reportId.value : this.reportId,
+      extractor: data.extractor.present ? data.extractor.value : this.extractor,
+      status: data.status.present ? data.status.value : this.status,
+      reason: data.reason.present ? data.reason.value : this.reason,
+      payload: data.payload.present ? data.payload.value : this.payload,
+      digest: data.digest.present ? data.digest.value : this.digest,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExtractionRow(')
+          ..write('id: $id, ')
+          ..write('personId: $personId, ')
+          ..write('sourceKind: $sourceKind, ')
+          ..write('sourceRef: $sourceRef, ')
+          ..write('reportId: $reportId, ')
+          ..write('extractor: $extractor, ')
+          ..write('status: $status, ')
+          ..write('reason: $reason, ')
+          ..write('payload: $payload, ')
+          ..write('digest: $digest, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    personId,
+    sourceKind,
+    sourceRef,
+    reportId,
+    extractor,
+    status,
+    reason,
+    payload,
+    digest,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ExtractionRow &&
+          other.id == this.id &&
+          other.personId == this.personId &&
+          other.sourceKind == this.sourceKind &&
+          other.sourceRef == this.sourceRef &&
+          other.reportId == this.reportId &&
+          other.extractor == this.extractor &&
+          other.status == this.status &&
+          other.reason == this.reason &&
+          other.payload == this.payload &&
+          other.digest == this.digest &&
+          other.createdAt == this.createdAt);
+}
+
+class ExtractionCompanion extends UpdateCompanion<ExtractionRow> {
+  final Value<int> id;
+  final Value<int> personId;
+  final Value<SourceKind> sourceKind;
+  final Value<String> sourceRef;
+  final Value<int?> reportId;
+  final Value<String> extractor;
+  final Value<ExtractionStatus> status;
+  final Value<String> reason;
+  final Value<String?> payload;
+  final Value<String> digest;
+  final Value<DateTime> createdAt;
+  const ExtractionCompanion({
+    this.id = const Value.absent(),
+    this.personId = const Value.absent(),
+    this.sourceKind = const Value.absent(),
+    this.sourceRef = const Value.absent(),
+    this.reportId = const Value.absent(),
+    this.extractor = const Value.absent(),
+    this.status = const Value.absent(),
+    this.reason = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.digest = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  ExtractionCompanion.insert({
+    this.id = const Value.absent(),
+    required int personId,
+    required SourceKind sourceKind,
+    required String sourceRef,
+    this.reportId = const Value.absent(),
+    required String extractor,
+    required ExtractionStatus status,
+    this.reason = const Value.absent(),
+    this.payload = const Value.absent(),
+    required String digest,
+    required DateTime createdAt,
+  }) : personId = Value(personId),
+       sourceKind = Value(sourceKind),
+       sourceRef = Value(sourceRef),
+       extractor = Value(extractor),
+       status = Value(status),
+       digest = Value(digest),
+       createdAt = Value(createdAt);
+  static Insertable<ExtractionRow> custom({
+    Expression<int>? id,
+    Expression<int>? personId,
+    Expression<String>? sourceKind,
+    Expression<String>? sourceRef,
+    Expression<int>? reportId,
+    Expression<String>? extractor,
+    Expression<String>? status,
+    Expression<String>? reason,
+    Expression<String>? payload,
+    Expression<String>? digest,
+    Expression<int>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (personId != null) 'person_id': personId,
+      if (sourceKind != null) 'source_kind': sourceKind,
+      if (sourceRef != null) 'source_ref': sourceRef,
+      if (reportId != null) 'report_id': reportId,
+      if (extractor != null) 'extractor': extractor,
+      if (status != null) 'status': status,
+      if (reason != null) 'reason': reason,
+      if (payload != null) 'payload': payload,
+      if (digest != null) 'digest': digest,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  ExtractionCompanion copyWith({
+    Value<int>? id,
+    Value<int>? personId,
+    Value<SourceKind>? sourceKind,
+    Value<String>? sourceRef,
+    Value<int?>? reportId,
+    Value<String>? extractor,
+    Value<ExtractionStatus>? status,
+    Value<String>? reason,
+    Value<String?>? payload,
+    Value<String>? digest,
+    Value<DateTime>? createdAt,
+  }) {
+    return ExtractionCompanion(
+      id: id ?? this.id,
+      personId: personId ?? this.personId,
+      sourceKind: sourceKind ?? this.sourceKind,
+      sourceRef: sourceRef ?? this.sourceRef,
+      reportId: reportId ?? this.reportId,
+      extractor: extractor ?? this.extractor,
+      status: status ?? this.status,
+      reason: reason ?? this.reason,
+      payload: payload ?? this.payload,
+      digest: digest ?? this.digest,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (personId.present) {
+      map['person_id'] = Variable<int>(personId.value);
+    }
+    if (sourceKind.present) {
+      map['source_kind'] = Variable<String>(
+        Extraction.$convertersourceKind.toSql(sourceKind.value),
+      );
+    }
+    if (sourceRef.present) {
+      map['source_ref'] = Variable<String>(sourceRef.value);
+    }
+    if (reportId.present) {
+      map['report_id'] = Variable<int>(reportId.value);
+    }
+    if (extractor.present) {
+      map['extractor'] = Variable<String>(extractor.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(
+        Extraction.$converterstatus.toSql(status.value),
+      );
+    }
+    if (reason.present) {
+      map['reason'] = Variable<String>(reason.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (digest.present) {
+      map['digest'] = Variable<String>(digest.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<int>(
+        Extraction.$convertercreatedAt.toSql(createdAt.value),
+      );
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExtractionCompanion(')
+          ..write('id: $id, ')
+          ..write('personId: $personId, ')
+          ..write('sourceKind: $sourceKind, ')
+          ..write('sourceRef: $sourceRef, ')
+          ..write('reportId: $reportId, ')
+          ..write('extractor: $extractor, ')
+          ..write('status: $status, ')
+          ..write('reason: $reason, ')
+          ..write('payload: $payload, ')
+          ..write('digest: $digest, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class Observation extends Table with TableInfo<Observation, ObservationRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  Observation(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL PRIMARY KEY',
+  );
+  static const VerificationMeta _personIdMeta = const VerificationMeta(
+    'personId',
+  );
+  late final GeneratedColumn<int> personId = GeneratedColumn<int>(
+    'person_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL REFERENCES person(id)',
+  );
+  late final GeneratedColumnWithTypeConverter<ObservationKind, String>
+  kind = GeneratedColumn<String>(
+    'kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints:
+        'NOT NULL CHECK (kind IN (\'measurement\', \'symptom\', \'condition\', \'note\', \'finding\', \'organizer\'))',
+  ).withConverter<ObservationKind>(Observation.$converterkind);
+  late final GeneratedColumnWithTypeConverter<Modality, String>
+  modality = GeneratedColumn<String>(
+    'modality',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints:
+        'NOT NULL CHECK (modality IN (\'lab-report\', \'device-sensed\', \'self-reported\', \'manual\', \'derived\', \'llm-unverified\'))',
+  ).withConverter<Modality>(Observation.$convertermodality);
+  late final GeneratedColumnWithTypeConverter<SourceKind, String>
+  sourceKind = GeneratedColumn<String>(
+    'source_kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints:
+        'NOT NULL CHECK (source_kind IN (\'file\', \'manual\', \'health-connect\', \'healthkit\', \'device-file\'))',
+  ).withConverter<SourceKind>(Observation.$convertersourceKind);
+  static const VerificationMeta _sourceRefMeta = const VerificationMeta(
+    'sourceRef',
+  );
+  late final GeneratedColumn<String> sourceRef = GeneratedColumn<String>(
+    'source_ref',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _sourceRecordIdMeta = const VerificationMeta(
+    'sourceRecordId',
+  );
+  late final GeneratedColumn<String> sourceRecordId = GeneratedColumn<String>(
+    'source_record_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _extractionIdMeta = const VerificationMeta(
+    'extractionId',
+  );
+  late final GeneratedColumn<int> extractionId = GeneratedColumn<int>(
+    'extraction_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'REFERENCES extraction(id)',
+  );
+  static const VerificationMeta _reportIdMeta = const VerificationMeta(
+    'reportId',
+  );
+  late final GeneratedColumn<int> reportId = GeneratedColumn<int>(
+    'report_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'REFERENCES report(id)',
+  );
+  static const VerificationMeta _pageIxMeta = const VerificationMeta('pageIx');
+  late final GeneratedColumn<int> pageIx = GeneratedColumn<int>(
+    'page_ix',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'CHECK (page_ix IS NULL OR page_ix >= 0)',
+  );
+  static const VerificationMeta _rowIxMeta = const VerificationMeta('rowIx');
+  late final GeneratedColumn<int> rowIx = GeneratedColumn<int>(
+    'row_ix',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'CHECK (row_ix IS NULL OR row_ix >= 0)',
+  );
+  static const VerificationMeta _vendorMeta = const VerificationMeta('vendor');
+  late final GeneratedColumn<String> vendor = GeneratedColumn<String>(
+    'vendor',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _vendorFieldMeta = const VerificationMeta(
+    'vendorField',
+  );
+  late final GeneratedColumn<String> vendorField = GeneratedColumn<String>(
+    'vendor_field',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  late final GeneratedColumnWithTypeConverter<SourceClass, String>
+  sourceClass = GeneratedColumn<String>(
+    'source_class',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints:
+        'NOT NULL CHECK (source_class IN (\'measurer\', \'profile-echo\', \'aggregator\', \'manual\'))',
+  ).withConverter<SourceClass>(Observation.$convertersourceClass);
+  static const VerificationMeta _derivedFromMeta = const VerificationMeta(
+    'derivedFrom',
+  );
+  late final GeneratedColumn<String> derivedFrom = GeneratedColumn<String>(
+    'derived_from',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: '',
+  );
+  static const VerificationMeta _memberOfMeta = const VerificationMeta(
+    'memberOf',
+  );
+  late final GeneratedColumn<int> memberOf = GeneratedColumn<int>(
+    'member_of',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'REFERENCES observation(id)',
+  );
+  static const VerificationMeta _panelTextMeta = const VerificationMeta(
+    'panelText',
+  );
+  late final GeneratedColumn<String> panelText = GeneratedColumn<String>(
+    'panel_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  late final GeneratedColumnWithTypeConverter<DateTime, int> observedStart =
+      GeneratedColumn<int>(
+        'observed_start',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+        $customConstraints: 'NOT NULL',
+      ).withConverter<DateTime>(Observation.$converterobservedStart);
+  late final GeneratedColumnWithTypeConverter<DateTime, int> observedEnd =
+      GeneratedColumn<int>(
+        'observed_end',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+        $customConstraints: 'NOT NULL',
+      ).withConverter<DateTime>(Observation.$converterobservedEnd);
+  static const VerificationMeta _tzMeta = const VerificationMeta('tz');
+  late final GeneratedColumn<String> tz = GeneratedColumn<String>(
+    'tz',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumnWithTypeConverter<TzSource, String>
+  tzSource = GeneratedColumn<String>(
+    'tz_source',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints:
+        'NOT NULL CHECK (tz_source IN (\'iana\', \'offset-only\', \'floating\', \'user-default\'))',
+  ).withConverter<TzSource>(Observation.$convertertzSource);
+  static const VerificationMeta _localDateMeta = const VerificationMeta(
+    'localDate',
+  );
+  late final GeneratedColumn<String> localDate = GeneratedColumn<String>(
+    'local_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints:
+        'NOT NULL CHECK (local_date GLOB \'[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\')',
+  );
+  late final GeneratedColumnWithTypeConverter<Grain, String> grain =
+      GeneratedColumn<String>(
+        'grain',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+        $customConstraints:
+            'NOT NULL CHECK (grain IN (\'instant\', \'window\', \'day\'))',
+      ).withConverter<Grain>(Observation.$convertergrain);
+  late final GeneratedColumnWithTypeConverter<Stat, String>
+  stat = GeneratedColumn<String>(
+    'stat',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL DEFAULT \'\' CHECK (stat IN (\'\', \'average\', \'minimum\', \'maximum\', \'sum\', \'count\', \'last\'))',
+    defaultValue: const CustomExpression('\'\''),
+  ).withConverter<Stat>(Observation.$converterstat);
+  static const VerificationMeta _nameTextMeta = const VerificationMeta(
+    'nameText',
+  );
+  late final GeneratedColumn<String> nameText = GeneratedColumn<String>(
+    'name_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _valueTextMeta = const VerificationMeta(
+    'valueText',
+  );
+  late final GeneratedColumn<String> valueText = GeneratedColumn<String>(
+    'value_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _unitTextMeta = const VerificationMeta(
+    'unitText',
+  );
+  late final GeneratedColumn<String> unitText = GeneratedColumn<String>(
+    'unit_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _refTextMeta = const VerificationMeta(
+    'refText',
+  );
+  late final GeneratedColumn<String> refText = GeneratedColumn<String>(
+    'ref_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _flagTextMeta = const VerificationMeta(
+    'flagText',
+  );
+  late final GeneratedColumn<String> flagText = GeneratedColumn<String>(
+    'flag_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _methodTextMeta = const VerificationMeta(
+    'methodText',
+  );
+  late final GeneratedColumn<String> methodText = GeneratedColumn<String>(
+    'method_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _specimenTextMeta = const VerificationMeta(
+    'specimenText',
+  );
+  late final GeneratedColumn<String> specimenText = GeneratedColumn<String>(
+    'specimen_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _noteTextMeta = const VerificationMeta(
+    'noteText',
+  );
+  late final GeneratedColumn<String> noteText = GeneratedColumn<String>(
+    'note_text',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: '',
+  );
+  static const VerificationMeta _nameKeyMeta = const VerificationMeta(
+    'nameKey',
+  );
+  late final GeneratedColumn<String> nameKey = GeneratedColumn<String>(
+    'name_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumnWithTypeConverter<ValueKind, String>
+  valueKind = GeneratedColumn<String>(
+    'value_kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints:
+        'NOT NULL CHECK (value_kind IN (\'quantity\', \'ordinal\', \'nominal\', \'narrative\', \'absent\'))',
+  ).withConverter<ValueKind>(Observation.$convertervalueKind);
+  static const VerificationMeta _valueNumMeta = const VerificationMeta(
+    'valueNum',
+  );
+  late final GeneratedColumn<double> valueNum = GeneratedColumn<double>(
+    'value_num',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    $customConstraints: '',
+  );
+  static const VerificationMeta _valueDecimalsMeta = const VerificationMeta(
+    'valueDecimals',
+  );
+  late final GeneratedColumn<int> valueDecimals = GeneratedColumn<int>(
+    'value_decimals',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'CHECK (value_decimals IS NULL OR value_decimals >= 0)',
+  );
+  late final GeneratedColumnWithTypeConverter<Comparator, String>
+  comparator = GeneratedColumn<String>(
+    'comparator',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL DEFAULT \'\' CHECK (comparator IN (\'\', \'<\', \'<=\', \'>\', \'>=\'))',
+    defaultValue: const CustomExpression('\'\''),
+  ).withConverter<Comparator>(Observation.$convertercomparator);
+  static const VerificationMeta _valueCodeMeta = const VerificationMeta(
+    'valueCode',
+  );
+  late final GeneratedColumn<String> valueCode = GeneratedColumn<String>(
+    'value_code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _dataAbsentReasonMeta = const VerificationMeta(
+    'dataAbsentReason',
+  );
+  late final GeneratedColumn<String> dataAbsentReason = GeneratedColumn<String>(
+    'data_absent_reason',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _unitUcumMeta = const VerificationMeta(
+    'unitUcum',
+  );
+  late final GeneratedColumn<String> unitUcum = GeneratedColumn<String>(
+    'unit_ucum',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _refLowMeta = const VerificationMeta('refLow');
+  late final GeneratedColumn<double> refLow = GeneratedColumn<double>(
+    'ref_low',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    $customConstraints: '',
+  );
+  static const VerificationMeta _refHighMeta = const VerificationMeta(
+    'refHigh',
+  );
+  late final GeneratedColumn<double> refHigh = GeneratedColumn<double>(
+    'ref_high',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    $customConstraints: '',
+  );
+  late final GeneratedColumnWithTypeConverter<Comparator, String>
+  refComparator = GeneratedColumn<String>(
+    'ref_comparator',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL DEFAULT \'\' CHECK (ref_comparator IN (\'\', \'<\', \'<=\', \'>\', \'>=\'))',
+    defaultValue: const CustomExpression('\'\''),
+  ).withConverter<Comparator>(Observation.$converterrefComparator);
+  late final GeneratedColumnWithTypeConverter<Flag, String>
+  flag = GeneratedColumn<String>(
+    'flag',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL DEFAULT \'\' CHECK (flag IN (\'\', \'low\', \'high\', \'critical-low\', \'critical-high\', \'abnormal\'))',
+    defaultValue: const CustomExpression('\'\''),
+  ).withConverter<Flag>(Observation.$converterflag);
+  static const VerificationMeta _localKeyMeta = const VerificationMeta(
+    'localKey',
+  );
+  late final GeneratedColumn<String> localKey = GeneratedColumn<String>(
+    'local_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _streamKeyMeta = const VerificationMeta(
+    'streamKey',
+  );
+  late final GeneratedColumn<String> streamKey = GeneratedColumn<String>(
+    'stream_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _fingerprintMeta = const VerificationMeta(
+    'fingerprint',
+  );
+  late final GeneratedColumn<String> fingerprint = GeneratedColumn<String>(
+    'fingerprint',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumnWithTypeConverter<ObservationStatus, String>
+  status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints:
+        'NOT NULL DEFAULT \'final\' CHECK (status IN (\'final\', \'entered-in-error\'))',
+    defaultValue: const CustomExpression('\'final\''),
+  ).withConverter<ObservationStatus>(Observation.$converterstatus);
+  static const VerificationMeta _amendsMeta = const VerificationMeta('amends');
+  late final GeneratedColumn<int> amends = GeneratedColumn<int>(
+    'amends',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'REFERENCES observation(id)',
+  );
+  late final GeneratedColumnWithTypeConverter<DateTime, int> createdAt =
+      GeneratedColumn<int>(
+        'created_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+        $customConstraints: 'NOT NULL',
+      ).withConverter<DateTime>(Observation.$convertercreatedAt);
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    personId,
+    kind,
+    modality,
+    sourceKind,
+    sourceRef,
+    sourceRecordId,
+    extractionId,
+    reportId,
+    pageIx,
+    rowIx,
+    vendor,
+    vendorField,
+    sourceClass,
+    derivedFrom,
+    memberOf,
+    panelText,
+    observedStart,
+    observedEnd,
+    tz,
+    tzSource,
+    localDate,
+    grain,
+    stat,
+    nameText,
+    valueText,
+    unitText,
+    refText,
+    flagText,
+    methodText,
+    specimenText,
+    noteText,
+    nameKey,
+    valueKind,
+    valueNum,
+    valueDecimals,
+    comparator,
+    valueCode,
+    dataAbsentReason,
+    unitUcum,
+    refLow,
+    refHigh,
+    refComparator,
+    flag,
+    localKey,
+    streamKey,
+    fingerprint,
+    status,
+    amends,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'observation';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ObservationRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('person_id')) {
+      context.handle(
+        _personIdMeta,
+        personId.isAcceptableOrUnknown(data['person_id']!, _personIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_personIdMeta);
+    }
+    if (data.containsKey('source_ref')) {
+      context.handle(
+        _sourceRefMeta,
+        sourceRef.isAcceptableOrUnknown(data['source_ref']!, _sourceRefMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceRefMeta);
+    }
+    if (data.containsKey('source_record_id')) {
+      context.handle(
+        _sourceRecordIdMeta,
+        sourceRecordId.isAcceptableOrUnknown(
+          data['source_record_id']!,
+          _sourceRecordIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('extraction_id')) {
+      context.handle(
+        _extractionIdMeta,
+        extractionId.isAcceptableOrUnknown(
+          data['extraction_id']!,
+          _extractionIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('report_id')) {
+      context.handle(
+        _reportIdMeta,
+        reportId.isAcceptableOrUnknown(data['report_id']!, _reportIdMeta),
+      );
+    }
+    if (data.containsKey('page_ix')) {
+      context.handle(
+        _pageIxMeta,
+        pageIx.isAcceptableOrUnknown(data['page_ix']!, _pageIxMeta),
+      );
+    }
+    if (data.containsKey('row_ix')) {
+      context.handle(
+        _rowIxMeta,
+        rowIx.isAcceptableOrUnknown(data['row_ix']!, _rowIxMeta),
+      );
+    }
+    if (data.containsKey('vendor')) {
+      context.handle(
+        _vendorMeta,
+        vendor.isAcceptableOrUnknown(data['vendor']!, _vendorMeta),
+      );
+    }
+    if (data.containsKey('vendor_field')) {
+      context.handle(
+        _vendorFieldMeta,
+        vendorField.isAcceptableOrUnknown(
+          data['vendor_field']!,
+          _vendorFieldMeta,
+        ),
+      );
+    }
+    if (data.containsKey('derived_from')) {
+      context.handle(
+        _derivedFromMeta,
+        derivedFrom.isAcceptableOrUnknown(
+          data['derived_from']!,
+          _derivedFromMeta,
+        ),
+      );
+    }
+    if (data.containsKey('member_of')) {
+      context.handle(
+        _memberOfMeta,
+        memberOf.isAcceptableOrUnknown(data['member_of']!, _memberOfMeta),
+      );
+    }
+    if (data.containsKey('panel_text')) {
+      context.handle(
+        _panelTextMeta,
+        panelText.isAcceptableOrUnknown(data['panel_text']!, _panelTextMeta),
+      );
+    }
+    if (data.containsKey('tz')) {
+      context.handle(_tzMeta, tz.isAcceptableOrUnknown(data['tz']!, _tzMeta));
+    } else if (isInserting) {
+      context.missing(_tzMeta);
+    }
+    if (data.containsKey('local_date')) {
+      context.handle(
+        _localDateMeta,
+        localDate.isAcceptableOrUnknown(data['local_date']!, _localDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_localDateMeta);
+    }
+    if (data.containsKey('name_text')) {
+      context.handle(
+        _nameTextMeta,
+        nameText.isAcceptableOrUnknown(data['name_text']!, _nameTextMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameTextMeta);
+    }
+    if (data.containsKey('value_text')) {
+      context.handle(
+        _valueTextMeta,
+        valueText.isAcceptableOrUnknown(data['value_text']!, _valueTextMeta),
+      );
+    }
+    if (data.containsKey('unit_text')) {
+      context.handle(
+        _unitTextMeta,
+        unitText.isAcceptableOrUnknown(data['unit_text']!, _unitTextMeta),
+      );
+    }
+    if (data.containsKey('ref_text')) {
+      context.handle(
+        _refTextMeta,
+        refText.isAcceptableOrUnknown(data['ref_text']!, _refTextMeta),
+      );
+    }
+    if (data.containsKey('flag_text')) {
+      context.handle(
+        _flagTextMeta,
+        flagText.isAcceptableOrUnknown(data['flag_text']!, _flagTextMeta),
+      );
+    }
+    if (data.containsKey('method_text')) {
+      context.handle(
+        _methodTextMeta,
+        methodText.isAcceptableOrUnknown(data['method_text']!, _methodTextMeta),
+      );
+    }
+    if (data.containsKey('specimen_text')) {
+      context.handle(
+        _specimenTextMeta,
+        specimenText.isAcceptableOrUnknown(
+          data['specimen_text']!,
+          _specimenTextMeta,
+        ),
+      );
+    }
+    if (data.containsKey('note_text')) {
+      context.handle(
+        _noteTextMeta,
+        noteText.isAcceptableOrUnknown(data['note_text']!, _noteTextMeta),
+      );
+    }
+    if (data.containsKey('name_key')) {
+      context.handle(
+        _nameKeyMeta,
+        nameKey.isAcceptableOrUnknown(data['name_key']!, _nameKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameKeyMeta);
+    }
+    if (data.containsKey('value_num')) {
+      context.handle(
+        _valueNumMeta,
+        valueNum.isAcceptableOrUnknown(data['value_num']!, _valueNumMeta),
+      );
+    }
+    if (data.containsKey('value_decimals')) {
+      context.handle(
+        _valueDecimalsMeta,
+        valueDecimals.isAcceptableOrUnknown(
+          data['value_decimals']!,
+          _valueDecimalsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('value_code')) {
+      context.handle(
+        _valueCodeMeta,
+        valueCode.isAcceptableOrUnknown(data['value_code']!, _valueCodeMeta),
+      );
+    }
+    if (data.containsKey('data_absent_reason')) {
+      context.handle(
+        _dataAbsentReasonMeta,
+        dataAbsentReason.isAcceptableOrUnknown(
+          data['data_absent_reason']!,
+          _dataAbsentReasonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('unit_ucum')) {
+      context.handle(
+        _unitUcumMeta,
+        unitUcum.isAcceptableOrUnknown(data['unit_ucum']!, _unitUcumMeta),
+      );
+    }
+    if (data.containsKey('ref_low')) {
+      context.handle(
+        _refLowMeta,
+        refLow.isAcceptableOrUnknown(data['ref_low']!, _refLowMeta),
+      );
+    }
+    if (data.containsKey('ref_high')) {
+      context.handle(
+        _refHighMeta,
+        refHigh.isAcceptableOrUnknown(data['ref_high']!, _refHighMeta),
+      );
+    }
+    if (data.containsKey('local_key')) {
+      context.handle(
+        _localKeyMeta,
+        localKey.isAcceptableOrUnknown(data['local_key']!, _localKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_localKeyMeta);
+    }
+    if (data.containsKey('stream_key')) {
+      context.handle(
+        _streamKeyMeta,
+        streamKey.isAcceptableOrUnknown(data['stream_key']!, _streamKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_streamKeyMeta);
+    }
+    if (data.containsKey('fingerprint')) {
+      context.handle(
+        _fingerprintMeta,
+        fingerprint.isAcceptableOrUnknown(
+          data['fingerprint']!,
+          _fingerprintMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_fingerprintMeta);
+    }
+    if (data.containsKey('amends')) {
+      context.handle(
+        _amendsMeta,
+        amends.isAcceptableOrUnknown(data['amends']!, _amendsMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ObservationRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ObservationRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      personId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}person_id'],
+      )!,
+      kind: Observation.$converterkind.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}kind'],
+        )!,
+      ),
+      modality: Observation.$convertermodality.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}modality'],
+        )!,
+      ),
+      sourceKind: Observation.$convertersourceKind.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}source_kind'],
+        )!,
+      ),
+      sourceRef: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_ref'],
+      )!,
+      sourceRecordId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_record_id'],
+      )!,
+      extractionId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}extraction_id'],
+      ),
+      reportId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}report_id'],
+      ),
+      pageIx: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}page_ix'],
+      ),
+      rowIx: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}row_ix'],
+      ),
+      vendor: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}vendor'],
+      )!,
+      vendorField: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}vendor_field'],
+      )!,
+      sourceClass: Observation.$convertersourceClass.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}source_class'],
+        )!,
+      ),
+      derivedFrom: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}derived_from'],
+      ),
+      memberOf: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}member_of'],
+      ),
+      panelText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}panel_text'],
+      )!,
+      observedStart: Observation.$converterobservedStart.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}observed_start'],
+        )!,
+      ),
+      observedEnd: Observation.$converterobservedEnd.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}observed_end'],
+        )!,
+      ),
+      tz: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tz'],
+      )!,
+      tzSource: Observation.$convertertzSource.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}tz_source'],
+        )!,
+      ),
+      localDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}local_date'],
+      )!,
+      grain: Observation.$convertergrain.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}grain'],
+        )!,
+      ),
+      stat: Observation.$converterstat.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}stat'],
+        )!,
+      ),
+      nameText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name_text'],
+      )!,
+      valueText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}value_text'],
+      )!,
+      unitText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}unit_text'],
+      )!,
+      refText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ref_text'],
+      )!,
+      flagText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}flag_text'],
+      )!,
+      methodText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}method_text'],
+      )!,
+      specimenText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}specimen_text'],
+      )!,
+      noteText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note_text'],
+      ),
+      nameKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name_key'],
+      )!,
+      valueKind: Observation.$convertervalueKind.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}value_kind'],
+        )!,
+      ),
+      valueNum: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}value_num'],
+      ),
+      valueDecimals: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}value_decimals'],
+      ),
+      comparator: Observation.$convertercomparator.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}comparator'],
+        )!,
+      ),
+      valueCode: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}value_code'],
+      )!,
+      dataAbsentReason: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}data_absent_reason'],
+      )!,
+      unitUcum: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}unit_ucum'],
+      )!,
+      refLow: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}ref_low'],
+      ),
+      refHigh: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}ref_high'],
+      ),
+      refComparator: Observation.$converterrefComparator.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}ref_comparator'],
+        )!,
+      ),
+      flag: Observation.$converterflag.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}flag'],
+        )!,
+      ),
+      localKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}local_key'],
+      )!,
+      streamKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}stream_key'],
+      )!,
+      fingerprint: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}fingerprint'],
+      )!,
+      status: Observation.$converterstatus.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}status'],
+        )!,
+      ),
+      amends: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}amends'],
+      ),
+      createdAt: Observation.$convertercreatedAt.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}created_at'],
+        )!,
+      ),
+    );
+  }
+
+  @override
+  Observation createAlias(String alias) {
+    return Observation(attachedDatabase, alias);
+  }
+
+  static TypeConverter<ObservationKind, String> $converterkind =
+      observationKindConverter;
+  static TypeConverter<Modality, String> $convertermodality = modalityConverter;
+  static TypeConverter<SourceKind, String> $convertersourceKind =
+      sourceKindConverter;
+  static TypeConverter<SourceClass, String> $convertersourceClass =
+      sourceClassConverter;
+  static TypeConverter<DateTime, int> $converterobservedStart =
+      utcMillisConverter;
+  static TypeConverter<DateTime, int> $converterobservedEnd =
+      utcMillisConverter;
+  static TypeConverter<TzSource, String> $convertertzSource = tzSourceConverter;
+  static TypeConverter<Grain, String> $convertergrain = grainConverter;
+  static TypeConverter<Stat, String> $converterstat = statConverter;
+  static TypeConverter<ValueKind, String> $convertervalueKind =
+      valueKindConverter;
+  static TypeConverter<Comparator, String> $convertercomparator =
+      comparatorConverter;
+  static TypeConverter<Comparator, String> $converterrefComparator =
+      comparatorConverter;
+  static TypeConverter<Flag, String> $converterflag = flagConverter;
+  static TypeConverter<ObservationStatus, String> $converterstatus =
+      observationStatusConverter;
+  static TypeConverter<DateTime, int> $convertercreatedAt = utcMillisConverter;
+  @override
+  List<String> get customConstraints => const [
+    'CHECK(observed_end >= observed_start)',
+    'CHECK(grain <> \'instant\' OR observed_start = observed_end)',
+    'CHECK(grain = \'instant\' OR stat <> \'\')',
+    'CHECK(value_kind <> \'absent\' OR data_absent_reason <> \'\')',
+    'CHECK(value_kind <> \'quantity\' OR value_num IS NOT NULL)',
+    'CHECK(modality <> \'derived\' OR derived_from IS NOT NULL)',
+    'CHECK(status = \'final\' OR amends IS NOT NULL)',
+    'CHECK(ref_low IS NULL OR ref_high IS NULL OR ref_low <= ref_high)',
+  ];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class ObservationRow extends DataClass implements Insertable<ObservationRow> {
+  final int id;
+  final int personId;
+
+  /// Provenance
+  final ObservationKind kind;
+  final Modality modality;
+  final SourceKind sourceKind;
+  final String sourceRef;
+
+  /// Id of the record in its source, '' when it has none.
+  final String sourceRecordId;
+  final int? extractionId;
+  final int? reportId;
+
+  /// Page of the report, counted across its files, starting at 0.
+  final int? pageIx;
+  final int? rowIx;
+  final String vendor;
+  final String vendorField;
+  final SourceClass sourceClass;
+
+  /// JSON array of observation ids a derived value was computed from.
+  final String? derivedFrom;
+  final int? memberOf;
+  final String panelText;
+
+  /// Time
+  final DateTime observedStart;
+  final DateTime observedEnd;
+  final String tz;
+  final TzSource tzSource;
+
+  /// Local day of the reading, derived once when written.
+  final String localDate;
+  final Grain grain;
+  final Stat stat;
+
+  /// As printed, never translated
+  final String nameText;
+  final String valueText;
+  final String unitText;
+  final String refText;
+  final String flagText;
+  final String methodText;
+  final String specimenText;
+  final String? noteText;
+
+  /// Typed, derived when written
+  final String nameKey;
+  final ValueKind valueKind;
+  final double? valueNum;
+
+  /// Decimal places as printed, to show the value as it was reported.
+  final int? valueDecimals;
+  final Comparator comparator;
+  final String valueCode;
+  final String dataAbsentReason;
+
+  /// '' when there is no unit or it did not normalize.
+  final String unitUcum;
+  final double? refLow;
+  final double? refHigh;
+  final Comparator refComparator;
+  final Flag flag;
+
+  /// Keys and status
+  /// name_key|unit_ucum: the series of a reading without a code.
+  final String localKey;
+
+  /// local_key|source_kind:vendor: one physical stream, never averaged with others.
+  final String streamKey;
+
+  /// Hash over the printed fields and the time; an unchanged re-import writes nothing.
+  final String fingerprint;
+  final ObservationStatus status;
+  final int? amends;
+  final DateTime createdAt;
+  const ObservationRow({
+    required this.id,
+    required this.personId,
+    required this.kind,
+    required this.modality,
+    required this.sourceKind,
+    required this.sourceRef,
+    required this.sourceRecordId,
+    this.extractionId,
+    this.reportId,
+    this.pageIx,
+    this.rowIx,
+    required this.vendor,
+    required this.vendorField,
+    required this.sourceClass,
+    this.derivedFrom,
+    this.memberOf,
+    required this.panelText,
+    required this.observedStart,
+    required this.observedEnd,
+    required this.tz,
+    required this.tzSource,
+    required this.localDate,
+    required this.grain,
+    required this.stat,
+    required this.nameText,
+    required this.valueText,
+    required this.unitText,
+    required this.refText,
+    required this.flagText,
+    required this.methodText,
+    required this.specimenText,
+    this.noteText,
+    required this.nameKey,
+    required this.valueKind,
+    this.valueNum,
+    this.valueDecimals,
+    required this.comparator,
+    required this.valueCode,
+    required this.dataAbsentReason,
+    required this.unitUcum,
+    this.refLow,
+    this.refHigh,
+    required this.refComparator,
+    required this.flag,
+    required this.localKey,
+    required this.streamKey,
+    required this.fingerprint,
+    required this.status,
+    this.amends,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['person_id'] = Variable<int>(personId);
+    {
+      map['kind'] = Variable<String>(Observation.$converterkind.toSql(kind));
+    }
+    {
+      map['modality'] = Variable<String>(
+        Observation.$convertermodality.toSql(modality),
+      );
+    }
+    {
+      map['source_kind'] = Variable<String>(
+        Observation.$convertersourceKind.toSql(sourceKind),
+      );
+    }
+    map['source_ref'] = Variable<String>(sourceRef);
+    map['source_record_id'] = Variable<String>(sourceRecordId);
+    if (!nullToAbsent || extractionId != null) {
+      map['extraction_id'] = Variable<int>(extractionId);
+    }
+    if (!nullToAbsent || reportId != null) {
+      map['report_id'] = Variable<int>(reportId);
+    }
+    if (!nullToAbsent || pageIx != null) {
+      map['page_ix'] = Variable<int>(pageIx);
+    }
+    if (!nullToAbsent || rowIx != null) {
+      map['row_ix'] = Variable<int>(rowIx);
+    }
+    map['vendor'] = Variable<String>(vendor);
+    map['vendor_field'] = Variable<String>(vendorField);
+    {
+      map['source_class'] = Variable<String>(
+        Observation.$convertersourceClass.toSql(sourceClass),
+      );
+    }
+    if (!nullToAbsent || derivedFrom != null) {
+      map['derived_from'] = Variable<String>(derivedFrom);
+    }
+    if (!nullToAbsent || memberOf != null) {
+      map['member_of'] = Variable<int>(memberOf);
+    }
+    map['panel_text'] = Variable<String>(panelText);
+    {
+      map['observed_start'] = Variable<int>(
+        Observation.$converterobservedStart.toSql(observedStart),
+      );
+    }
+    {
+      map['observed_end'] = Variable<int>(
+        Observation.$converterobservedEnd.toSql(observedEnd),
+      );
+    }
+    map['tz'] = Variable<String>(tz);
+    {
+      map['tz_source'] = Variable<String>(
+        Observation.$convertertzSource.toSql(tzSource),
+      );
+    }
+    map['local_date'] = Variable<String>(localDate);
+    {
+      map['grain'] = Variable<String>(Observation.$convertergrain.toSql(grain));
+    }
+    {
+      map['stat'] = Variable<String>(Observation.$converterstat.toSql(stat));
+    }
+    map['name_text'] = Variable<String>(nameText);
+    map['value_text'] = Variable<String>(valueText);
+    map['unit_text'] = Variable<String>(unitText);
+    map['ref_text'] = Variable<String>(refText);
+    map['flag_text'] = Variable<String>(flagText);
+    map['method_text'] = Variable<String>(methodText);
+    map['specimen_text'] = Variable<String>(specimenText);
+    if (!nullToAbsent || noteText != null) {
+      map['note_text'] = Variable<String>(noteText);
+    }
+    map['name_key'] = Variable<String>(nameKey);
+    {
+      map['value_kind'] = Variable<String>(
+        Observation.$convertervalueKind.toSql(valueKind),
+      );
+    }
+    if (!nullToAbsent || valueNum != null) {
+      map['value_num'] = Variable<double>(valueNum);
+    }
+    if (!nullToAbsent || valueDecimals != null) {
+      map['value_decimals'] = Variable<int>(valueDecimals);
+    }
+    {
+      map['comparator'] = Variable<String>(
+        Observation.$convertercomparator.toSql(comparator),
+      );
+    }
+    map['value_code'] = Variable<String>(valueCode);
+    map['data_absent_reason'] = Variable<String>(dataAbsentReason);
+    map['unit_ucum'] = Variable<String>(unitUcum);
+    if (!nullToAbsent || refLow != null) {
+      map['ref_low'] = Variable<double>(refLow);
+    }
+    if (!nullToAbsent || refHigh != null) {
+      map['ref_high'] = Variable<double>(refHigh);
+    }
+    {
+      map['ref_comparator'] = Variable<String>(
+        Observation.$converterrefComparator.toSql(refComparator),
+      );
+    }
+    {
+      map['flag'] = Variable<String>(Observation.$converterflag.toSql(flag));
+    }
+    map['local_key'] = Variable<String>(localKey);
+    map['stream_key'] = Variable<String>(streamKey);
+    map['fingerprint'] = Variable<String>(fingerprint);
+    {
+      map['status'] = Variable<String>(
+        Observation.$converterstatus.toSql(status),
+      );
+    }
+    if (!nullToAbsent || amends != null) {
+      map['amends'] = Variable<int>(amends);
+    }
+    {
+      map['created_at'] = Variable<int>(
+        Observation.$convertercreatedAt.toSql(createdAt),
+      );
+    }
+    return map;
+  }
+
+  ObservationCompanion toCompanion(bool nullToAbsent) {
+    return ObservationCompanion(
+      id: Value(id),
+      personId: Value(personId),
+      kind: Value(kind),
+      modality: Value(modality),
+      sourceKind: Value(sourceKind),
+      sourceRef: Value(sourceRef),
+      sourceRecordId: Value(sourceRecordId),
+      extractionId: extractionId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(extractionId),
+      reportId: reportId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(reportId),
+      pageIx: pageIx == null && nullToAbsent
+          ? const Value.absent()
+          : Value(pageIx),
+      rowIx: rowIx == null && nullToAbsent
+          ? const Value.absent()
+          : Value(rowIx),
+      vendor: Value(vendor),
+      vendorField: Value(vendorField),
+      sourceClass: Value(sourceClass),
+      derivedFrom: derivedFrom == null && nullToAbsent
+          ? const Value.absent()
+          : Value(derivedFrom),
+      memberOf: memberOf == null && nullToAbsent
+          ? const Value.absent()
+          : Value(memberOf),
+      panelText: Value(panelText),
+      observedStart: Value(observedStart),
+      observedEnd: Value(observedEnd),
+      tz: Value(tz),
+      tzSource: Value(tzSource),
+      localDate: Value(localDate),
+      grain: Value(grain),
+      stat: Value(stat),
+      nameText: Value(nameText),
+      valueText: Value(valueText),
+      unitText: Value(unitText),
+      refText: Value(refText),
+      flagText: Value(flagText),
+      methodText: Value(methodText),
+      specimenText: Value(specimenText),
+      noteText: noteText == null && nullToAbsent
+          ? const Value.absent()
+          : Value(noteText),
+      nameKey: Value(nameKey),
+      valueKind: Value(valueKind),
+      valueNum: valueNum == null && nullToAbsent
+          ? const Value.absent()
+          : Value(valueNum),
+      valueDecimals: valueDecimals == null && nullToAbsent
+          ? const Value.absent()
+          : Value(valueDecimals),
+      comparator: Value(comparator),
+      valueCode: Value(valueCode),
+      dataAbsentReason: Value(dataAbsentReason),
+      unitUcum: Value(unitUcum),
+      refLow: refLow == null && nullToAbsent
+          ? const Value.absent()
+          : Value(refLow),
+      refHigh: refHigh == null && nullToAbsent
+          ? const Value.absent()
+          : Value(refHigh),
+      refComparator: Value(refComparator),
+      flag: Value(flag),
+      localKey: Value(localKey),
+      streamKey: Value(streamKey),
+      fingerprint: Value(fingerprint),
+      status: Value(status),
+      amends: amends == null && nullToAbsent
+          ? const Value.absent()
+          : Value(amends),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory ObservationRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ObservationRow(
+      id: serializer.fromJson<int>(json['id']),
+      personId: serializer.fromJson<int>(json['person_id']),
+      kind: serializer.fromJson<ObservationKind>(json['kind']),
+      modality: serializer.fromJson<Modality>(json['modality']),
+      sourceKind: serializer.fromJson<SourceKind>(json['source_kind']),
+      sourceRef: serializer.fromJson<String>(json['source_ref']),
+      sourceRecordId: serializer.fromJson<String>(json['source_record_id']),
+      extractionId: serializer.fromJson<int?>(json['extraction_id']),
+      reportId: serializer.fromJson<int?>(json['report_id']),
+      pageIx: serializer.fromJson<int?>(json['page_ix']),
+      rowIx: serializer.fromJson<int?>(json['row_ix']),
+      vendor: serializer.fromJson<String>(json['vendor']),
+      vendorField: serializer.fromJson<String>(json['vendor_field']),
+      sourceClass: serializer.fromJson<SourceClass>(json['source_class']),
+      derivedFrom: serializer.fromJson<String?>(json['derived_from']),
+      memberOf: serializer.fromJson<int?>(json['member_of']),
+      panelText: serializer.fromJson<String>(json['panel_text']),
+      observedStart: serializer.fromJson<DateTime>(json['observed_start']),
+      observedEnd: serializer.fromJson<DateTime>(json['observed_end']),
+      tz: serializer.fromJson<String>(json['tz']),
+      tzSource: serializer.fromJson<TzSource>(json['tz_source']),
+      localDate: serializer.fromJson<String>(json['local_date']),
+      grain: serializer.fromJson<Grain>(json['grain']),
+      stat: serializer.fromJson<Stat>(json['stat']),
+      nameText: serializer.fromJson<String>(json['name_text']),
+      valueText: serializer.fromJson<String>(json['value_text']),
+      unitText: serializer.fromJson<String>(json['unit_text']),
+      refText: serializer.fromJson<String>(json['ref_text']),
+      flagText: serializer.fromJson<String>(json['flag_text']),
+      methodText: serializer.fromJson<String>(json['method_text']),
+      specimenText: serializer.fromJson<String>(json['specimen_text']),
+      noteText: serializer.fromJson<String?>(json['note_text']),
+      nameKey: serializer.fromJson<String>(json['name_key']),
+      valueKind: serializer.fromJson<ValueKind>(json['value_kind']),
+      valueNum: serializer.fromJson<double?>(json['value_num']),
+      valueDecimals: serializer.fromJson<int?>(json['value_decimals']),
+      comparator: serializer.fromJson<Comparator>(json['comparator']),
+      valueCode: serializer.fromJson<String>(json['value_code']),
+      dataAbsentReason: serializer.fromJson<String>(json['data_absent_reason']),
+      unitUcum: serializer.fromJson<String>(json['unit_ucum']),
+      refLow: serializer.fromJson<double?>(json['ref_low']),
+      refHigh: serializer.fromJson<double?>(json['ref_high']),
+      refComparator: serializer.fromJson<Comparator>(json['ref_comparator']),
+      flag: serializer.fromJson<Flag>(json['flag']),
+      localKey: serializer.fromJson<String>(json['local_key']),
+      streamKey: serializer.fromJson<String>(json['stream_key']),
+      fingerprint: serializer.fromJson<String>(json['fingerprint']),
+      status: serializer.fromJson<ObservationStatus>(json['status']),
+      amends: serializer.fromJson<int?>(json['amends']),
+      createdAt: serializer.fromJson<DateTime>(json['created_at']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'person_id': serializer.toJson<int>(personId),
+      'kind': serializer.toJson<ObservationKind>(kind),
+      'modality': serializer.toJson<Modality>(modality),
+      'source_kind': serializer.toJson<SourceKind>(sourceKind),
+      'source_ref': serializer.toJson<String>(sourceRef),
+      'source_record_id': serializer.toJson<String>(sourceRecordId),
+      'extraction_id': serializer.toJson<int?>(extractionId),
+      'report_id': serializer.toJson<int?>(reportId),
+      'page_ix': serializer.toJson<int?>(pageIx),
+      'row_ix': serializer.toJson<int?>(rowIx),
+      'vendor': serializer.toJson<String>(vendor),
+      'vendor_field': serializer.toJson<String>(vendorField),
+      'source_class': serializer.toJson<SourceClass>(sourceClass),
+      'derived_from': serializer.toJson<String?>(derivedFrom),
+      'member_of': serializer.toJson<int?>(memberOf),
+      'panel_text': serializer.toJson<String>(panelText),
+      'observed_start': serializer.toJson<DateTime>(observedStart),
+      'observed_end': serializer.toJson<DateTime>(observedEnd),
+      'tz': serializer.toJson<String>(tz),
+      'tz_source': serializer.toJson<TzSource>(tzSource),
+      'local_date': serializer.toJson<String>(localDate),
+      'grain': serializer.toJson<Grain>(grain),
+      'stat': serializer.toJson<Stat>(stat),
+      'name_text': serializer.toJson<String>(nameText),
+      'value_text': serializer.toJson<String>(valueText),
+      'unit_text': serializer.toJson<String>(unitText),
+      'ref_text': serializer.toJson<String>(refText),
+      'flag_text': serializer.toJson<String>(flagText),
+      'method_text': serializer.toJson<String>(methodText),
+      'specimen_text': serializer.toJson<String>(specimenText),
+      'note_text': serializer.toJson<String?>(noteText),
+      'name_key': serializer.toJson<String>(nameKey),
+      'value_kind': serializer.toJson<ValueKind>(valueKind),
+      'value_num': serializer.toJson<double?>(valueNum),
+      'value_decimals': serializer.toJson<int?>(valueDecimals),
+      'comparator': serializer.toJson<Comparator>(comparator),
+      'value_code': serializer.toJson<String>(valueCode),
+      'data_absent_reason': serializer.toJson<String>(dataAbsentReason),
+      'unit_ucum': serializer.toJson<String>(unitUcum),
+      'ref_low': serializer.toJson<double?>(refLow),
+      'ref_high': serializer.toJson<double?>(refHigh),
+      'ref_comparator': serializer.toJson<Comparator>(refComparator),
+      'flag': serializer.toJson<Flag>(flag),
+      'local_key': serializer.toJson<String>(localKey),
+      'stream_key': serializer.toJson<String>(streamKey),
+      'fingerprint': serializer.toJson<String>(fingerprint),
+      'status': serializer.toJson<ObservationStatus>(status),
+      'amends': serializer.toJson<int?>(amends),
+      'created_at': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  ObservationRow copyWith({
+    int? id,
+    int? personId,
+    ObservationKind? kind,
+    Modality? modality,
+    SourceKind? sourceKind,
+    String? sourceRef,
+    String? sourceRecordId,
+    Value<int?> extractionId = const Value.absent(),
+    Value<int?> reportId = const Value.absent(),
+    Value<int?> pageIx = const Value.absent(),
+    Value<int?> rowIx = const Value.absent(),
+    String? vendor,
+    String? vendorField,
+    SourceClass? sourceClass,
+    Value<String?> derivedFrom = const Value.absent(),
+    Value<int?> memberOf = const Value.absent(),
+    String? panelText,
+    DateTime? observedStart,
+    DateTime? observedEnd,
+    String? tz,
+    TzSource? tzSource,
+    String? localDate,
+    Grain? grain,
+    Stat? stat,
+    String? nameText,
+    String? valueText,
+    String? unitText,
+    String? refText,
+    String? flagText,
+    String? methodText,
+    String? specimenText,
+    Value<String?> noteText = const Value.absent(),
+    String? nameKey,
+    ValueKind? valueKind,
+    Value<double?> valueNum = const Value.absent(),
+    Value<int?> valueDecimals = const Value.absent(),
+    Comparator? comparator,
+    String? valueCode,
+    String? dataAbsentReason,
+    String? unitUcum,
+    Value<double?> refLow = const Value.absent(),
+    Value<double?> refHigh = const Value.absent(),
+    Comparator? refComparator,
+    Flag? flag,
+    String? localKey,
+    String? streamKey,
+    String? fingerprint,
+    ObservationStatus? status,
+    Value<int?> amends = const Value.absent(),
+    DateTime? createdAt,
+  }) => ObservationRow(
+    id: id ?? this.id,
+    personId: personId ?? this.personId,
+    kind: kind ?? this.kind,
+    modality: modality ?? this.modality,
+    sourceKind: sourceKind ?? this.sourceKind,
+    sourceRef: sourceRef ?? this.sourceRef,
+    sourceRecordId: sourceRecordId ?? this.sourceRecordId,
+    extractionId: extractionId.present ? extractionId.value : this.extractionId,
+    reportId: reportId.present ? reportId.value : this.reportId,
+    pageIx: pageIx.present ? pageIx.value : this.pageIx,
+    rowIx: rowIx.present ? rowIx.value : this.rowIx,
+    vendor: vendor ?? this.vendor,
+    vendorField: vendorField ?? this.vendorField,
+    sourceClass: sourceClass ?? this.sourceClass,
+    derivedFrom: derivedFrom.present ? derivedFrom.value : this.derivedFrom,
+    memberOf: memberOf.present ? memberOf.value : this.memberOf,
+    panelText: panelText ?? this.panelText,
+    observedStart: observedStart ?? this.observedStart,
+    observedEnd: observedEnd ?? this.observedEnd,
+    tz: tz ?? this.tz,
+    tzSource: tzSource ?? this.tzSource,
+    localDate: localDate ?? this.localDate,
+    grain: grain ?? this.grain,
+    stat: stat ?? this.stat,
+    nameText: nameText ?? this.nameText,
+    valueText: valueText ?? this.valueText,
+    unitText: unitText ?? this.unitText,
+    refText: refText ?? this.refText,
+    flagText: flagText ?? this.flagText,
+    methodText: methodText ?? this.methodText,
+    specimenText: specimenText ?? this.specimenText,
+    noteText: noteText.present ? noteText.value : this.noteText,
+    nameKey: nameKey ?? this.nameKey,
+    valueKind: valueKind ?? this.valueKind,
+    valueNum: valueNum.present ? valueNum.value : this.valueNum,
+    valueDecimals: valueDecimals.present
+        ? valueDecimals.value
+        : this.valueDecimals,
+    comparator: comparator ?? this.comparator,
+    valueCode: valueCode ?? this.valueCode,
+    dataAbsentReason: dataAbsentReason ?? this.dataAbsentReason,
+    unitUcum: unitUcum ?? this.unitUcum,
+    refLow: refLow.present ? refLow.value : this.refLow,
+    refHigh: refHigh.present ? refHigh.value : this.refHigh,
+    refComparator: refComparator ?? this.refComparator,
+    flag: flag ?? this.flag,
+    localKey: localKey ?? this.localKey,
+    streamKey: streamKey ?? this.streamKey,
+    fingerprint: fingerprint ?? this.fingerprint,
+    status: status ?? this.status,
+    amends: amends.present ? amends.value : this.amends,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  ObservationRow copyWithCompanion(ObservationCompanion data) {
+    return ObservationRow(
+      id: data.id.present ? data.id.value : this.id,
+      personId: data.personId.present ? data.personId.value : this.personId,
+      kind: data.kind.present ? data.kind.value : this.kind,
+      modality: data.modality.present ? data.modality.value : this.modality,
+      sourceKind: data.sourceKind.present
+          ? data.sourceKind.value
+          : this.sourceKind,
+      sourceRef: data.sourceRef.present ? data.sourceRef.value : this.sourceRef,
+      sourceRecordId: data.sourceRecordId.present
+          ? data.sourceRecordId.value
+          : this.sourceRecordId,
+      extractionId: data.extractionId.present
+          ? data.extractionId.value
+          : this.extractionId,
+      reportId: data.reportId.present ? data.reportId.value : this.reportId,
+      pageIx: data.pageIx.present ? data.pageIx.value : this.pageIx,
+      rowIx: data.rowIx.present ? data.rowIx.value : this.rowIx,
+      vendor: data.vendor.present ? data.vendor.value : this.vendor,
+      vendorField: data.vendorField.present
+          ? data.vendorField.value
+          : this.vendorField,
+      sourceClass: data.sourceClass.present
+          ? data.sourceClass.value
+          : this.sourceClass,
+      derivedFrom: data.derivedFrom.present
+          ? data.derivedFrom.value
+          : this.derivedFrom,
+      memberOf: data.memberOf.present ? data.memberOf.value : this.memberOf,
+      panelText: data.panelText.present ? data.panelText.value : this.panelText,
+      observedStart: data.observedStart.present
+          ? data.observedStart.value
+          : this.observedStart,
+      observedEnd: data.observedEnd.present
+          ? data.observedEnd.value
+          : this.observedEnd,
+      tz: data.tz.present ? data.tz.value : this.tz,
+      tzSource: data.tzSource.present ? data.tzSource.value : this.tzSource,
+      localDate: data.localDate.present ? data.localDate.value : this.localDate,
+      grain: data.grain.present ? data.grain.value : this.grain,
+      stat: data.stat.present ? data.stat.value : this.stat,
+      nameText: data.nameText.present ? data.nameText.value : this.nameText,
+      valueText: data.valueText.present ? data.valueText.value : this.valueText,
+      unitText: data.unitText.present ? data.unitText.value : this.unitText,
+      refText: data.refText.present ? data.refText.value : this.refText,
+      flagText: data.flagText.present ? data.flagText.value : this.flagText,
+      methodText: data.methodText.present
+          ? data.methodText.value
+          : this.methodText,
+      specimenText: data.specimenText.present
+          ? data.specimenText.value
+          : this.specimenText,
+      noteText: data.noteText.present ? data.noteText.value : this.noteText,
+      nameKey: data.nameKey.present ? data.nameKey.value : this.nameKey,
+      valueKind: data.valueKind.present ? data.valueKind.value : this.valueKind,
+      valueNum: data.valueNum.present ? data.valueNum.value : this.valueNum,
+      valueDecimals: data.valueDecimals.present
+          ? data.valueDecimals.value
+          : this.valueDecimals,
+      comparator: data.comparator.present
+          ? data.comparator.value
+          : this.comparator,
+      valueCode: data.valueCode.present ? data.valueCode.value : this.valueCode,
+      dataAbsentReason: data.dataAbsentReason.present
+          ? data.dataAbsentReason.value
+          : this.dataAbsentReason,
+      unitUcum: data.unitUcum.present ? data.unitUcum.value : this.unitUcum,
+      refLow: data.refLow.present ? data.refLow.value : this.refLow,
+      refHigh: data.refHigh.present ? data.refHigh.value : this.refHigh,
+      refComparator: data.refComparator.present
+          ? data.refComparator.value
+          : this.refComparator,
+      flag: data.flag.present ? data.flag.value : this.flag,
+      localKey: data.localKey.present ? data.localKey.value : this.localKey,
+      streamKey: data.streamKey.present ? data.streamKey.value : this.streamKey,
+      fingerprint: data.fingerprint.present
+          ? data.fingerprint.value
+          : this.fingerprint,
+      status: data.status.present ? data.status.value : this.status,
+      amends: data.amends.present ? data.amends.value : this.amends,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ObservationRow(')
+          ..write('id: $id, ')
+          ..write('personId: $personId, ')
+          ..write('kind: $kind, ')
+          ..write('modality: $modality, ')
+          ..write('sourceKind: $sourceKind, ')
+          ..write('sourceRef: $sourceRef, ')
+          ..write('sourceRecordId: $sourceRecordId, ')
+          ..write('extractionId: $extractionId, ')
+          ..write('reportId: $reportId, ')
+          ..write('pageIx: $pageIx, ')
+          ..write('rowIx: $rowIx, ')
+          ..write('vendor: $vendor, ')
+          ..write('vendorField: $vendorField, ')
+          ..write('sourceClass: $sourceClass, ')
+          ..write('derivedFrom: $derivedFrom, ')
+          ..write('memberOf: $memberOf, ')
+          ..write('panelText: $panelText, ')
+          ..write('observedStart: $observedStart, ')
+          ..write('observedEnd: $observedEnd, ')
+          ..write('tz: $tz, ')
+          ..write('tzSource: $tzSource, ')
+          ..write('localDate: $localDate, ')
+          ..write('grain: $grain, ')
+          ..write('stat: $stat, ')
+          ..write('nameText: $nameText, ')
+          ..write('valueText: $valueText, ')
+          ..write('unitText: $unitText, ')
+          ..write('refText: $refText, ')
+          ..write('flagText: $flagText, ')
+          ..write('methodText: $methodText, ')
+          ..write('specimenText: $specimenText, ')
+          ..write('noteText: $noteText, ')
+          ..write('nameKey: $nameKey, ')
+          ..write('valueKind: $valueKind, ')
+          ..write('valueNum: $valueNum, ')
+          ..write('valueDecimals: $valueDecimals, ')
+          ..write('comparator: $comparator, ')
+          ..write('valueCode: $valueCode, ')
+          ..write('dataAbsentReason: $dataAbsentReason, ')
+          ..write('unitUcum: $unitUcum, ')
+          ..write('refLow: $refLow, ')
+          ..write('refHigh: $refHigh, ')
+          ..write('refComparator: $refComparator, ')
+          ..write('flag: $flag, ')
+          ..write('localKey: $localKey, ')
+          ..write('streamKey: $streamKey, ')
+          ..write('fingerprint: $fingerprint, ')
+          ..write('status: $status, ')
+          ..write('amends: $amends, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+    id,
+    personId,
+    kind,
+    modality,
+    sourceKind,
+    sourceRef,
+    sourceRecordId,
+    extractionId,
+    reportId,
+    pageIx,
+    rowIx,
+    vendor,
+    vendorField,
+    sourceClass,
+    derivedFrom,
+    memberOf,
+    panelText,
+    observedStart,
+    observedEnd,
+    tz,
+    tzSource,
+    localDate,
+    grain,
+    stat,
+    nameText,
+    valueText,
+    unitText,
+    refText,
+    flagText,
+    methodText,
+    specimenText,
+    noteText,
+    nameKey,
+    valueKind,
+    valueNum,
+    valueDecimals,
+    comparator,
+    valueCode,
+    dataAbsentReason,
+    unitUcum,
+    refLow,
+    refHigh,
+    refComparator,
+    flag,
+    localKey,
+    streamKey,
+    fingerprint,
+    status,
+    amends,
+    createdAt,
+  ]);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ObservationRow &&
+          other.id == this.id &&
+          other.personId == this.personId &&
+          other.kind == this.kind &&
+          other.modality == this.modality &&
+          other.sourceKind == this.sourceKind &&
+          other.sourceRef == this.sourceRef &&
+          other.sourceRecordId == this.sourceRecordId &&
+          other.extractionId == this.extractionId &&
+          other.reportId == this.reportId &&
+          other.pageIx == this.pageIx &&
+          other.rowIx == this.rowIx &&
+          other.vendor == this.vendor &&
+          other.vendorField == this.vendorField &&
+          other.sourceClass == this.sourceClass &&
+          other.derivedFrom == this.derivedFrom &&
+          other.memberOf == this.memberOf &&
+          other.panelText == this.panelText &&
+          other.observedStart == this.observedStart &&
+          other.observedEnd == this.observedEnd &&
+          other.tz == this.tz &&
+          other.tzSource == this.tzSource &&
+          other.localDate == this.localDate &&
+          other.grain == this.grain &&
+          other.stat == this.stat &&
+          other.nameText == this.nameText &&
+          other.valueText == this.valueText &&
+          other.unitText == this.unitText &&
+          other.refText == this.refText &&
+          other.flagText == this.flagText &&
+          other.methodText == this.methodText &&
+          other.specimenText == this.specimenText &&
+          other.noteText == this.noteText &&
+          other.nameKey == this.nameKey &&
+          other.valueKind == this.valueKind &&
+          other.valueNum == this.valueNum &&
+          other.valueDecimals == this.valueDecimals &&
+          other.comparator == this.comparator &&
+          other.valueCode == this.valueCode &&
+          other.dataAbsentReason == this.dataAbsentReason &&
+          other.unitUcum == this.unitUcum &&
+          other.refLow == this.refLow &&
+          other.refHigh == this.refHigh &&
+          other.refComparator == this.refComparator &&
+          other.flag == this.flag &&
+          other.localKey == this.localKey &&
+          other.streamKey == this.streamKey &&
+          other.fingerprint == this.fingerprint &&
+          other.status == this.status &&
+          other.amends == this.amends &&
+          other.createdAt == this.createdAt);
+}
+
+class ObservationCompanion extends UpdateCompanion<ObservationRow> {
+  final Value<int> id;
+  final Value<int> personId;
+  final Value<ObservationKind> kind;
+  final Value<Modality> modality;
+  final Value<SourceKind> sourceKind;
+  final Value<String> sourceRef;
+  final Value<String> sourceRecordId;
+  final Value<int?> extractionId;
+  final Value<int?> reportId;
+  final Value<int?> pageIx;
+  final Value<int?> rowIx;
+  final Value<String> vendor;
+  final Value<String> vendorField;
+  final Value<SourceClass> sourceClass;
+  final Value<String?> derivedFrom;
+  final Value<int?> memberOf;
+  final Value<String> panelText;
+  final Value<DateTime> observedStart;
+  final Value<DateTime> observedEnd;
+  final Value<String> tz;
+  final Value<TzSource> tzSource;
+  final Value<String> localDate;
+  final Value<Grain> grain;
+  final Value<Stat> stat;
+  final Value<String> nameText;
+  final Value<String> valueText;
+  final Value<String> unitText;
+  final Value<String> refText;
+  final Value<String> flagText;
+  final Value<String> methodText;
+  final Value<String> specimenText;
+  final Value<String?> noteText;
+  final Value<String> nameKey;
+  final Value<ValueKind> valueKind;
+  final Value<double?> valueNum;
+  final Value<int?> valueDecimals;
+  final Value<Comparator> comparator;
+  final Value<String> valueCode;
+  final Value<String> dataAbsentReason;
+  final Value<String> unitUcum;
+  final Value<double?> refLow;
+  final Value<double?> refHigh;
+  final Value<Comparator> refComparator;
+  final Value<Flag> flag;
+  final Value<String> localKey;
+  final Value<String> streamKey;
+  final Value<String> fingerprint;
+  final Value<ObservationStatus> status;
+  final Value<int?> amends;
+  final Value<DateTime> createdAt;
+  const ObservationCompanion({
+    this.id = const Value.absent(),
+    this.personId = const Value.absent(),
+    this.kind = const Value.absent(),
+    this.modality = const Value.absent(),
+    this.sourceKind = const Value.absent(),
+    this.sourceRef = const Value.absent(),
+    this.sourceRecordId = const Value.absent(),
+    this.extractionId = const Value.absent(),
+    this.reportId = const Value.absent(),
+    this.pageIx = const Value.absent(),
+    this.rowIx = const Value.absent(),
+    this.vendor = const Value.absent(),
+    this.vendorField = const Value.absent(),
+    this.sourceClass = const Value.absent(),
+    this.derivedFrom = const Value.absent(),
+    this.memberOf = const Value.absent(),
+    this.panelText = const Value.absent(),
+    this.observedStart = const Value.absent(),
+    this.observedEnd = const Value.absent(),
+    this.tz = const Value.absent(),
+    this.tzSource = const Value.absent(),
+    this.localDate = const Value.absent(),
+    this.grain = const Value.absent(),
+    this.stat = const Value.absent(),
+    this.nameText = const Value.absent(),
+    this.valueText = const Value.absent(),
+    this.unitText = const Value.absent(),
+    this.refText = const Value.absent(),
+    this.flagText = const Value.absent(),
+    this.methodText = const Value.absent(),
+    this.specimenText = const Value.absent(),
+    this.noteText = const Value.absent(),
+    this.nameKey = const Value.absent(),
+    this.valueKind = const Value.absent(),
+    this.valueNum = const Value.absent(),
+    this.valueDecimals = const Value.absent(),
+    this.comparator = const Value.absent(),
+    this.valueCode = const Value.absent(),
+    this.dataAbsentReason = const Value.absent(),
+    this.unitUcum = const Value.absent(),
+    this.refLow = const Value.absent(),
+    this.refHigh = const Value.absent(),
+    this.refComparator = const Value.absent(),
+    this.flag = const Value.absent(),
+    this.localKey = const Value.absent(),
+    this.streamKey = const Value.absent(),
+    this.fingerprint = const Value.absent(),
+    this.status = const Value.absent(),
+    this.amends = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  ObservationCompanion.insert({
+    this.id = const Value.absent(),
+    required int personId,
+    required ObservationKind kind,
+    required Modality modality,
+    required SourceKind sourceKind,
+    required String sourceRef,
+    this.sourceRecordId = const Value.absent(),
+    this.extractionId = const Value.absent(),
+    this.reportId = const Value.absent(),
+    this.pageIx = const Value.absent(),
+    this.rowIx = const Value.absent(),
+    this.vendor = const Value.absent(),
+    this.vendorField = const Value.absent(),
+    required SourceClass sourceClass,
+    this.derivedFrom = const Value.absent(),
+    this.memberOf = const Value.absent(),
+    this.panelText = const Value.absent(),
+    required DateTime observedStart,
+    required DateTime observedEnd,
+    required String tz,
+    required TzSource tzSource,
+    required String localDate,
+    required Grain grain,
+    this.stat = const Value.absent(),
+    required String nameText,
+    this.valueText = const Value.absent(),
+    this.unitText = const Value.absent(),
+    this.refText = const Value.absent(),
+    this.flagText = const Value.absent(),
+    this.methodText = const Value.absent(),
+    this.specimenText = const Value.absent(),
+    this.noteText = const Value.absent(),
+    required String nameKey,
+    required ValueKind valueKind,
+    this.valueNum = const Value.absent(),
+    this.valueDecimals = const Value.absent(),
+    this.comparator = const Value.absent(),
+    this.valueCode = const Value.absent(),
+    this.dataAbsentReason = const Value.absent(),
+    this.unitUcum = const Value.absent(),
+    this.refLow = const Value.absent(),
+    this.refHigh = const Value.absent(),
+    this.refComparator = const Value.absent(),
+    this.flag = const Value.absent(),
+    required String localKey,
+    required String streamKey,
+    required String fingerprint,
+    this.status = const Value.absent(),
+    this.amends = const Value.absent(),
+    required DateTime createdAt,
+  }) : personId = Value(personId),
+       kind = Value(kind),
+       modality = Value(modality),
+       sourceKind = Value(sourceKind),
+       sourceRef = Value(sourceRef),
+       sourceClass = Value(sourceClass),
+       observedStart = Value(observedStart),
+       observedEnd = Value(observedEnd),
+       tz = Value(tz),
+       tzSource = Value(tzSource),
+       localDate = Value(localDate),
+       grain = Value(grain),
+       nameText = Value(nameText),
+       nameKey = Value(nameKey),
+       valueKind = Value(valueKind),
+       localKey = Value(localKey),
+       streamKey = Value(streamKey),
+       fingerprint = Value(fingerprint),
+       createdAt = Value(createdAt);
+  static Insertable<ObservationRow> custom({
+    Expression<int>? id,
+    Expression<int>? personId,
+    Expression<String>? kind,
+    Expression<String>? modality,
+    Expression<String>? sourceKind,
+    Expression<String>? sourceRef,
+    Expression<String>? sourceRecordId,
+    Expression<int>? extractionId,
+    Expression<int>? reportId,
+    Expression<int>? pageIx,
+    Expression<int>? rowIx,
+    Expression<String>? vendor,
+    Expression<String>? vendorField,
+    Expression<String>? sourceClass,
+    Expression<String>? derivedFrom,
+    Expression<int>? memberOf,
+    Expression<String>? panelText,
+    Expression<int>? observedStart,
+    Expression<int>? observedEnd,
+    Expression<String>? tz,
+    Expression<String>? tzSource,
+    Expression<String>? localDate,
+    Expression<String>? grain,
+    Expression<String>? stat,
+    Expression<String>? nameText,
+    Expression<String>? valueText,
+    Expression<String>? unitText,
+    Expression<String>? refText,
+    Expression<String>? flagText,
+    Expression<String>? methodText,
+    Expression<String>? specimenText,
+    Expression<String>? noteText,
+    Expression<String>? nameKey,
+    Expression<String>? valueKind,
+    Expression<double>? valueNum,
+    Expression<int>? valueDecimals,
+    Expression<String>? comparator,
+    Expression<String>? valueCode,
+    Expression<String>? dataAbsentReason,
+    Expression<String>? unitUcum,
+    Expression<double>? refLow,
+    Expression<double>? refHigh,
+    Expression<String>? refComparator,
+    Expression<String>? flag,
+    Expression<String>? localKey,
+    Expression<String>? streamKey,
+    Expression<String>? fingerprint,
+    Expression<String>? status,
+    Expression<int>? amends,
+    Expression<int>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (personId != null) 'person_id': personId,
+      if (kind != null) 'kind': kind,
+      if (modality != null) 'modality': modality,
+      if (sourceKind != null) 'source_kind': sourceKind,
+      if (sourceRef != null) 'source_ref': sourceRef,
+      if (sourceRecordId != null) 'source_record_id': sourceRecordId,
+      if (extractionId != null) 'extraction_id': extractionId,
+      if (reportId != null) 'report_id': reportId,
+      if (pageIx != null) 'page_ix': pageIx,
+      if (rowIx != null) 'row_ix': rowIx,
+      if (vendor != null) 'vendor': vendor,
+      if (vendorField != null) 'vendor_field': vendorField,
+      if (sourceClass != null) 'source_class': sourceClass,
+      if (derivedFrom != null) 'derived_from': derivedFrom,
+      if (memberOf != null) 'member_of': memberOf,
+      if (panelText != null) 'panel_text': panelText,
+      if (observedStart != null) 'observed_start': observedStart,
+      if (observedEnd != null) 'observed_end': observedEnd,
+      if (tz != null) 'tz': tz,
+      if (tzSource != null) 'tz_source': tzSource,
+      if (localDate != null) 'local_date': localDate,
+      if (grain != null) 'grain': grain,
+      if (stat != null) 'stat': stat,
+      if (nameText != null) 'name_text': nameText,
+      if (valueText != null) 'value_text': valueText,
+      if (unitText != null) 'unit_text': unitText,
+      if (refText != null) 'ref_text': refText,
+      if (flagText != null) 'flag_text': flagText,
+      if (methodText != null) 'method_text': methodText,
+      if (specimenText != null) 'specimen_text': specimenText,
+      if (noteText != null) 'note_text': noteText,
+      if (nameKey != null) 'name_key': nameKey,
+      if (valueKind != null) 'value_kind': valueKind,
+      if (valueNum != null) 'value_num': valueNum,
+      if (valueDecimals != null) 'value_decimals': valueDecimals,
+      if (comparator != null) 'comparator': comparator,
+      if (valueCode != null) 'value_code': valueCode,
+      if (dataAbsentReason != null) 'data_absent_reason': dataAbsentReason,
+      if (unitUcum != null) 'unit_ucum': unitUcum,
+      if (refLow != null) 'ref_low': refLow,
+      if (refHigh != null) 'ref_high': refHigh,
+      if (refComparator != null) 'ref_comparator': refComparator,
+      if (flag != null) 'flag': flag,
+      if (localKey != null) 'local_key': localKey,
+      if (streamKey != null) 'stream_key': streamKey,
+      if (fingerprint != null) 'fingerprint': fingerprint,
+      if (status != null) 'status': status,
+      if (amends != null) 'amends': amends,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  ObservationCompanion copyWith({
+    Value<int>? id,
+    Value<int>? personId,
+    Value<ObservationKind>? kind,
+    Value<Modality>? modality,
+    Value<SourceKind>? sourceKind,
+    Value<String>? sourceRef,
+    Value<String>? sourceRecordId,
+    Value<int?>? extractionId,
+    Value<int?>? reportId,
+    Value<int?>? pageIx,
+    Value<int?>? rowIx,
+    Value<String>? vendor,
+    Value<String>? vendorField,
+    Value<SourceClass>? sourceClass,
+    Value<String?>? derivedFrom,
+    Value<int?>? memberOf,
+    Value<String>? panelText,
+    Value<DateTime>? observedStart,
+    Value<DateTime>? observedEnd,
+    Value<String>? tz,
+    Value<TzSource>? tzSource,
+    Value<String>? localDate,
+    Value<Grain>? grain,
+    Value<Stat>? stat,
+    Value<String>? nameText,
+    Value<String>? valueText,
+    Value<String>? unitText,
+    Value<String>? refText,
+    Value<String>? flagText,
+    Value<String>? methodText,
+    Value<String>? specimenText,
+    Value<String?>? noteText,
+    Value<String>? nameKey,
+    Value<ValueKind>? valueKind,
+    Value<double?>? valueNum,
+    Value<int?>? valueDecimals,
+    Value<Comparator>? comparator,
+    Value<String>? valueCode,
+    Value<String>? dataAbsentReason,
+    Value<String>? unitUcum,
+    Value<double?>? refLow,
+    Value<double?>? refHigh,
+    Value<Comparator>? refComparator,
+    Value<Flag>? flag,
+    Value<String>? localKey,
+    Value<String>? streamKey,
+    Value<String>? fingerprint,
+    Value<ObservationStatus>? status,
+    Value<int?>? amends,
+    Value<DateTime>? createdAt,
+  }) {
+    return ObservationCompanion(
+      id: id ?? this.id,
+      personId: personId ?? this.personId,
+      kind: kind ?? this.kind,
+      modality: modality ?? this.modality,
+      sourceKind: sourceKind ?? this.sourceKind,
+      sourceRef: sourceRef ?? this.sourceRef,
+      sourceRecordId: sourceRecordId ?? this.sourceRecordId,
+      extractionId: extractionId ?? this.extractionId,
+      reportId: reportId ?? this.reportId,
+      pageIx: pageIx ?? this.pageIx,
+      rowIx: rowIx ?? this.rowIx,
+      vendor: vendor ?? this.vendor,
+      vendorField: vendorField ?? this.vendorField,
+      sourceClass: sourceClass ?? this.sourceClass,
+      derivedFrom: derivedFrom ?? this.derivedFrom,
+      memberOf: memberOf ?? this.memberOf,
+      panelText: panelText ?? this.panelText,
+      observedStart: observedStart ?? this.observedStart,
+      observedEnd: observedEnd ?? this.observedEnd,
+      tz: tz ?? this.tz,
+      tzSource: tzSource ?? this.tzSource,
+      localDate: localDate ?? this.localDate,
+      grain: grain ?? this.grain,
+      stat: stat ?? this.stat,
+      nameText: nameText ?? this.nameText,
+      valueText: valueText ?? this.valueText,
+      unitText: unitText ?? this.unitText,
+      refText: refText ?? this.refText,
+      flagText: flagText ?? this.flagText,
+      methodText: methodText ?? this.methodText,
+      specimenText: specimenText ?? this.specimenText,
+      noteText: noteText ?? this.noteText,
+      nameKey: nameKey ?? this.nameKey,
+      valueKind: valueKind ?? this.valueKind,
+      valueNum: valueNum ?? this.valueNum,
+      valueDecimals: valueDecimals ?? this.valueDecimals,
+      comparator: comparator ?? this.comparator,
+      valueCode: valueCode ?? this.valueCode,
+      dataAbsentReason: dataAbsentReason ?? this.dataAbsentReason,
+      unitUcum: unitUcum ?? this.unitUcum,
+      refLow: refLow ?? this.refLow,
+      refHigh: refHigh ?? this.refHigh,
+      refComparator: refComparator ?? this.refComparator,
+      flag: flag ?? this.flag,
+      localKey: localKey ?? this.localKey,
+      streamKey: streamKey ?? this.streamKey,
+      fingerprint: fingerprint ?? this.fingerprint,
+      status: status ?? this.status,
+      amends: amends ?? this.amends,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (personId.present) {
+      map['person_id'] = Variable<int>(personId.value);
+    }
+    if (kind.present) {
+      map['kind'] = Variable<String>(
+        Observation.$converterkind.toSql(kind.value),
+      );
+    }
+    if (modality.present) {
+      map['modality'] = Variable<String>(
+        Observation.$convertermodality.toSql(modality.value),
+      );
+    }
+    if (sourceKind.present) {
+      map['source_kind'] = Variable<String>(
+        Observation.$convertersourceKind.toSql(sourceKind.value),
+      );
+    }
+    if (sourceRef.present) {
+      map['source_ref'] = Variable<String>(sourceRef.value);
+    }
+    if (sourceRecordId.present) {
+      map['source_record_id'] = Variable<String>(sourceRecordId.value);
+    }
+    if (extractionId.present) {
+      map['extraction_id'] = Variable<int>(extractionId.value);
+    }
+    if (reportId.present) {
+      map['report_id'] = Variable<int>(reportId.value);
+    }
+    if (pageIx.present) {
+      map['page_ix'] = Variable<int>(pageIx.value);
+    }
+    if (rowIx.present) {
+      map['row_ix'] = Variable<int>(rowIx.value);
+    }
+    if (vendor.present) {
+      map['vendor'] = Variable<String>(vendor.value);
+    }
+    if (vendorField.present) {
+      map['vendor_field'] = Variable<String>(vendorField.value);
+    }
+    if (sourceClass.present) {
+      map['source_class'] = Variable<String>(
+        Observation.$convertersourceClass.toSql(sourceClass.value),
+      );
+    }
+    if (derivedFrom.present) {
+      map['derived_from'] = Variable<String>(derivedFrom.value);
+    }
+    if (memberOf.present) {
+      map['member_of'] = Variable<int>(memberOf.value);
+    }
+    if (panelText.present) {
+      map['panel_text'] = Variable<String>(panelText.value);
+    }
+    if (observedStart.present) {
+      map['observed_start'] = Variable<int>(
+        Observation.$converterobservedStart.toSql(observedStart.value),
+      );
+    }
+    if (observedEnd.present) {
+      map['observed_end'] = Variable<int>(
+        Observation.$converterobservedEnd.toSql(observedEnd.value),
+      );
+    }
+    if (tz.present) {
+      map['tz'] = Variable<String>(tz.value);
+    }
+    if (tzSource.present) {
+      map['tz_source'] = Variable<String>(
+        Observation.$convertertzSource.toSql(tzSource.value),
+      );
+    }
+    if (localDate.present) {
+      map['local_date'] = Variable<String>(localDate.value);
+    }
+    if (grain.present) {
+      map['grain'] = Variable<String>(
+        Observation.$convertergrain.toSql(grain.value),
+      );
+    }
+    if (stat.present) {
+      map['stat'] = Variable<String>(
+        Observation.$converterstat.toSql(stat.value),
+      );
+    }
+    if (nameText.present) {
+      map['name_text'] = Variable<String>(nameText.value);
+    }
+    if (valueText.present) {
+      map['value_text'] = Variable<String>(valueText.value);
+    }
+    if (unitText.present) {
+      map['unit_text'] = Variable<String>(unitText.value);
+    }
+    if (refText.present) {
+      map['ref_text'] = Variable<String>(refText.value);
+    }
+    if (flagText.present) {
+      map['flag_text'] = Variable<String>(flagText.value);
+    }
+    if (methodText.present) {
+      map['method_text'] = Variable<String>(methodText.value);
+    }
+    if (specimenText.present) {
+      map['specimen_text'] = Variable<String>(specimenText.value);
+    }
+    if (noteText.present) {
+      map['note_text'] = Variable<String>(noteText.value);
+    }
+    if (nameKey.present) {
+      map['name_key'] = Variable<String>(nameKey.value);
+    }
+    if (valueKind.present) {
+      map['value_kind'] = Variable<String>(
+        Observation.$convertervalueKind.toSql(valueKind.value),
+      );
+    }
+    if (valueNum.present) {
+      map['value_num'] = Variable<double>(valueNum.value);
+    }
+    if (valueDecimals.present) {
+      map['value_decimals'] = Variable<int>(valueDecimals.value);
+    }
+    if (comparator.present) {
+      map['comparator'] = Variable<String>(
+        Observation.$convertercomparator.toSql(comparator.value),
+      );
+    }
+    if (valueCode.present) {
+      map['value_code'] = Variable<String>(valueCode.value);
+    }
+    if (dataAbsentReason.present) {
+      map['data_absent_reason'] = Variable<String>(dataAbsentReason.value);
+    }
+    if (unitUcum.present) {
+      map['unit_ucum'] = Variable<String>(unitUcum.value);
+    }
+    if (refLow.present) {
+      map['ref_low'] = Variable<double>(refLow.value);
+    }
+    if (refHigh.present) {
+      map['ref_high'] = Variable<double>(refHigh.value);
+    }
+    if (refComparator.present) {
+      map['ref_comparator'] = Variable<String>(
+        Observation.$converterrefComparator.toSql(refComparator.value),
+      );
+    }
+    if (flag.present) {
+      map['flag'] = Variable<String>(
+        Observation.$converterflag.toSql(flag.value),
+      );
+    }
+    if (localKey.present) {
+      map['local_key'] = Variable<String>(localKey.value);
+    }
+    if (streamKey.present) {
+      map['stream_key'] = Variable<String>(streamKey.value);
+    }
+    if (fingerprint.present) {
+      map['fingerprint'] = Variable<String>(fingerprint.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(
+        Observation.$converterstatus.toSql(status.value),
+      );
+    }
+    if (amends.present) {
+      map['amends'] = Variable<int>(amends.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<int>(
+        Observation.$convertercreatedAt.toSql(createdAt.value),
+      );
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ObservationCompanion(')
+          ..write('id: $id, ')
+          ..write('personId: $personId, ')
+          ..write('kind: $kind, ')
+          ..write('modality: $modality, ')
+          ..write('sourceKind: $sourceKind, ')
+          ..write('sourceRef: $sourceRef, ')
+          ..write('sourceRecordId: $sourceRecordId, ')
+          ..write('extractionId: $extractionId, ')
+          ..write('reportId: $reportId, ')
+          ..write('pageIx: $pageIx, ')
+          ..write('rowIx: $rowIx, ')
+          ..write('vendor: $vendor, ')
+          ..write('vendorField: $vendorField, ')
+          ..write('sourceClass: $sourceClass, ')
+          ..write('derivedFrom: $derivedFrom, ')
+          ..write('memberOf: $memberOf, ')
+          ..write('panelText: $panelText, ')
+          ..write('observedStart: $observedStart, ')
+          ..write('observedEnd: $observedEnd, ')
+          ..write('tz: $tz, ')
+          ..write('tzSource: $tzSource, ')
+          ..write('localDate: $localDate, ')
+          ..write('grain: $grain, ')
+          ..write('stat: $stat, ')
+          ..write('nameText: $nameText, ')
+          ..write('valueText: $valueText, ')
+          ..write('unitText: $unitText, ')
+          ..write('refText: $refText, ')
+          ..write('flagText: $flagText, ')
+          ..write('methodText: $methodText, ')
+          ..write('specimenText: $specimenText, ')
+          ..write('noteText: $noteText, ')
+          ..write('nameKey: $nameKey, ')
+          ..write('valueKind: $valueKind, ')
+          ..write('valueNum: $valueNum, ')
+          ..write('valueDecimals: $valueDecimals, ')
+          ..write('comparator: $comparator, ')
+          ..write('valueCode: $valueCode, ')
+          ..write('dataAbsentReason: $dataAbsentReason, ')
+          ..write('unitUcum: $unitUcum, ')
+          ..write('refLow: $refLow, ')
+          ..write('refHigh: $refHigh, ')
+          ..write('refComparator: $refComparator, ')
+          ..write('flag: $flag, ')
+          ..write('localKey: $localKey, ')
+          ..write('streamKey: $streamKey, ')
+          ..write('fingerprint: $fingerprint, ')
+          ..write('status: $status, ')
+          ..write('amends: $amends, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class SourceFile extends Table with TableInfo<SourceFile, SourceFileRow> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -2206,674 +5447,42 @@ class SourcePageCompanion extends UpdateCompanion<SourcePageRow> {
   }
 }
 
-class Extraction extends Table with TableInfo<Extraction, ExtractionRow> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  Extraction(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    $customConstraints: 'NOT NULL PRIMARY KEY',
-  );
-  static const VerificationMeta _personIdMeta = const VerificationMeta(
-    'personId',
-  );
-  late final GeneratedColumn<int> personId = GeneratedColumn<int>(
-    'person_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL REFERENCES person(id)',
-  );
-  late final GeneratedColumnWithTypeConverter<SourceKind, String>
-  sourceKind = GeneratedColumn<String>(
-    'source_kind',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints:
-        'NOT NULL CHECK (source_kind IN (\'file\', \'manual\', \'health-connect\', \'healthkit\', \'device-file\'))',
-  ).withConverter<SourceKind>(Extraction.$convertersourceKind);
-  static const VerificationMeta _sourceRefMeta = const VerificationMeta(
-    'sourceRef',
-  );
-  late final GeneratedColumn<String> sourceRef = GeneratedColumn<String>(
-    'source_ref',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  static const VerificationMeta _reportIdMeta = const VerificationMeta(
-    'reportId',
-  );
-  late final GeneratedColumn<int> reportId = GeneratedColumn<int>(
-    'report_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    $customConstraints: 'REFERENCES report(id)ON DELETE CASCADE',
-  );
-  static const VerificationMeta _extractorMeta = const VerificationMeta(
-    'extractor',
-  );
-  late final GeneratedColumn<String> extractor = GeneratedColumn<String>(
-    'extractor',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  late final GeneratedColumnWithTypeConverter<ExtractionStatus, String> status =
-      GeneratedColumn<String>(
-        'status',
-        aliasedName,
-        false,
-        type: DriftSqlType.string,
-        requiredDuringInsert: true,
-        $customConstraints:
-            'NOT NULL CHECK (status IN (\'ok\', \'failed\', \'unverified\'))',
-      ).withConverter<ExtractionStatus>(Extraction.$converterstatus);
-  static const VerificationMeta _reasonMeta = const VerificationMeta('reason');
-  late final GeneratedColumn<String> reason = GeneratedColumn<String>(
-    'reason',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: 'NOT NULL DEFAULT \'\'',
-    defaultValue: const CustomExpression('\'\''),
-  );
-  static const VerificationMeta _payloadMeta = const VerificationMeta(
-    'payload',
-  );
-  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
-    'payload',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: '',
-  );
-  static const VerificationMeta _digestMeta = const VerificationMeta('digest');
-  late final GeneratedColumn<String> digest = GeneratedColumn<String>(
-    'digest',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  late final GeneratedColumnWithTypeConverter<DateTime, int> createdAt =
-      GeneratedColumn<int>(
-        'created_at',
-        aliasedName,
-        false,
-        type: DriftSqlType.int,
-        requiredDuringInsert: true,
-        $customConstraints: 'NOT NULL',
-      ).withConverter<DateTime>(Extraction.$convertercreatedAt);
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    personId,
-    sourceKind,
-    sourceRef,
-    reportId,
-    extractor,
-    status,
-    reason,
-    payload,
-    digest,
-    createdAt,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'extraction';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<ExtractionRow> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('person_id')) {
-      context.handle(
-        _personIdMeta,
-        personId.isAcceptableOrUnknown(data['person_id']!, _personIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_personIdMeta);
-    }
-    if (data.containsKey('source_ref')) {
-      context.handle(
-        _sourceRefMeta,
-        sourceRef.isAcceptableOrUnknown(data['source_ref']!, _sourceRefMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_sourceRefMeta);
-    }
-    if (data.containsKey('report_id')) {
-      context.handle(
-        _reportIdMeta,
-        reportId.isAcceptableOrUnknown(data['report_id']!, _reportIdMeta),
-      );
-    }
-    if (data.containsKey('extractor')) {
-      context.handle(
-        _extractorMeta,
-        extractor.isAcceptableOrUnknown(data['extractor']!, _extractorMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_extractorMeta);
-    }
-    if (data.containsKey('reason')) {
-      context.handle(
-        _reasonMeta,
-        reason.isAcceptableOrUnknown(data['reason']!, _reasonMeta),
-      );
-    }
-    if (data.containsKey('payload')) {
-      context.handle(
-        _payloadMeta,
-        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
-      );
-    }
-    if (data.containsKey('digest')) {
-      context.handle(
-        _digestMeta,
-        digest.isAcceptableOrUnknown(data['digest']!, _digestMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_digestMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  List<Set<GeneratedColumn>> get uniqueKeys => [
-    {sourceRef, digest},
-  ];
-  @override
-  ExtractionRow map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ExtractionRow(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      personId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}person_id'],
-      )!,
-      sourceKind: Extraction.$convertersourceKind.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}source_kind'],
-        )!,
-      ),
-      sourceRef: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}source_ref'],
-      )!,
-      reportId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}report_id'],
-      ),
-      extractor: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}extractor'],
-      )!,
-      status: Extraction.$converterstatus.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}status'],
-        )!,
-      ),
-      reason: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}reason'],
-      )!,
-      payload: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}payload'],
-      ),
-      digest: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}digest'],
-      )!,
-      createdAt: Extraction.$convertercreatedAt.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.int,
-          data['${effectivePrefix}created_at'],
-        )!,
-      ),
-    );
-  }
-
-  @override
-  Extraction createAlias(String alias) {
-    return Extraction(attachedDatabase, alias);
-  }
-
-  static TypeConverter<SourceKind, String> $convertersourceKind =
-      sourceKindConverter;
-  static TypeConverter<ExtractionStatus, String> $converterstatus =
-      extractionStatusConverter;
-  static TypeConverter<DateTime, int> $convertercreatedAt = utcMillisConverter;
-  @override
-  List<String> get customConstraints => const [
-    'UNIQUE(source_ref, digest)',
-    'CHECK(status = \'ok\' OR reason <> \'\')',
-    'CHECK(status = \'failed\' OR payload IS NOT NULL)',
-  ];
-  @override
-  bool get dontWriteConstraints => true;
-}
-
-class ExtractionRow extends DataClass implements Insertable<ExtractionRow> {
-  final int id;
-  final int personId;
-  final SourceKind sourceKind;
-
-  /// e.g. 'report:<id>'.
-  final String sourceRef;
-  final int? reportId;
-
-  /// e.g. 'llm:mistral/<model>@prompt-v1', 'manual'.
-  final String extractor;
-  final ExtractionStatus status;
-  final String reason;
-
-  /// The drafts as JSON; NULL when reading failed.
-  final String? payload;
-
-  /// SHA-256 over source_ref, extractor and payload.
-  final String digest;
-  final DateTime createdAt;
-  const ExtractionRow({
-    required this.id,
-    required this.personId,
-    required this.sourceKind,
-    required this.sourceRef,
-    this.reportId,
-    required this.extractor,
-    required this.status,
-    required this.reason,
-    this.payload,
-    required this.digest,
-    required this.createdAt,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['person_id'] = Variable<int>(personId);
-    {
-      map['source_kind'] = Variable<String>(
-        Extraction.$convertersourceKind.toSql(sourceKind),
-      );
-    }
-    map['source_ref'] = Variable<String>(sourceRef);
-    if (!nullToAbsent || reportId != null) {
-      map['report_id'] = Variable<int>(reportId);
-    }
-    map['extractor'] = Variable<String>(extractor);
-    {
-      map['status'] = Variable<String>(
-        Extraction.$converterstatus.toSql(status),
-      );
-    }
-    map['reason'] = Variable<String>(reason);
-    if (!nullToAbsent || payload != null) {
-      map['payload'] = Variable<String>(payload);
-    }
-    map['digest'] = Variable<String>(digest);
-    {
-      map['created_at'] = Variable<int>(
-        Extraction.$convertercreatedAt.toSql(createdAt),
-      );
-    }
-    return map;
-  }
-
-  ExtractionCompanion toCompanion(bool nullToAbsent) {
-    return ExtractionCompanion(
-      id: Value(id),
-      personId: Value(personId),
-      sourceKind: Value(sourceKind),
-      sourceRef: Value(sourceRef),
-      reportId: reportId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(reportId),
-      extractor: Value(extractor),
-      status: Value(status),
-      reason: Value(reason),
-      payload: payload == null && nullToAbsent
-          ? const Value.absent()
-          : Value(payload),
-      digest: Value(digest),
-      createdAt: Value(createdAt),
-    );
-  }
-
-  factory ExtractionRow.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return ExtractionRow(
-      id: serializer.fromJson<int>(json['id']),
-      personId: serializer.fromJson<int>(json['person_id']),
-      sourceKind: serializer.fromJson<SourceKind>(json['source_kind']),
-      sourceRef: serializer.fromJson<String>(json['source_ref']),
-      reportId: serializer.fromJson<int?>(json['report_id']),
-      extractor: serializer.fromJson<String>(json['extractor']),
-      status: serializer.fromJson<ExtractionStatus>(json['status']),
-      reason: serializer.fromJson<String>(json['reason']),
-      payload: serializer.fromJson<String?>(json['payload']),
-      digest: serializer.fromJson<String>(json['digest']),
-      createdAt: serializer.fromJson<DateTime>(json['created_at']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'person_id': serializer.toJson<int>(personId),
-      'source_kind': serializer.toJson<SourceKind>(sourceKind),
-      'source_ref': serializer.toJson<String>(sourceRef),
-      'report_id': serializer.toJson<int?>(reportId),
-      'extractor': serializer.toJson<String>(extractor),
-      'status': serializer.toJson<ExtractionStatus>(status),
-      'reason': serializer.toJson<String>(reason),
-      'payload': serializer.toJson<String?>(payload),
-      'digest': serializer.toJson<String>(digest),
-      'created_at': serializer.toJson<DateTime>(createdAt),
-    };
-  }
-
-  ExtractionRow copyWith({
-    int? id,
-    int? personId,
-    SourceKind? sourceKind,
-    String? sourceRef,
-    Value<int?> reportId = const Value.absent(),
-    String? extractor,
-    ExtractionStatus? status,
-    String? reason,
-    Value<String?> payload = const Value.absent(),
-    String? digest,
-    DateTime? createdAt,
-  }) => ExtractionRow(
-    id: id ?? this.id,
-    personId: personId ?? this.personId,
-    sourceKind: sourceKind ?? this.sourceKind,
-    sourceRef: sourceRef ?? this.sourceRef,
-    reportId: reportId.present ? reportId.value : this.reportId,
-    extractor: extractor ?? this.extractor,
-    status: status ?? this.status,
-    reason: reason ?? this.reason,
-    payload: payload.present ? payload.value : this.payload,
-    digest: digest ?? this.digest,
-    createdAt: createdAt ?? this.createdAt,
-  );
-  ExtractionRow copyWithCompanion(ExtractionCompanion data) {
-    return ExtractionRow(
-      id: data.id.present ? data.id.value : this.id,
-      personId: data.personId.present ? data.personId.value : this.personId,
-      sourceKind: data.sourceKind.present
-          ? data.sourceKind.value
-          : this.sourceKind,
-      sourceRef: data.sourceRef.present ? data.sourceRef.value : this.sourceRef,
-      reportId: data.reportId.present ? data.reportId.value : this.reportId,
-      extractor: data.extractor.present ? data.extractor.value : this.extractor,
-      status: data.status.present ? data.status.value : this.status,
-      reason: data.reason.present ? data.reason.value : this.reason,
-      payload: data.payload.present ? data.payload.value : this.payload,
-      digest: data.digest.present ? data.digest.value : this.digest,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('ExtractionRow(')
-          ..write('id: $id, ')
-          ..write('personId: $personId, ')
-          ..write('sourceKind: $sourceKind, ')
-          ..write('sourceRef: $sourceRef, ')
-          ..write('reportId: $reportId, ')
-          ..write('extractor: $extractor, ')
-          ..write('status: $status, ')
-          ..write('reason: $reason, ')
-          ..write('payload: $payload, ')
-          ..write('digest: $digest, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    id,
-    personId,
-    sourceKind,
-    sourceRef,
-    reportId,
-    extractor,
-    status,
-    reason,
-    payload,
-    digest,
-    createdAt,
-  );
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is ExtractionRow &&
-          other.id == this.id &&
-          other.personId == this.personId &&
-          other.sourceKind == this.sourceKind &&
-          other.sourceRef == this.sourceRef &&
-          other.reportId == this.reportId &&
-          other.extractor == this.extractor &&
-          other.status == this.status &&
-          other.reason == this.reason &&
-          other.payload == this.payload &&
-          other.digest == this.digest &&
-          other.createdAt == this.createdAt);
-}
-
-class ExtractionCompanion extends UpdateCompanion<ExtractionRow> {
-  final Value<int> id;
-  final Value<int> personId;
-  final Value<SourceKind> sourceKind;
-  final Value<String> sourceRef;
-  final Value<int?> reportId;
-  final Value<String> extractor;
-  final Value<ExtractionStatus> status;
-  final Value<String> reason;
-  final Value<String?> payload;
-  final Value<String> digest;
-  final Value<DateTime> createdAt;
-  const ExtractionCompanion({
-    this.id = const Value.absent(),
-    this.personId = const Value.absent(),
-    this.sourceKind = const Value.absent(),
-    this.sourceRef = const Value.absent(),
-    this.reportId = const Value.absent(),
-    this.extractor = const Value.absent(),
-    this.status = const Value.absent(),
-    this.reason = const Value.absent(),
-    this.payload = const Value.absent(),
-    this.digest = const Value.absent(),
-    this.createdAt = const Value.absent(),
-  });
-  ExtractionCompanion.insert({
-    this.id = const Value.absent(),
-    required int personId,
-    required SourceKind sourceKind,
-    required String sourceRef,
-    this.reportId = const Value.absent(),
-    required String extractor,
-    required ExtractionStatus status,
-    this.reason = const Value.absent(),
-    this.payload = const Value.absent(),
-    required String digest,
-    required DateTime createdAt,
-  }) : personId = Value(personId),
-       sourceKind = Value(sourceKind),
-       sourceRef = Value(sourceRef),
-       extractor = Value(extractor),
-       status = Value(status),
-       digest = Value(digest),
-       createdAt = Value(createdAt);
-  static Insertable<ExtractionRow> custom({
-    Expression<int>? id,
-    Expression<int>? personId,
-    Expression<String>? sourceKind,
-    Expression<String>? sourceRef,
-    Expression<int>? reportId,
-    Expression<String>? extractor,
-    Expression<String>? status,
-    Expression<String>? reason,
-    Expression<String>? payload,
-    Expression<String>? digest,
-    Expression<int>? createdAt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (personId != null) 'person_id': personId,
-      if (sourceKind != null) 'source_kind': sourceKind,
-      if (sourceRef != null) 'source_ref': sourceRef,
-      if (reportId != null) 'report_id': reportId,
-      if (extractor != null) 'extractor': extractor,
-      if (status != null) 'status': status,
-      if (reason != null) 'reason': reason,
-      if (payload != null) 'payload': payload,
-      if (digest != null) 'digest': digest,
-      if (createdAt != null) 'created_at': createdAt,
-    });
-  }
-
-  ExtractionCompanion copyWith({
-    Value<int>? id,
-    Value<int>? personId,
-    Value<SourceKind>? sourceKind,
-    Value<String>? sourceRef,
-    Value<int?>? reportId,
-    Value<String>? extractor,
-    Value<ExtractionStatus>? status,
-    Value<String>? reason,
-    Value<String?>? payload,
-    Value<String>? digest,
-    Value<DateTime>? createdAt,
-  }) {
-    return ExtractionCompanion(
-      id: id ?? this.id,
-      personId: personId ?? this.personId,
-      sourceKind: sourceKind ?? this.sourceKind,
-      sourceRef: sourceRef ?? this.sourceRef,
-      reportId: reportId ?? this.reportId,
-      extractor: extractor ?? this.extractor,
-      status: status ?? this.status,
-      reason: reason ?? this.reason,
-      payload: payload ?? this.payload,
-      digest: digest ?? this.digest,
-      createdAt: createdAt ?? this.createdAt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (personId.present) {
-      map['person_id'] = Variable<int>(personId.value);
-    }
-    if (sourceKind.present) {
-      map['source_kind'] = Variable<String>(
-        Extraction.$convertersourceKind.toSql(sourceKind.value),
-      );
-    }
-    if (sourceRef.present) {
-      map['source_ref'] = Variable<String>(sourceRef.value);
-    }
-    if (reportId.present) {
-      map['report_id'] = Variable<int>(reportId.value);
-    }
-    if (extractor.present) {
-      map['extractor'] = Variable<String>(extractor.value);
-    }
-    if (status.present) {
-      map['status'] = Variable<String>(
-        Extraction.$converterstatus.toSql(status.value),
-      );
-    }
-    if (reason.present) {
-      map['reason'] = Variable<String>(reason.value);
-    }
-    if (payload.present) {
-      map['payload'] = Variable<String>(payload.value);
-    }
-    if (digest.present) {
-      map['digest'] = Variable<String>(digest.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<int>(
-        Extraction.$convertercreatedAt.toSql(createdAt.value),
-      );
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('ExtractionCompanion(')
-          ..write('id: $id, ')
-          ..write('personId: $personId, ')
-          ..write('sourceKind: $sourceKind, ')
-          ..write('sourceRef: $sourceRef, ')
-          ..write('reportId: $reportId, ')
-          ..write('extractor: $extractor, ')
-          ..write('status: $status, ')
-          ..write('reason: $reason, ')
-          ..write('payload: $payload, ')
-          ..write('digest: $digest, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-}
-
 abstract class _$TrackfitDatabase extends GeneratedDatabase {
   _$TrackfitDatabase(QueryExecutor e) : super(e);
   late final Person person = Person(this);
   late final Report report = Report(this);
+  late final Extraction extraction = Extraction(this);
+  late final Observation observation = Observation(this);
+  late final Index uqObservationIdentity = Index(
+    'uq_observation_identity',
+    'CREATE UNIQUE INDEX uq_observation_identity ON observation (person_id, name_key, observed_start, observed_end, source_ref, source_record_id, COALESCE(member_of, 0), COALESCE(amends, 0))',
+  );
+  late final Index idxObservationDay = Index(
+    'idx_observation_day',
+    'CREATE INDEX idx_observation_day ON observation (person_id, local_date)',
+  );
+  late final Index idxObservationStream = Index(
+    'idx_observation_stream',
+    'CREATE INDEX idx_observation_stream ON observation (person_id, stream_key, observed_start)',
+  );
+  late final Index idxObservationSource = Index(
+    'idx_observation_source',
+    'CREATE INDEX idx_observation_source ON observation (source_ref)',
+  );
+  late final Index idxObservationReport = Index(
+    'idx_observation_report',
+    'CREATE INDEX idx_observation_report ON observation (report_id) WHERE report_id IS NOT NULL',
+  );
+  late final Index idxObservationAmends = Index(
+    'idx_observation_amends',
+    'CREATE INDEX idx_observation_amends ON observation (amends) WHERE amends IS NOT NULL',
+  );
+  late final Index idxObservationCreated = Index(
+    'idx_observation_created',
+    'CREATE INDEX idx_observation_created ON observation (person_id, created_at)',
+  );
   late final SourceFile sourceFile = SourceFile(this);
   late final SourcePage sourcePage = SourcePage(this);
-  late final Extraction extraction = Extraction(this);
   late final Index idxExtractionReport = Index(
     'idx_extraction_report',
     'CREATE INDEX idx_extraction_report ON extraction (report_id)',
@@ -2889,14 +5498,29 @@ abstract class _$TrackfitDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     person,
     report,
+    extraction,
+    observation,
+    uqObservationIdentity,
+    idxObservationDay,
+    idxObservationStream,
+    idxObservationSource,
+    idxObservationReport,
+    idxObservationAmends,
+    idxObservationCreated,
     sourceFile,
     sourcePage,
-    extraction,
     idxExtractionReport,
     idxReportPersonDate,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'report',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('extraction', kind: UpdateKind.delete)],
+    ),
     WritePropagation(
       on: TableUpdateQuery.onTableName(
         'report',
@@ -2910,13 +5534,6 @@ abstract class _$TrackfitDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('source_page', kind: UpdateKind.delete)],
-    ),
-    WritePropagation(
-      on: TableUpdateQuery.onTableName(
-        'report',
-        limitUpdateKind: UpdateKind.delete,
-      ),
-      result: [TableUpdate('extraction', kind: UpdateKind.delete)],
     ),
   ]);
 }
