@@ -209,6 +209,8 @@ class _ValueDetailPageState extends ConsumerState<ValueDetailPage> {
     final reportId = reading.reportId;
     showModalBottomSheet<void>(
       context: context,
+      // Above the navigation bar of the shell, not inside the tab.
+      useRootNavigator: true,
       showDragHandle: true,
       builder: (sheetContext) => SafeArea(
         child: Padding(

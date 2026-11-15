@@ -15,6 +15,8 @@ import 'consent_flow.dart';
 Future<void> showImportSheet(BuildContext context, WidgetRef ref) =>
     showModalBottomSheet<void>(
       context: context,
+      // Above the navigation bar of the shell, not inside the tab.
+      useRootNavigator: true,
       showDragHandle: true,
       builder: (sheetContext) {
         final l10n = AppLocalizations.of(sheetContext);
