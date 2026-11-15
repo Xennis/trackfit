@@ -1,0 +1,49 @@
+import '../converters.dart';
+import 'person.drift';
+
+-- A lab report: one PDF, or several photos as the pages of one report.
+-- Recognition and review work on the report, not on a single file.
+CREATE TABLE report (
+    id          INTEGER NOT NULL PRIMARY KEY,
+    person_id   INTEGER NOT NULL REFERENCES person (id),
+    title       TEXT NOT NULL DEFAULT '',
+    -- Date printed on the report. NULL until known; never defaults to today.
+    report_date TEXT
+        CHECK (report_date IS NULL OR report_date GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'),
+    date_source TEXT NOT NULL DEFAULT '' MAPPED BY `dateSourceConverter`
+        CHECK (date_source IN ('', 'extracted', 'file-date', 'manual')),
+    lab_name    TEXT NOT NULL DEFAULT '',
+    status      TEXT NOT NULL DEFAULT 'pending' MAPPED BY `reportStatusConverter`
+        CHECK (status IN ('pending', 'ocr', 'extracting', 'review', 'done', 'failed')),
+    error       TEXT NOT NULL DEFAULT '',
+    created_at  INTEGER NOT NULL MAPPED BY `utcMillisConverter`,
+    deleted_at  INTEGER MAPPED BY `utcMillisConverter`,
+    CHECK (status <> 'failed' OR error <> ''),
+    CHECK ((report_date IS NULL) = (date_source = ''))
+) AS ReportRow;
+
+CREATE INDEX idx_report_person_date ON report (person_id, report_date);
+
+-- A file the person imported. The bytes are copied into the app directory
+-- and addressed by their SHA-256, so the same file is never imported twice.
+CREATE TABLE source_file (
+    id             INTEGER NOT NULL PRIMARY KEY,
+    person_id      INTEGER NOT NULL REFERENCES person (id),
+    report_id      INTEGER NOT NULL REFERENCES report (id) ON DELETE CASCADE,
+    -- Order of the file within its report, starting at 0.
+    position       INTEGER NOT NULL CHECK (position >= 0),
+    content_hash   TEXT NOT NULL CHECK (length(content_hash) = 64),
+    file_name      TEXT NOT NULL,
+    mime_type      TEXT NOT NULL,
+    byte_size      INTEGER NOT NULL CHECK (byte_size >= 0),
+    -- Path relative to the app data directory.
+    stored_path    TEXT NOT NULL,
+    kind           TEXT NOT NULL MAPPED BY `fileKindConverter`
+        CHECK (kind IN ('pdf', 'image', 'other')),
+    import_channel TEXT NOT NULL MAPPED BY `importChannelConverter`
+        CHECK (import_channel IN ('file-picker', 'drag-drop', 'camera', 'gallery', 'share')),
+    page_count     INTEGER CHECK (page_count IS NULL OR page_count > 0),
+    imported_at    INTEGER NOT NULL MAPPED BY `utcMillisConverter`,
+    UNIQUE (person_id, content_hash),
+    UNIQUE (report_id, position)
+) AS SourceFileRow;
