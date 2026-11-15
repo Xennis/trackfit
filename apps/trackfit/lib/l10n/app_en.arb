@@ -161,5 +161,8 @@
   "reportTextRendered": "Formatted",
   "reportTextRaw": "Raw text",
   "reportCopyPage": "Copy page",
-  "reportCopied": "Copied"
+  "reportCopied": "Copied",
+  "reportDateMissing": "The report date is missing. Values appear in the history once it is set.",
+  "reportSetDate": "Set date",
+  "reportChangeDate": "Change report date"
 }

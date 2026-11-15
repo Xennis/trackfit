@@ -143,4 +143,42 @@ void main() {
 
     expect((await reports.getReport(reportId))!.status, ReportStatus.pending);
   });
+  testWidgets('asks for the date of a report without one', (tester) async {
+    final db = memoryDatabase();
+    addTearDown(db.close);
+    final reports = ReportRepository(db);
+    final personId = await PersonRepository(
+      db,
+    ).ensureDefaultPerson(defaultTz: 'UTC', now: DateTime.utc(2026));
+    final reportId = await reports.createReport(
+      personId: personId,
+      files: [
+        NewSourceFile(
+          contentHash: 'd' * 64,
+          fileName: 'befund.pdf',
+          mimeType: 'application/pdf',
+          byteSize: 1,
+          storedPath: 'files/missing.pdf',
+          kind: FileKind.pdf,
+          importChannel: ImportChannel.filePicker,
+        ),
+      ],
+      now: DateTime.utc(2026, 11, 15),
+    );
+    await reports.setStatus(reportId, ReportStatus.review);
+
+    await tester.pumpWidget(
+      ProviderScope(overrides: testOverrides(db), child: const TrackfitApp()),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Reports'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('New report'));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('The report date is missing'), findsOneWidget);
+    await tester.tap(find.text('Set date'));
+    await tester.pumpAndSettle();
+    expect(find.byType(DatePickerDialog), findsOneWidget);
+  });
 }

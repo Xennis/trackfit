@@ -601,6 +601,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copied'**
   String get reportCopied;
+
+  /// No description provided for @reportDateMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'The report date is missing. Values appear in the history once it is set.'**
+  String get reportDateMissing;
+
+  /// No description provided for @reportSetDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Set date'**
+  String get reportSetDate;
+
+  /// No description provided for @reportChangeDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Change report date'**
+  String get reportChangeDate;
 }
 
 class _AppLocalizationsDelegate

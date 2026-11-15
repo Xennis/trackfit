@@ -8,6 +8,7 @@ import '../../app/router.dart';
 import '../../application/recognition_settings.dart';
 import '../../data/database_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'report_date_picker.dart';
 import 'report_labels.dart';
 
 /// State of the recognition of a report, with the next action if any.
@@ -56,6 +57,19 @@ class ProcessingBanner extends ConsumerWidget {
         ),
         content: Text(reportStatusLabel(l10n, status)),
         actions: const [SizedBox.shrink()],
+      );
+    }
+    if (report.reportDate == null &&
+        (status == ReportStatus.review || status == ReportStatus.done)) {
+      return MaterialBanner(
+        leading: const Icon(Icons.event_outlined),
+        content: Text(l10n.reportDateMissing),
+        actions: [
+          TextButton(
+            onPressed: () => pickReportDate(context, ref, report),
+            child: Text(l10n.reportSetDate),
+          ),
+        ],
       );
     }
     return const SizedBox.shrink();

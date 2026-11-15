@@ -83,5 +83,8 @@
   "reportTextRendered": "Formatiert",
   "reportTextRaw": "Rohtext",
   "reportCopyPage": "Seite kopieren",
-  "reportCopied": "Kopiert"
+  "reportCopied": "Kopiert",
+  "reportDateMissing": "Das Befunddatum fehlt. Die Werte erscheinen im Verlauf, sobald es gesetzt ist.",
+  "reportSetDate": "Datum wählen",
+  "reportChangeDate": "Befunddatum ändern"
 }

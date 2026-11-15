@@ -309,4 +309,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportCopied => 'Copied';
+
+  @override
+  String get reportDateMissing =>
+      'The report date is missing. Values appear in the history once it is set.';
+
+  @override
+  String get reportSetDate => 'Set date';
+
+  @override
+  String get reportChangeDate => 'Change report date';
 }

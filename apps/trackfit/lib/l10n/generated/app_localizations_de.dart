@@ -313,4 +313,14 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get reportCopied => 'Kopiert';
+
+  @override
+  String get reportDateMissing =>
+      'Das Befunddatum fehlt. Die Werte erscheinen im Verlauf, sobald es gesetzt ist.';
+
+  @override
+  String get reportSetDate => 'Datum wählen';
+
+  @override
+  String get reportChangeDate => 'Befunddatum ändern';
 }

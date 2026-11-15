@@ -11,6 +11,7 @@ import '../common/empty_state.dart';
 import 'delete_report_dialog.dart';
 import 'original_view.dart';
 import 'processing_banner.dart';
+import 'report_date_picker.dart';
 import 'report_labels.dart';
 import 'report_providers.dart';
 import 'text_view.dart';
@@ -41,9 +42,15 @@ class ReportDetailPage extends ConsumerWidget {
           actions: [
             PopupMenuButton<_Action>(
               onSelected: (action) => switch (action) {
+                _Action.changeDate =>
+                  report == null ? null : pickReportDate(context, ref, report),
                 _Action.delete => _delete(context, ref),
               },
               itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: _Action.changeDate,
+                  child: Text(l10n.reportChangeDate),
+                ),
                 PopupMenuItem(
                   value: _Action.delete,
                   child: Text(l10n.reportDelete),
@@ -105,4 +112,4 @@ class ReportDetailPage extends ConsumerWidget {
   }
 }
 
-enum _Action { delete }
+enum _Action { changeDate, delete }
