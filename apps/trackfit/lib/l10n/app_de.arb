@@ -47,5 +47,12 @@
   "reportValuesEmpty": "Werte erscheinen hier, sobald sie ausgelesen sind.",
   "reportNotFound": "Dieser Befund existiert nicht mehr.",
   "reportFileMissing": "Die Datei fehlt.",
-  "reportFileLabel": "Datei {number}"
+  "reportFileLabel": "Datei {number}",
+  "reportDelete": "Befund löschen",
+  "reportDeleteTitle": "Diesen Befund löschen?",
+  "reportDeleteBody": "Die importierten Dateien werden von diesem Gerät entfernt.",
+  "reportDeleteValues": "Auch die daraus gelesenen Werte löschen",
+  "cancel": "Abbrechen",
+  "delete": "Löschen",
+  "reportDeleted": "Befund gelöscht"
 }

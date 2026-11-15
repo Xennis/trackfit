@@ -385,6 +385,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'File {number}'**
   String reportFileLabel(int number);
+
+  /// No description provided for @reportDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete report'**
+  String get reportDelete;
+
+  /// No description provided for @reportDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this report?'**
+  String get reportDeleteTitle;
+
+  /// No description provided for @reportDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The imported files are removed from this device.'**
+  String get reportDeleteBody;
+
+  /// No description provided for @reportDeleteValues.
+  ///
+  /// In en, this message translates to:
+  /// **'Also delete the values read from it'**
+  String get reportDeleteValues;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @reportDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Report deleted'**
+  String get reportDeleted;
 }
 
 class _AppLocalizationsDelegate

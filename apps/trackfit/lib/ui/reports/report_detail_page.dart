@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../app/router.dart';
+import '../../application/delete_report.dart';
+import '../../data/database_providers.dart';
 
 import '../../l10n/generated/app_localizations.dart';
 import '../common/empty_state.dart';
+import 'delete_report_dialog.dart';
 import 'original_view.dart';
 import 'report_labels.dart';
 import 'report_providers.dart';
@@ -30,6 +36,19 @@ class ReportDetailPage extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(report == null ? '' : reportTitle(context, report)),
+          actions: [
+            PopupMenuButton<_Action>(
+              onSelected: (action) => switch (action) {
+                _Action.delete => _delete(context, ref),
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: _Action.delete,
+                  child: Text(l10n.reportDelete),
+                ),
+              ],
+            ),
+          ],
           bottom: TabBar(
             tabs: [
               Tab(text: l10n.reportTabOriginal),
@@ -57,4 +76,28 @@ class ReportDetailPage extends ConsumerWidget {
       ),
     );
   }
+
+  Future<void> _delete(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final summaries = ref.read(reportSummariesProvider).value ?? const [];
+    final valueCount = summaries
+        .where((s) => s.r.id == reportId)
+        .fold(0, (sum, s) => sum + s.valueCount);
+    final deleteValues = await showDeleteReportDialog(
+      context,
+      hasValues: valueCount > 0,
+    );
+    if (deleteValues == null || !context.mounted) return;
+    context.go(Routes.reports);
+    await deleteReport(
+      reports: ref.read(reportRepositoryProvider),
+      fileStore: await ref.read(fileStoreProvider.future),
+      reportId: reportId,
+      deleteValues: deleteValues,
+    );
+    messenger.showSnackBar(SnackBar(content: Text(l10n.reportDeleted)));
+  }
 }
+
+enum _Action { delete }

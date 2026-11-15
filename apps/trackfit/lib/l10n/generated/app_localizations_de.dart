@@ -194,4 +194,26 @@ class AppLocalizationsDe extends AppLocalizations {
   String reportFileLabel(int number) {
     return 'Datei $number';
   }
+
+  @override
+  String get reportDelete => 'Befund löschen';
+
+  @override
+  String get reportDeleteTitle => 'Diesen Befund löschen?';
+
+  @override
+  String get reportDeleteBody =>
+      'Die importierten Dateien werden von diesem Gerät entfernt.';
+
+  @override
+  String get reportDeleteValues => 'Auch die daraus gelesenen Werte löschen';
+
+  @override
+  String get cancel => 'Abbrechen';
+
+  @override
+  String get delete => 'Löschen';
+
+  @override
+  String get reportDeleted => 'Befund gelöscht';
 }

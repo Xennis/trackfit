@@ -111,5 +111,12 @@
         "type": "int"
       }
     }
-  }
+  },
+  "reportDelete": "Delete report",
+  "reportDeleteTitle": "Delete this report?",
+  "reportDeleteBody": "The imported files are removed from this device.",
+  "reportDeleteValues": "Also delete the values read from it",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "reportDeleted": "Report deleted"
 }
