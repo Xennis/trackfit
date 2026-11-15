@@ -26,6 +26,7 @@ class _RecognitionSettingsPageState
 
   Future<void> _saveKey(String message) async {
     final messenger = ScaffoldMessenger.of(context);
+    FocusScope.of(context).unfocus();
     await ref
         .read(recognitionSettingsProvider.notifier)
         .setApiKey(_keyController.text);
