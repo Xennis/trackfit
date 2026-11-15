@@ -349,5 +349,14 @@
       }
     }
   },
-  "categoryInfection": "Infections"
+  "categoryInfection": "Infections",
+  "questionNotAValue": "Not a value – hide",
+  "questionHidden": "{count, plural, =1{1 entry hidden} other{{count} entries hidden}}",
+  "@questionHidden": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

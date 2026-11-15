@@ -177,5 +177,7 @@
   "backupFailed": "Sicherung fehlgeschlagen",
   "reportStatusNeedsSetup": "Wartet auf Einrichtung der Erkennung",
   "overviewNeedsSetup": "{count, plural, =1{1 Befund wartet auf die Einrichtung der Erkennung} other{{count} Befunde warten auf die Einrichtung der Erkennung}}",
-  "categoryInfection": "Infektionen"
+  "categoryInfection": "Infektionen",
+  "questionNotAValue": "Kein Messwert – ausblenden",
+  "questionHidden": "{count, plural, =1{1 Eintrag ausgeblendet} other{{count} Einträge ausgeblendet}}"
 }

@@ -62,4 +62,38 @@ void main() {
     expect(find.text('1 value assigned'), findsOneWidget);
     expect(find.text('No open questions.'), findsOneWidget);
   });
+  testWidgets('hides an entry that is not a value', (tester) async {
+    final db = memoryDatabase();
+    addTearDown(db.close);
+    final lexical = LexicalCoder(seedTerminology());
+    await seedReport(
+      db,
+      reportDate: '2025-03-14',
+      coder: lexical,
+      drafts: const [
+        ObservationDraft(name: 'Spendeinformation', value: 'siehe Rückseite'),
+      ],
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: testOverrides(db, coder: lexical),
+        child: const TrackfitApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Values'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.help_outline));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Not a value – hide'));
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+    await tester.pumpAndSettle();
+
+    expect(find.text('1 entry hidden'), findsOneWidget);
+    expect(find.text('No open questions.'), findsOneWidget);
+    expect(await db.select(db.vObservation).get(), isEmpty);
+    expect(await db.select(db.observation).get(), hasLength(2));
+  });
 }

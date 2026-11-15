@@ -672,4 +672,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get categoryInfection => 'Infektionen';
+
+  @override
+  String get questionNotAValue => 'Kein Messwert – ausblenden';
+
+  @override
+  String questionHidden(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Einträge ausgeblendet',
+      one: '1 Eintrag ausgeblendet',
+    );
+    return '$_temp0';
+  }
 }

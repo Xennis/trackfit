@@ -80,6 +80,21 @@ class QuestionCard extends ConsumerWidget {
     );
   }
 
+  /// Hides all readings of the question, e.g. an information line the
+  /// recognition took for a value. Nothing is deleted: the readings are
+  /// marked as entered in error and the originals stay stored.
+  Future<void> _hide(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final corrections = await ref.read(readingCorrectionsProvider.future);
+    for (final reading in question.readings) {
+      await corrections.retract(reading.id);
+    }
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.questionHidden(question.readings.length))),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
@@ -124,6 +139,10 @@ class QuestionCard extends ConsumerWidget {
                     child: Text(l10n.questionNotStandard),
                   ),
                 ],
+                TextButton(
+                  onPressed: () => _hide(context, ref),
+                  child: Text(l10n.questionNotAValue),
+                ),
               ],
             ),
           ],

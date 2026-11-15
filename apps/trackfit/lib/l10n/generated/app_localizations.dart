@@ -1165,6 +1165,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Infections'**
   String get categoryInfection;
+
+  /// No description provided for @questionNotAValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a value – hide'**
+  String get questionNotAValue;
+
+  /// No description provided for @questionHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 entry hidden} other{{count} entries hidden}}'**
+  String questionHidden(int count);
 }
 
 class _AppLocalizationsDelegate
