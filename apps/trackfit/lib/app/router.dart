@@ -22,6 +22,9 @@ abstract final class Routes {
   static const about = '$more/about';
 
   static String report(int id) => '$reports/$id';
+
+  static String value(String seriesKey) =>
+      '$values/${Uri.encodeComponent(seriesKey)}';
 }
 
 final routerProvider = Provider<GoRouter>((ref) {

@@ -1,20 +1,164 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../app/router.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../charts/sparkline.dart';
 import '../common/empty_state.dart';
+import 'series_view_model.dart';
+import 'value_format.dart';
+import 'values_providers.dart';
 
-class ValuesPage extends StatelessWidget {
+enum _Filter { all, abnormal, open }
+
+/// All measured values, grouped by category, with their latest value.
+class ValuesPage extends ConsumerStatefulWidget {
   const ValuesPage({super.key});
+
+  @override
+  ConsumerState<ValuesPage> createState() => _ValuesPageState();
+}
+
+class _ValuesPageState extends ConsumerState<ValuesPage> {
+  _Filter _filter = _Filter.all;
+  String _query = '';
+
+  bool _matches(SeriesView series) {
+    final query = _query.trim().toLowerCase();
+    if (query.isNotEmpty &&
+        !series.name.toLowerCase().contains(query) &&
+        !series.latest.nameText.toLowerCase().contains(query)) {
+      return false;
+    }
+    return switch (_filter) {
+      _Filter.all => true,
+      _Filter.abnormal => series.isAbnormal,
+      _Filter.open => series.isOpen,
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final all = ref.watch(seriesListProvider);
     return Scaffold(
       appBar: AppBar(title: Text(l10n.navValues)),
-      body: EmptyState(
-        icon: Icons.show_chart_outlined,
-        title: l10n.valuesEmptyTitle,
-        body: l10n.valuesEmptyBody,
+      body: switch (all) {
+        AsyncData(value: final list) when list.isEmpty => EmptyState(
+          icon: Icons.show_chart_outlined,
+          title: l10n.valuesEmptyTitle,
+          body: l10n.valuesEmptyBody,
+        ),
+        AsyncData(value: final list) => _buildList(context, list),
+        AsyncError() => Center(child: Text(l10n.loadFailed)),
+        _ => const Center(child: CircularProgressIndicator()),
+      },
+    );
+  }
+
+  Widget _buildList(BuildContext context, List<SeriesView> list) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final byCategory = <String, List<SeriesView>>{};
+    for (final series in list.where(_matches)) {
+      final category = categoryOrder.contains(series.category)
+          ? series.category
+          : '';
+      byCategory.putIfAbsent(category, () => []).add(series);
+    }
+    final categories = [
+      ...categoryOrder.where(byCategory.containsKey),
+      if (byCategory.containsKey('')) '',
+    ];
+    return ListView(
+      padding: const EdgeInsets.only(bottom: 32),
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          child: TextField(
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.search),
+              hintText: l10n.navValues,
+              border: const OutlineInputBorder(),
+              isDense: true,
+            ),
+            onChanged: (value) => setState(() => _query = value),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          child: Wrap(
+            spacing: 8,
+            children: [
+              for (final (filter, label) in [
+                (_Filter.all, l10n.valuesFilterAll),
+                (_Filter.abnormal, l10n.valuesFilterAbnormal),
+                (_Filter.open, l10n.valuesFilterOpen),
+              ])
+                ChoiceChip(
+                  label: Text(label),
+                  selected: _filter == filter,
+                  onSelected: (_) => setState(() => _filter = filter),
+                ),
+            ],
+          ),
+        ),
+        for (final category in categories) ...[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+            child: Text(
+              categoryLabel(l10n, category),
+              style: theme.textTheme.titleSmall?.copyWith(
+                color: theme.colorScheme.primary,
+              ),
+            ),
+          ),
+          for (final series in byCategory[category]!)
+            SeriesTile(series: series),
+        ],
+      ],
+    );
+  }
+}
+
+/// One value in the list: name, latest value, trend.
+class SeriesTile extends StatelessWidget {
+  const SeriesTile({required this.series, super.key});
+
+  final SeriesView series;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final latest = series.latest;
+    return ListTile(
+      title: Text(series.name),
+      subtitle: Text(
+        [
+          l10n.valueMeasurements(series.summary.readingCount),
+          if (series.isOpen) l10n.valueOpenQuestion,
+        ].join(' · '),
+      ),
+      onTap: () => context.go(Routes.value(series.summary.key)),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Sparkline(
+            values: [for (final p in series.points) p.value],
+            highlightLast: series.isAbnormal,
+          ),
+          const SizedBox(width: 12),
+          Text(
+            formatPrintedValue(latest),
+            style: theme.textTheme.bodyLarge?.copyWith(
+              fontFeatures: const [FontFeature.tabularFigures()],
+            ),
+          ),
+          const SizedBox(width: 4),
+          FlagMark(latest.flag),
+        ],
       ),
     );
   }

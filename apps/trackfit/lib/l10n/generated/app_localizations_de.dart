@@ -373,4 +373,95 @@ class AppLocalizationsDe extends AppLocalizations {
   String aboutTerminology(String release) {
     return 'Terminologie: $release';
   }
+
+  @override
+  String get categoryBloodCount => 'Blutbild';
+
+  @override
+  String get categoryIron => 'Eisenstoffwechsel';
+
+  @override
+  String get categoryLiver => 'Leber';
+
+  @override
+  String get categoryKidney => 'Niere';
+
+  @override
+  String get categoryLipids => 'Blutfette';
+
+  @override
+  String get categoryMetabolism => 'Stoffwechsel';
+
+  @override
+  String get categoryThyroid => 'Schilddrüse';
+
+  @override
+  String get categoryVitamins => 'Vitamine';
+
+  @override
+  String get categoryElectrolytes => 'Elektrolyte';
+
+  @override
+  String get categoryInflammation => 'Entzündung';
+
+  @override
+  String get categoryOther => 'Sonstige';
+
+  @override
+  String get valuesFilterAll => 'Alle';
+
+  @override
+  String get valuesFilterAbnormal => 'Auffällig';
+
+  @override
+  String get valuesFilterOpen => 'Offen';
+
+  @override
+  String valueMeasurements(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Messungen',
+      one: '1 Messung',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get valueHistory => 'Messungen';
+
+  @override
+  String get valueAbout => 'Über diesen Wert';
+
+  @override
+  String valueLatestOn(String date) {
+    return 'am $date';
+  }
+
+  @override
+  String get valueRange1y => '1 Jahr';
+
+  @override
+  String get valueRange3y => '3 Jahre';
+
+  @override
+  String get valueRangeAll => 'Alle';
+
+  @override
+  String get valueOpenReport => 'Befund öffnen';
+
+  @override
+  String valueCode(String code) {
+    return 'LOINC $code';
+  }
+
+  @override
+  String get valueNotFound => 'Für diesen Wert gibt es keine Messungen.';
+
+  @override
+  String get valueUnit => 'Einheit';
+
+  @override
+  String get valueNoChart =>
+      'Für einen Graphen braucht es Zahlen; dieser Wert ist nicht numerisch.';
 }

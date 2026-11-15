@@ -703,6 +703,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Terminology: {release}'**
   String aboutTerminology(String release);
+
+  /// No description provided for @categoryBloodCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood count'**
+  String get categoryBloodCount;
+
+  /// No description provided for @categoryIron.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron metabolism'**
+  String get categoryIron;
+
+  /// No description provided for @categoryLiver.
+  ///
+  /// In en, this message translates to:
+  /// **'Liver'**
+  String get categoryLiver;
+
+  /// No description provided for @categoryKidney.
+  ///
+  /// In en, this message translates to:
+  /// **'Kidney'**
+  String get categoryKidney;
+
+  /// No description provided for @categoryLipids.
+  ///
+  /// In en, this message translates to:
+  /// **'Lipids'**
+  String get categoryLipids;
+
+  /// No description provided for @categoryMetabolism.
+  ///
+  /// In en, this message translates to:
+  /// **'Metabolism'**
+  String get categoryMetabolism;
+
+  /// No description provided for @categoryThyroid.
+  ///
+  /// In en, this message translates to:
+  /// **'Thyroid'**
+  String get categoryThyroid;
+
+  /// No description provided for @categoryVitamins.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitamins'**
+  String get categoryVitamins;
+
+  /// No description provided for @categoryElectrolytes.
+  ///
+  /// In en, this message translates to:
+  /// **'Electrolytes'**
+  String get categoryElectrolytes;
+
+  /// No description provided for @categoryInflammation.
+  ///
+  /// In en, this message translates to:
+  /// **'Inflammation'**
+  String get categoryInflammation;
+
+  /// No description provided for @categoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get categoryOther;
+
+  /// No description provided for @valuesFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get valuesFilterAll;
+
+  /// No description provided for @valuesFilterAbnormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Abnormal'**
+  String get valuesFilterAbnormal;
+
+  /// No description provided for @valuesFilterOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get valuesFilterOpen;
+
+  /// No description provided for @valueMeasurements.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 measurement} other{{count} measurements}}'**
+  String valueMeasurements(int count);
+
+  /// No description provided for @valueHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Measurements'**
+  String get valueHistory;
+
+  /// No description provided for @valueAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About this value'**
+  String get valueAbout;
+
+  /// No description provided for @valueLatestOn.
+  ///
+  /// In en, this message translates to:
+  /// **'on {date}'**
+  String valueLatestOn(String date);
+
+  /// No description provided for @valueRange1y.
+  ///
+  /// In en, this message translates to:
+  /// **'1 year'**
+  String get valueRange1y;
+
+  /// No description provided for @valueRange3y.
+  ///
+  /// In en, this message translates to:
+  /// **'3 years'**
+  String get valueRange3y;
+
+  /// No description provided for @valueRangeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get valueRangeAll;
+
+  /// No description provided for @valueOpenReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Open report'**
+  String get valueOpenReport;
+
+  /// No description provided for @valueCode.
+  ///
+  /// In en, this message translates to:
+  /// **'LOINC {code}'**
+  String valueCode(String code);
+
+  /// No description provided for @valueNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This value has no measurements.'**
+  String get valueNotFound;
+
+  /// No description provided for @valueUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get valueUnit;
+
+  /// No description provided for @valueNoChart.
+  ///
+  /// In en, this message translates to:
+  /// **'A chart needs numbers; this value is not numeric.'**
+  String get valueNoChart;
 }
 
 class _AppLocalizationsDelegate

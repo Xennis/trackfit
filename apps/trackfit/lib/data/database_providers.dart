@@ -59,3 +59,7 @@ final pageRepositoryProvider = Provider<PageRepository>(
 final observationRepositoryProvider = Provider<ObservationRepository>(
   (ref) => ObservationRepository(ref.watch(databaseProvider)),
 );
+
+final seriesRepositoryProvider = Provider<SeriesRepository>(
+  (ref) => SeriesRepository(ref.watch(databaseProvider)),
+);

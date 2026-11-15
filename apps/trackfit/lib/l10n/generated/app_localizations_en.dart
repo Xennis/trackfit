@@ -369,4 +369,95 @@ class AppLocalizationsEn extends AppLocalizations {
   String aboutTerminology(String release) {
     return 'Terminology: $release';
   }
+
+  @override
+  String get categoryBloodCount => 'Blood count';
+
+  @override
+  String get categoryIron => 'Iron metabolism';
+
+  @override
+  String get categoryLiver => 'Liver';
+
+  @override
+  String get categoryKidney => 'Kidney';
+
+  @override
+  String get categoryLipids => 'Lipids';
+
+  @override
+  String get categoryMetabolism => 'Metabolism';
+
+  @override
+  String get categoryThyroid => 'Thyroid';
+
+  @override
+  String get categoryVitamins => 'Vitamins';
+
+  @override
+  String get categoryElectrolytes => 'Electrolytes';
+
+  @override
+  String get categoryInflammation => 'Inflammation';
+
+  @override
+  String get categoryOther => 'Other';
+
+  @override
+  String get valuesFilterAll => 'All';
+
+  @override
+  String get valuesFilterAbnormal => 'Abnormal';
+
+  @override
+  String get valuesFilterOpen => 'Open';
+
+  @override
+  String valueMeasurements(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count measurements',
+      one: '1 measurement',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get valueHistory => 'Measurements';
+
+  @override
+  String get valueAbout => 'About this value';
+
+  @override
+  String valueLatestOn(String date) {
+    return 'on $date';
+  }
+
+  @override
+  String get valueRange1y => '1 year';
+
+  @override
+  String get valueRange3y => '3 years';
+
+  @override
+  String get valueRangeAll => 'All';
+
+  @override
+  String get valueOpenReport => 'Open report';
+
+  @override
+  String valueCode(String code) {
+    return 'LOINC $code';
+  }
+
+  @override
+  String get valueNotFound => 'This value has no measurements.';
+
+  @override
+  String get valueUnit => 'Unit';
+
+  @override
+  String get valueNoChart =>
+      'A chart needs numbers; this value is not numeric.';
 }

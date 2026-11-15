@@ -199,5 +199,52 @@
         "type": "String"
       }
     }
-  }
+  },
+  "categoryBloodCount": "Blood count",
+  "categoryIron": "Iron metabolism",
+  "categoryLiver": "Liver",
+  "categoryKidney": "Kidney",
+  "categoryLipids": "Lipids",
+  "categoryMetabolism": "Metabolism",
+  "categoryThyroid": "Thyroid",
+  "categoryVitamins": "Vitamins",
+  "categoryElectrolytes": "Electrolytes",
+  "categoryInflammation": "Inflammation",
+  "categoryOther": "Other",
+  "valuesFilterAll": "All",
+  "valuesFilterAbnormal": "Abnormal",
+  "valuesFilterOpen": "Open",
+  "valueMeasurements": "{count, plural, =1{1 measurement} other{{count} measurements}}",
+  "@valueMeasurements": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "valueHistory": "Measurements",
+  "valueAbout": "About this value",
+  "valueLatestOn": "on {date}",
+  "@valueLatestOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "valueRange1y": "1 year",
+  "valueRange3y": "3 years",
+  "valueRangeAll": "All",
+  "valueOpenReport": "Open report",
+  "valueCode": "LOINC {code}",
+  "@valueCode": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "valueNotFound": "This value has no measurements.",
+  "valueUnit": "Unit",
+  "valueNoChart": "A chart needs numbers; this value is not numeric."
 }
