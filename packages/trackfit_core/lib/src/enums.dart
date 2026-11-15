@@ -195,3 +195,96 @@ enum ImportChannel implements WireEnum {
   @override
   final String wire;
 }
+
+/// Outcome of reading a source into drafts.
+enum ExtractionStatus implements WireEnum {
+  ok('ok'),
+  failed('failed'),
+
+  /// Read, but the result could not be checked, e.g. a malformed answer.
+  unverified('unverified');
+
+  const ExtractionStatus(this.wire);
+
+  @override
+  final String wire;
+}
+
+/// How the time zone of an observation is known.
+enum TzSource implements WireEnum {
+  /// A named zone such as `Europe/Berlin`.
+  iana('iana'),
+
+  /// Only an offset such as `+01:00`.
+  offsetOnly('offset-only'),
+
+  /// A local time without any zone.
+  floating('floating'),
+
+  /// The zone of the person was assumed.
+  userDefault('user-default');
+
+  const TzSource(this.wire);
+
+  @override
+  final String wire;
+}
+
+/// Descriptive statistic of a window or day observation.
+enum Stat implements WireEnum {
+  none(''),
+  average('average'),
+  minimum('minimum'),
+  maximum('maximum'),
+  sum('sum'),
+  count('count'),
+  last('last');
+
+  const Stat(this.wire);
+
+  @override
+  final String wire;
+}
+
+/// Normalized abnormal flag of a reading.
+enum Flag implements WireEnum {
+  none(''),
+  low('low'),
+  high('high'),
+  criticalLow('critical-low'),
+  criticalHigh('critical-high'),
+  abnormal('abnormal');
+
+  const Flag(this.wire);
+
+  @override
+  final String wire;
+}
+
+/// Why an observation was (re)coded.
+enum CodingCause implements WireEnum {
+  ingest('ingest'),
+  amend('amend'),
+  correct('correct'),
+  recodeRelease('recode-release'),
+  recodeRules('recode-rules'),
+  recodeAlias('recode-alias');
+
+  const CodingCause(this.wire);
+
+  @override
+  final String wire;
+}
+
+/// Sex of a person, used for sex specific reference ranges.
+enum Sex implements WireEnum {
+  unknown('unknown'),
+  female('female'),
+  male('male'),
+  other('other');
+
+  const Sex(this.wire);
+
+  @override
+  final String wire;
+}

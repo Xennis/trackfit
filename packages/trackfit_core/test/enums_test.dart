@@ -16,6 +16,12 @@ void main() {
     DateSource.values,
     FileKind.values,
     ImportChannel.values,
+    ExtractionStatus.values,
+    TzSource.values,
+    Stat.values,
+    Flag.values,
+    CodingCause.values,
+    Sex.values,
   ];
 
   test('wire values are unique within each enum', () {
