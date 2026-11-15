@@ -12,6 +12,7 @@ import '../platform/ocr/mistral_ocr.dart';
 import '../platform/ocr/ocr.dart';
 import '../platform/terminology/terminology_loader.dart';
 import 'processing_queue.dart';
+import 'reading_corrections.dart';
 import 'recognition_settings.dart';
 import 'report_extraction.dart';
 import 'report_processor.dart';
@@ -80,3 +81,11 @@ final processingQueueProvider = Provider<ProcessingQueue>((ref) {
   ref.onDispose(queue.dispose);
   return queue;
 });
+
+/// Corrections a person makes to readings.
+final readingCorrectionsProvider = FutureProvider<ReadingCorrections>(
+  (ref) async => ReadingCorrections(
+    db: ref.watch(databaseProvider),
+    coder: await ref.watch(coderProvider.future),
+  ),
+);

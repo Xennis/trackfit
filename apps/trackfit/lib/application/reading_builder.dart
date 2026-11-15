@@ -38,6 +38,7 @@ NewObservation buildLabReading(
   ReadingSource source, {
   required int rowIx,
   required String terminologyRelease,
+  String? recordId,
 }) {
   final draft = reading.draft;
   final day = DateTime.parse('${source.reportDate}T00:00:00Z');
@@ -71,7 +72,7 @@ NewObservation buildLabReading(
       modality: source.modality,
       sourceKind: SourceKind.file,
       sourceRef: sourceRef,
-      sourceRecordId: Value('row:$rowIx'),
+      sourceRecordId: Value(recordId ?? 'row:$rowIx'),
       extractionId: Value(source.extractionId),
       reportId: Value(source.reportId),
       pageIx: Value(
