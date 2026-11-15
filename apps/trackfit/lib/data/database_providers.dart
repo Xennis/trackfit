@@ -51,3 +51,7 @@ final fileStoreProvider = FutureProvider<FileStore>(
 final reportRepositoryProvider = Provider<ReportRepository>(
   (ref) => ReportRepository(ref.watch(databaseProvider)),
 );
+
+final pageRepositoryProvider = Provider<PageRepository>(
+  (ref) => PageRepository(ref.watch(databaseProvider)),
+);

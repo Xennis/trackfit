@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/misc.dart';
 import 'package:trackfit/application/recognition_settings.dart';
 import 'package:trackfit/data/database_providers.dart';
 import 'package:trackfit/data/secret_store.dart';
+import 'package:trackfit/platform/ocr/ocr.dart';
 import 'package:trackfit_db/trackfit_db.dart';
 
 /// A fresh in-memory database.
@@ -43,3 +44,23 @@ List<Override> testOverrides(TrackfitDatabase db, {SecretStore? secrets}) => [
 final Uint8List tinyPng = base64Decode(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
 );
+
+/// OCR that answers with fixed pages, or fails while [failWith] is set.
+class FakeOcr implements Ocr {
+  FakeOcr({this.pages = const [OcrPage(index: 0, markdown: '# Page')]});
+
+  final List<OcrPage> pages;
+  OcrException? failWith;
+  final List<OcrDocument> received = [];
+
+  @override
+  String get origin => 'ocr:fake';
+
+  @override
+  Future<List<OcrPage>> read(OcrDocument document) async {
+    received.add(document);
+    final failure = failWith;
+    if (failure != null) throw failure;
+    return pages;
+  }
+}
