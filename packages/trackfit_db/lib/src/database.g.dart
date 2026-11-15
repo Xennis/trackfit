@@ -1769,15 +1769,1119 @@ class SourceFileCompanion extends UpdateCompanion<SourceFileRow> {
   }
 }
 
+class SourcePage extends Table with TableInfo<SourcePage, SourcePageRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  SourcePage(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _sourceFileIdMeta = const VerificationMeta(
+    'sourceFileId',
+  );
+  late final GeneratedColumn<int> sourceFileId = GeneratedColumn<int>(
+    'source_file_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL REFERENCES source_file(id)ON DELETE CASCADE',
+  );
+  static const VerificationMeta _pageIxMeta = const VerificationMeta('pageIx');
+  late final GeneratedColumn<int> pageIx = GeneratedColumn<int>(
+    'page_ix',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL CHECK (page_ix >= 0)',
+  );
+  static const VerificationMeta _textOriginMeta = const VerificationMeta(
+    'textOrigin',
+  );
+  late final GeneratedColumn<String> textOrigin = GeneratedColumn<String>(
+    'text_origin',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL CHECK (text_origin <> \'\')',
+  );
+  static const VerificationMeta _markdownMeta = const VerificationMeta(
+    'markdown',
+  );
+  late final GeneratedColumn<String> markdown = GeneratedColumn<String>(
+    'markdown',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _tablesHtmlMeta = const VerificationMeta(
+    'tablesHtml',
+  );
+  late final GeneratedColumn<String> tablesHtml = GeneratedColumn<String>(
+    'tables_html',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  late final GeneratedColumnWithTypeConverter<DateTime, int> createdAt =
+      GeneratedColumn<int>(
+        'created_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+        $customConstraints: 'NOT NULL',
+      ).withConverter<DateTime>(SourcePage.$convertercreatedAt);
+  @override
+  List<GeneratedColumn> get $columns => [
+    sourceFileId,
+    pageIx,
+    textOrigin,
+    markdown,
+    tablesHtml,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'source_page';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SourcePageRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('source_file_id')) {
+      context.handle(
+        _sourceFileIdMeta,
+        sourceFileId.isAcceptableOrUnknown(
+          data['source_file_id']!,
+          _sourceFileIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceFileIdMeta);
+    }
+    if (data.containsKey('page_ix')) {
+      context.handle(
+        _pageIxMeta,
+        pageIx.isAcceptableOrUnknown(data['page_ix']!, _pageIxMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pageIxMeta);
+    }
+    if (data.containsKey('text_origin')) {
+      context.handle(
+        _textOriginMeta,
+        textOrigin.isAcceptableOrUnknown(data['text_origin']!, _textOriginMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_textOriginMeta);
+    }
+    if (data.containsKey('markdown')) {
+      context.handle(
+        _markdownMeta,
+        markdown.isAcceptableOrUnknown(data['markdown']!, _markdownMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_markdownMeta);
+    }
+    if (data.containsKey('tables_html')) {
+      context.handle(
+        _tablesHtmlMeta,
+        tablesHtml.isAcceptableOrUnknown(data['tables_html']!, _tablesHtmlMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {sourceFileId, pageIx, textOrigin};
+  @override
+  SourcePageRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SourcePageRow(
+      sourceFileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}source_file_id'],
+      )!,
+      pageIx: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}page_ix'],
+      )!,
+      textOrigin: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}text_origin'],
+      )!,
+      markdown: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}markdown'],
+      )!,
+      tablesHtml: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tables_html'],
+      )!,
+      createdAt: SourcePage.$convertercreatedAt.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}created_at'],
+        )!,
+      ),
+    );
+  }
+
+  @override
+  SourcePage createAlias(String alias) {
+    return SourcePage(attachedDatabase, alias);
+  }
+
+  static TypeConverter<DateTime, int> $convertercreatedAt = utcMillisConverter;
+  @override
+  List<String> get customConstraints => const [
+    'PRIMARY KEY(source_file_id, page_ix, text_origin)',
+  ];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class SourcePageRow extends DataClass implements Insertable<SourcePageRow> {
+  final int sourceFileId;
+
+  /// Page within the file, starting at 0.
+  final int pageIx;
+
+  /// e.g. 'text-layer', 'ocr:mistral:<model>'.
+  final String textOrigin;
+
+  /// Recognized text as Markdown.
+  final String markdown;
+  final String tablesHtml;
+  final DateTime createdAt;
+  const SourcePageRow({
+    required this.sourceFileId,
+    required this.pageIx,
+    required this.textOrigin,
+    required this.markdown,
+    required this.tablesHtml,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['source_file_id'] = Variable<int>(sourceFileId);
+    map['page_ix'] = Variable<int>(pageIx);
+    map['text_origin'] = Variable<String>(textOrigin);
+    map['markdown'] = Variable<String>(markdown);
+    map['tables_html'] = Variable<String>(tablesHtml);
+    {
+      map['created_at'] = Variable<int>(
+        SourcePage.$convertercreatedAt.toSql(createdAt),
+      );
+    }
+    return map;
+  }
+
+  SourcePageCompanion toCompanion(bool nullToAbsent) {
+    return SourcePageCompanion(
+      sourceFileId: Value(sourceFileId),
+      pageIx: Value(pageIx),
+      textOrigin: Value(textOrigin),
+      markdown: Value(markdown),
+      tablesHtml: Value(tablesHtml),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory SourcePageRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SourcePageRow(
+      sourceFileId: serializer.fromJson<int>(json['source_file_id']),
+      pageIx: serializer.fromJson<int>(json['page_ix']),
+      textOrigin: serializer.fromJson<String>(json['text_origin']),
+      markdown: serializer.fromJson<String>(json['markdown']),
+      tablesHtml: serializer.fromJson<String>(json['tables_html']),
+      createdAt: serializer.fromJson<DateTime>(json['created_at']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'source_file_id': serializer.toJson<int>(sourceFileId),
+      'page_ix': serializer.toJson<int>(pageIx),
+      'text_origin': serializer.toJson<String>(textOrigin),
+      'markdown': serializer.toJson<String>(markdown),
+      'tables_html': serializer.toJson<String>(tablesHtml),
+      'created_at': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  SourcePageRow copyWith({
+    int? sourceFileId,
+    int? pageIx,
+    String? textOrigin,
+    String? markdown,
+    String? tablesHtml,
+    DateTime? createdAt,
+  }) => SourcePageRow(
+    sourceFileId: sourceFileId ?? this.sourceFileId,
+    pageIx: pageIx ?? this.pageIx,
+    textOrigin: textOrigin ?? this.textOrigin,
+    markdown: markdown ?? this.markdown,
+    tablesHtml: tablesHtml ?? this.tablesHtml,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  SourcePageRow copyWithCompanion(SourcePageCompanion data) {
+    return SourcePageRow(
+      sourceFileId: data.sourceFileId.present
+          ? data.sourceFileId.value
+          : this.sourceFileId,
+      pageIx: data.pageIx.present ? data.pageIx.value : this.pageIx,
+      textOrigin: data.textOrigin.present
+          ? data.textOrigin.value
+          : this.textOrigin,
+      markdown: data.markdown.present ? data.markdown.value : this.markdown,
+      tablesHtml: data.tablesHtml.present
+          ? data.tablesHtml.value
+          : this.tablesHtml,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SourcePageRow(')
+          ..write('sourceFileId: $sourceFileId, ')
+          ..write('pageIx: $pageIx, ')
+          ..write('textOrigin: $textOrigin, ')
+          ..write('markdown: $markdown, ')
+          ..write('tablesHtml: $tablesHtml, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    sourceFileId,
+    pageIx,
+    textOrigin,
+    markdown,
+    tablesHtml,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SourcePageRow &&
+          other.sourceFileId == this.sourceFileId &&
+          other.pageIx == this.pageIx &&
+          other.textOrigin == this.textOrigin &&
+          other.markdown == this.markdown &&
+          other.tablesHtml == this.tablesHtml &&
+          other.createdAt == this.createdAt);
+}
+
+class SourcePageCompanion extends UpdateCompanion<SourcePageRow> {
+  final Value<int> sourceFileId;
+  final Value<int> pageIx;
+  final Value<String> textOrigin;
+  final Value<String> markdown;
+  final Value<String> tablesHtml;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const SourcePageCompanion({
+    this.sourceFileId = const Value.absent(),
+    this.pageIx = const Value.absent(),
+    this.textOrigin = const Value.absent(),
+    this.markdown = const Value.absent(),
+    this.tablesHtml = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SourcePageCompanion.insert({
+    required int sourceFileId,
+    required int pageIx,
+    required String textOrigin,
+    required String markdown,
+    this.tablesHtml = const Value.absent(),
+    required DateTime createdAt,
+    this.rowid = const Value.absent(),
+  }) : sourceFileId = Value(sourceFileId),
+       pageIx = Value(pageIx),
+       textOrigin = Value(textOrigin),
+       markdown = Value(markdown),
+       createdAt = Value(createdAt);
+  static Insertable<SourcePageRow> custom({
+    Expression<int>? sourceFileId,
+    Expression<int>? pageIx,
+    Expression<String>? textOrigin,
+    Expression<String>? markdown,
+    Expression<String>? tablesHtml,
+    Expression<int>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (sourceFileId != null) 'source_file_id': sourceFileId,
+      if (pageIx != null) 'page_ix': pageIx,
+      if (textOrigin != null) 'text_origin': textOrigin,
+      if (markdown != null) 'markdown': markdown,
+      if (tablesHtml != null) 'tables_html': tablesHtml,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SourcePageCompanion copyWith({
+    Value<int>? sourceFileId,
+    Value<int>? pageIx,
+    Value<String>? textOrigin,
+    Value<String>? markdown,
+    Value<String>? tablesHtml,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return SourcePageCompanion(
+      sourceFileId: sourceFileId ?? this.sourceFileId,
+      pageIx: pageIx ?? this.pageIx,
+      textOrigin: textOrigin ?? this.textOrigin,
+      markdown: markdown ?? this.markdown,
+      tablesHtml: tablesHtml ?? this.tablesHtml,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (sourceFileId.present) {
+      map['source_file_id'] = Variable<int>(sourceFileId.value);
+    }
+    if (pageIx.present) {
+      map['page_ix'] = Variable<int>(pageIx.value);
+    }
+    if (textOrigin.present) {
+      map['text_origin'] = Variable<String>(textOrigin.value);
+    }
+    if (markdown.present) {
+      map['markdown'] = Variable<String>(markdown.value);
+    }
+    if (tablesHtml.present) {
+      map['tables_html'] = Variable<String>(tablesHtml.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<int>(
+        SourcePage.$convertercreatedAt.toSql(createdAt.value),
+      );
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SourcePageCompanion(')
+          ..write('sourceFileId: $sourceFileId, ')
+          ..write('pageIx: $pageIx, ')
+          ..write('textOrigin: $textOrigin, ')
+          ..write('markdown: $markdown, ')
+          ..write('tablesHtml: $tablesHtml, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class Extraction extends Table with TableInfo<Extraction, ExtractionRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  Extraction(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL PRIMARY KEY',
+  );
+  static const VerificationMeta _personIdMeta = const VerificationMeta(
+    'personId',
+  );
+  late final GeneratedColumn<int> personId = GeneratedColumn<int>(
+    'person_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL REFERENCES person(id)',
+  );
+  late final GeneratedColumnWithTypeConverter<SourceKind, String>
+  sourceKind = GeneratedColumn<String>(
+    'source_kind',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints:
+        'NOT NULL CHECK (source_kind IN (\'file\', \'manual\', \'health-connect\', \'healthkit\', \'device-file\'))',
+  ).withConverter<SourceKind>(Extraction.$convertersourceKind);
+  static const VerificationMeta _sourceRefMeta = const VerificationMeta(
+    'sourceRef',
+  );
+  late final GeneratedColumn<String> sourceRef = GeneratedColumn<String>(
+    'source_ref',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _reportIdMeta = const VerificationMeta(
+    'reportId',
+  );
+  late final GeneratedColumn<int> reportId = GeneratedColumn<int>(
+    'report_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'REFERENCES report(id)ON DELETE CASCADE',
+  );
+  static const VerificationMeta _extractorMeta = const VerificationMeta(
+    'extractor',
+  );
+  late final GeneratedColumn<String> extractor = GeneratedColumn<String>(
+    'extractor',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumnWithTypeConverter<ExtractionStatus, String> status =
+      GeneratedColumn<String>(
+        'status',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+        $customConstraints:
+            'NOT NULL CHECK (status IN (\'ok\', \'failed\', \'unverified\'))',
+      ).withConverter<ExtractionStatus>(Extraction.$converterstatus);
+  static const VerificationMeta _reasonMeta = const VerificationMeta('reason');
+  late final GeneratedColumn<String> reason = GeneratedColumn<String>(
+    'reason',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: '',
+  );
+  static const VerificationMeta _digestMeta = const VerificationMeta('digest');
+  late final GeneratedColumn<String> digest = GeneratedColumn<String>(
+    'digest',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumnWithTypeConverter<DateTime, int> createdAt =
+      GeneratedColumn<int>(
+        'created_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+        $customConstraints: 'NOT NULL',
+      ).withConverter<DateTime>(Extraction.$convertercreatedAt);
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    personId,
+    sourceKind,
+    sourceRef,
+    reportId,
+    extractor,
+    status,
+    reason,
+    payload,
+    digest,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'extraction';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ExtractionRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('person_id')) {
+      context.handle(
+        _personIdMeta,
+        personId.isAcceptableOrUnknown(data['person_id']!, _personIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_personIdMeta);
+    }
+    if (data.containsKey('source_ref')) {
+      context.handle(
+        _sourceRefMeta,
+        sourceRef.isAcceptableOrUnknown(data['source_ref']!, _sourceRefMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceRefMeta);
+    }
+    if (data.containsKey('report_id')) {
+      context.handle(
+        _reportIdMeta,
+        reportId.isAcceptableOrUnknown(data['report_id']!, _reportIdMeta),
+      );
+    }
+    if (data.containsKey('extractor')) {
+      context.handle(
+        _extractorMeta,
+        extractor.isAcceptableOrUnknown(data['extractor']!, _extractorMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_extractorMeta);
+    }
+    if (data.containsKey('reason')) {
+      context.handle(
+        _reasonMeta,
+        reason.isAcceptableOrUnknown(data['reason']!, _reasonMeta),
+      );
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    }
+    if (data.containsKey('digest')) {
+      context.handle(
+        _digestMeta,
+        digest.isAcceptableOrUnknown(data['digest']!, _digestMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_digestMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {sourceRef, digest},
+  ];
+  @override
+  ExtractionRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ExtractionRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      personId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}person_id'],
+      )!,
+      sourceKind: Extraction.$convertersourceKind.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}source_kind'],
+        )!,
+      ),
+      sourceRef: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_ref'],
+      )!,
+      reportId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}report_id'],
+      ),
+      extractor: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}extractor'],
+      )!,
+      status: Extraction.$converterstatus.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}status'],
+        )!,
+      ),
+      reason: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}reason'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      ),
+      digest: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}digest'],
+      )!,
+      createdAt: Extraction.$convertercreatedAt.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}created_at'],
+        )!,
+      ),
+    );
+  }
+
+  @override
+  Extraction createAlias(String alias) {
+    return Extraction(attachedDatabase, alias);
+  }
+
+  static TypeConverter<SourceKind, String> $convertersourceKind =
+      sourceKindConverter;
+  static TypeConverter<ExtractionStatus, String> $converterstatus =
+      extractionStatusConverter;
+  static TypeConverter<DateTime, int> $convertercreatedAt = utcMillisConverter;
+  @override
+  List<String> get customConstraints => const [
+    'UNIQUE(source_ref, digest)',
+    'CHECK(status = \'ok\' OR reason <> \'\')',
+    'CHECK(status = \'failed\' OR payload IS NOT NULL)',
+  ];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class ExtractionRow extends DataClass implements Insertable<ExtractionRow> {
+  final int id;
+  final int personId;
+  final SourceKind sourceKind;
+
+  /// e.g. 'report:<id>'.
+  final String sourceRef;
+  final int? reportId;
+
+  /// e.g. 'llm:mistral/<model>@prompt-v1', 'manual'.
+  final String extractor;
+  final ExtractionStatus status;
+  final String reason;
+
+  /// The drafts as JSON; NULL when reading failed.
+  final String? payload;
+
+  /// SHA-256 over source_ref, extractor and payload.
+  final String digest;
+  final DateTime createdAt;
+  const ExtractionRow({
+    required this.id,
+    required this.personId,
+    required this.sourceKind,
+    required this.sourceRef,
+    this.reportId,
+    required this.extractor,
+    required this.status,
+    required this.reason,
+    this.payload,
+    required this.digest,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['person_id'] = Variable<int>(personId);
+    {
+      map['source_kind'] = Variable<String>(
+        Extraction.$convertersourceKind.toSql(sourceKind),
+      );
+    }
+    map['source_ref'] = Variable<String>(sourceRef);
+    if (!nullToAbsent || reportId != null) {
+      map['report_id'] = Variable<int>(reportId);
+    }
+    map['extractor'] = Variable<String>(extractor);
+    {
+      map['status'] = Variable<String>(
+        Extraction.$converterstatus.toSql(status),
+      );
+    }
+    map['reason'] = Variable<String>(reason);
+    if (!nullToAbsent || payload != null) {
+      map['payload'] = Variable<String>(payload);
+    }
+    map['digest'] = Variable<String>(digest);
+    {
+      map['created_at'] = Variable<int>(
+        Extraction.$convertercreatedAt.toSql(createdAt),
+      );
+    }
+    return map;
+  }
+
+  ExtractionCompanion toCompanion(bool nullToAbsent) {
+    return ExtractionCompanion(
+      id: Value(id),
+      personId: Value(personId),
+      sourceKind: Value(sourceKind),
+      sourceRef: Value(sourceRef),
+      reportId: reportId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(reportId),
+      extractor: Value(extractor),
+      status: Value(status),
+      reason: Value(reason),
+      payload: payload == null && nullToAbsent
+          ? const Value.absent()
+          : Value(payload),
+      digest: Value(digest),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory ExtractionRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ExtractionRow(
+      id: serializer.fromJson<int>(json['id']),
+      personId: serializer.fromJson<int>(json['person_id']),
+      sourceKind: serializer.fromJson<SourceKind>(json['source_kind']),
+      sourceRef: serializer.fromJson<String>(json['source_ref']),
+      reportId: serializer.fromJson<int?>(json['report_id']),
+      extractor: serializer.fromJson<String>(json['extractor']),
+      status: serializer.fromJson<ExtractionStatus>(json['status']),
+      reason: serializer.fromJson<String>(json['reason']),
+      payload: serializer.fromJson<String?>(json['payload']),
+      digest: serializer.fromJson<String>(json['digest']),
+      createdAt: serializer.fromJson<DateTime>(json['created_at']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'person_id': serializer.toJson<int>(personId),
+      'source_kind': serializer.toJson<SourceKind>(sourceKind),
+      'source_ref': serializer.toJson<String>(sourceRef),
+      'report_id': serializer.toJson<int?>(reportId),
+      'extractor': serializer.toJson<String>(extractor),
+      'status': serializer.toJson<ExtractionStatus>(status),
+      'reason': serializer.toJson<String>(reason),
+      'payload': serializer.toJson<String?>(payload),
+      'digest': serializer.toJson<String>(digest),
+      'created_at': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  ExtractionRow copyWith({
+    int? id,
+    int? personId,
+    SourceKind? sourceKind,
+    String? sourceRef,
+    Value<int?> reportId = const Value.absent(),
+    String? extractor,
+    ExtractionStatus? status,
+    String? reason,
+    Value<String?> payload = const Value.absent(),
+    String? digest,
+    DateTime? createdAt,
+  }) => ExtractionRow(
+    id: id ?? this.id,
+    personId: personId ?? this.personId,
+    sourceKind: sourceKind ?? this.sourceKind,
+    sourceRef: sourceRef ?? this.sourceRef,
+    reportId: reportId.present ? reportId.value : this.reportId,
+    extractor: extractor ?? this.extractor,
+    status: status ?? this.status,
+    reason: reason ?? this.reason,
+    payload: payload.present ? payload.value : this.payload,
+    digest: digest ?? this.digest,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  ExtractionRow copyWithCompanion(ExtractionCompanion data) {
+    return ExtractionRow(
+      id: data.id.present ? data.id.value : this.id,
+      personId: data.personId.present ? data.personId.value : this.personId,
+      sourceKind: data.sourceKind.present
+          ? data.sourceKind.value
+          : this.sourceKind,
+      sourceRef: data.sourceRef.present ? data.sourceRef.value : this.sourceRef,
+      reportId: data.reportId.present ? data.reportId.value : this.reportId,
+      extractor: data.extractor.present ? data.extractor.value : this.extractor,
+      status: data.status.present ? data.status.value : this.status,
+      reason: data.reason.present ? data.reason.value : this.reason,
+      payload: data.payload.present ? data.payload.value : this.payload,
+      digest: data.digest.present ? data.digest.value : this.digest,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExtractionRow(')
+          ..write('id: $id, ')
+          ..write('personId: $personId, ')
+          ..write('sourceKind: $sourceKind, ')
+          ..write('sourceRef: $sourceRef, ')
+          ..write('reportId: $reportId, ')
+          ..write('extractor: $extractor, ')
+          ..write('status: $status, ')
+          ..write('reason: $reason, ')
+          ..write('payload: $payload, ')
+          ..write('digest: $digest, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    personId,
+    sourceKind,
+    sourceRef,
+    reportId,
+    extractor,
+    status,
+    reason,
+    payload,
+    digest,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ExtractionRow &&
+          other.id == this.id &&
+          other.personId == this.personId &&
+          other.sourceKind == this.sourceKind &&
+          other.sourceRef == this.sourceRef &&
+          other.reportId == this.reportId &&
+          other.extractor == this.extractor &&
+          other.status == this.status &&
+          other.reason == this.reason &&
+          other.payload == this.payload &&
+          other.digest == this.digest &&
+          other.createdAt == this.createdAt);
+}
+
+class ExtractionCompanion extends UpdateCompanion<ExtractionRow> {
+  final Value<int> id;
+  final Value<int> personId;
+  final Value<SourceKind> sourceKind;
+  final Value<String> sourceRef;
+  final Value<int?> reportId;
+  final Value<String> extractor;
+  final Value<ExtractionStatus> status;
+  final Value<String> reason;
+  final Value<String?> payload;
+  final Value<String> digest;
+  final Value<DateTime> createdAt;
+  const ExtractionCompanion({
+    this.id = const Value.absent(),
+    this.personId = const Value.absent(),
+    this.sourceKind = const Value.absent(),
+    this.sourceRef = const Value.absent(),
+    this.reportId = const Value.absent(),
+    this.extractor = const Value.absent(),
+    this.status = const Value.absent(),
+    this.reason = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.digest = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  ExtractionCompanion.insert({
+    this.id = const Value.absent(),
+    required int personId,
+    required SourceKind sourceKind,
+    required String sourceRef,
+    this.reportId = const Value.absent(),
+    required String extractor,
+    required ExtractionStatus status,
+    this.reason = const Value.absent(),
+    this.payload = const Value.absent(),
+    required String digest,
+    required DateTime createdAt,
+  }) : personId = Value(personId),
+       sourceKind = Value(sourceKind),
+       sourceRef = Value(sourceRef),
+       extractor = Value(extractor),
+       status = Value(status),
+       digest = Value(digest),
+       createdAt = Value(createdAt);
+  static Insertable<ExtractionRow> custom({
+    Expression<int>? id,
+    Expression<int>? personId,
+    Expression<String>? sourceKind,
+    Expression<String>? sourceRef,
+    Expression<int>? reportId,
+    Expression<String>? extractor,
+    Expression<String>? status,
+    Expression<String>? reason,
+    Expression<String>? payload,
+    Expression<String>? digest,
+    Expression<int>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (personId != null) 'person_id': personId,
+      if (sourceKind != null) 'source_kind': sourceKind,
+      if (sourceRef != null) 'source_ref': sourceRef,
+      if (reportId != null) 'report_id': reportId,
+      if (extractor != null) 'extractor': extractor,
+      if (status != null) 'status': status,
+      if (reason != null) 'reason': reason,
+      if (payload != null) 'payload': payload,
+      if (digest != null) 'digest': digest,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  ExtractionCompanion copyWith({
+    Value<int>? id,
+    Value<int>? personId,
+    Value<SourceKind>? sourceKind,
+    Value<String>? sourceRef,
+    Value<int?>? reportId,
+    Value<String>? extractor,
+    Value<ExtractionStatus>? status,
+    Value<String>? reason,
+    Value<String?>? payload,
+    Value<String>? digest,
+    Value<DateTime>? createdAt,
+  }) {
+    return ExtractionCompanion(
+      id: id ?? this.id,
+      personId: personId ?? this.personId,
+      sourceKind: sourceKind ?? this.sourceKind,
+      sourceRef: sourceRef ?? this.sourceRef,
+      reportId: reportId ?? this.reportId,
+      extractor: extractor ?? this.extractor,
+      status: status ?? this.status,
+      reason: reason ?? this.reason,
+      payload: payload ?? this.payload,
+      digest: digest ?? this.digest,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (personId.present) {
+      map['person_id'] = Variable<int>(personId.value);
+    }
+    if (sourceKind.present) {
+      map['source_kind'] = Variable<String>(
+        Extraction.$convertersourceKind.toSql(sourceKind.value),
+      );
+    }
+    if (sourceRef.present) {
+      map['source_ref'] = Variable<String>(sourceRef.value);
+    }
+    if (reportId.present) {
+      map['report_id'] = Variable<int>(reportId.value);
+    }
+    if (extractor.present) {
+      map['extractor'] = Variable<String>(extractor.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(
+        Extraction.$converterstatus.toSql(status.value),
+      );
+    }
+    if (reason.present) {
+      map['reason'] = Variable<String>(reason.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (digest.present) {
+      map['digest'] = Variable<String>(digest.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<int>(
+        Extraction.$convertercreatedAt.toSql(createdAt.value),
+      );
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExtractionCompanion(')
+          ..write('id: $id, ')
+          ..write('personId: $personId, ')
+          ..write('sourceKind: $sourceKind, ')
+          ..write('sourceRef: $sourceRef, ')
+          ..write('reportId: $reportId, ')
+          ..write('extractor: $extractor, ')
+          ..write('status: $status, ')
+          ..write('reason: $reason, ')
+          ..write('payload: $payload, ')
+          ..write('digest: $digest, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$TrackfitDatabase extends GeneratedDatabase {
   _$TrackfitDatabase(QueryExecutor e) : super(e);
   late final Person person = Person(this);
   late final Report report = Report(this);
+  late final SourceFile sourceFile = SourceFile(this);
+  late final SourcePage sourcePage = SourcePage(this);
+  late final Extraction extraction = Extraction(this);
+  late final Index idxExtractionReport = Index(
+    'idx_extraction_report',
+    'CREATE INDEX idx_extraction_report ON extraction (report_id)',
+  );
   late final Index idxReportPersonDate = Index(
     'idx_report_person_date',
     'CREATE INDEX idx_report_person_date ON report (person_id, report_date)',
   );
-  late final SourceFile sourceFile = SourceFile(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1785,8 +2889,11 @@ abstract class _$TrackfitDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     person,
     report,
-    idxReportPersonDate,
     sourceFile,
+    sourcePage,
+    extraction,
+    idxExtractionReport,
+    idxReportPersonDate,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -1796,6 +2903,20 @@ abstract class _$TrackfitDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('source_file', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'source_file',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('source_page', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'report',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('extraction', kind: UpdateKind.delete)],
     ),
   ]);
 }

@@ -1,0 +1,45 @@
+import '../converters.dart';
+import 'person.drift';
+import 'reports.drift';
+
+-- Recognized text of one page of a file. A new way of recognizing the text
+-- adds a row instead of overwriting the old one.
+CREATE TABLE source_page (
+    source_file_id INTEGER NOT NULL REFERENCES source_file (id) ON DELETE CASCADE,
+    -- Page within the file, starting at 0.
+    page_ix        INTEGER NOT NULL CHECK (page_ix >= 0),
+    -- e.g. 'text-layer', 'ocr:mistral:<model>'.
+    text_origin    TEXT NOT NULL CHECK (text_origin <> ''),
+    -- Recognized text as Markdown.
+    markdown       TEXT NOT NULL,
+    tables_html    TEXT NOT NULL DEFAULT '',
+    created_at     INTEGER NOT NULL MAPPED BY `utcMillisConverter`,
+    PRIMARY KEY (source_file_id, page_ix, text_origin)
+) AS SourcePageRow;
+
+-- The raw result of reading a source into drafts, kept verbatim so every
+-- observation can be traced back to it and a source can be read again.
+CREATE TABLE extraction (
+    id          INTEGER NOT NULL PRIMARY KEY,
+    person_id   INTEGER NOT NULL REFERENCES person (id),
+    source_kind TEXT NOT NULL MAPPED BY `sourceKindConverter`
+        CHECK (source_kind IN ('file', 'manual', 'health-connect', 'healthkit', 'device-file')),
+    -- e.g. 'report:<id>'.
+    source_ref  TEXT NOT NULL,
+    report_id   INTEGER REFERENCES report (id) ON DELETE CASCADE,
+    -- e.g. 'llm:mistral/<model>@prompt-v1', 'manual'.
+    extractor   TEXT NOT NULL,
+    status      TEXT NOT NULL MAPPED BY `extractionStatusConverter`
+        CHECK (status IN ('ok', 'failed', 'unverified')),
+    reason      TEXT NOT NULL DEFAULT '',
+    -- The drafts as JSON; NULL when reading failed.
+    payload     TEXT,
+    -- SHA-256 over source_ref, extractor and payload.
+    digest      TEXT NOT NULL,
+    created_at  INTEGER NOT NULL MAPPED BY `utcMillisConverter`,
+    UNIQUE (source_ref, digest),
+    CHECK (status = 'ok' OR reason <> ''),
+    CHECK (status = 'failed' OR payload IS NOT NULL)
+) AS ExtractionRow;
+
+CREATE INDEX idx_extraction_report ON extraction (report_id);
