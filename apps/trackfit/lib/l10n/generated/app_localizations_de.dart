@@ -261,4 +261,24 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get recognitionConsentBody =>
       'Nötig für die Erkennung. Du kannst das jederzeit widerrufen.';
+
+  @override
+  String get consentTitle => 'Befund erkennen lassen?';
+
+  @override
+  String get consentBody =>
+      'Zum Erkennen von Text und Werten wird die Datei an Mistral AI gesendet. Die Werte werden nur auf diesem Gerät gespeichert.';
+
+  @override
+  String get consentOnlyStore => 'Nur ablegen';
+
+  @override
+  String get consentAgree => 'Zustimmen';
+
+  @override
+  String get consentNeedsKey =>
+      'Füge einen Mistral-API-Schlüssel hinzu, um die Erkennung zu starten.';
+
+  @override
+  String get consentOpenSettings => 'Einstellungen';
 }

@@ -132,5 +132,11 @@
   "recognitionShowKey": "Show key",
   "recognitionHideKey": "Hide key",
   "recognitionConsent": "Send reports to Mistral AI",
-  "recognitionConsentBody": "Required for recognition. You can withdraw it at any time."
+  "recognitionConsentBody": "Required for recognition. You can withdraw it at any time.",
+  "consentTitle": "Recognize this report?",
+  "consentBody": "To recognize text and values, the file is sent to Mistral AI. The values are stored only on this device.",
+  "consentOnlyStore": "Only store",
+  "consentAgree": "Agree",
+  "consentNeedsKey": "Add a Mistral API key to start recognition.",
+  "consentOpenSettings": "Settings"
 }

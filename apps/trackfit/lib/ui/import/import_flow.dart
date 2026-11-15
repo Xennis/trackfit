@@ -9,6 +9,7 @@ import '../../application/import_providers.dart';
 import '../../application/import_service.dart';
 import '../../data/database_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'consent_flow.dart';
 
 /// Opens the sheet with the ways to add a report.
 Future<void> showImportSheet(BuildContext context, WidgetRef ref) =>
@@ -153,6 +154,9 @@ Future<void> importCandidates(
       imagesAsOneReport: imagesAsOneReport,
     );
     messenger.showSnackBar(SnackBar(content: Text(_summary(l10n, outcome))));
+    if (outcome.reportIds.isNotEmpty && context.mounted) {
+      await ensureRecognitionReady(context, ref);
+    }
   } on Object catch (error) {
     debugPrint('Import failed: ${error.runtimeType}');
     messenger.showSnackBar(SnackBar(content: Text(l10n.importFailed)));

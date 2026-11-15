@@ -511,6 +511,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Required for recognition. You can withdraw it at any time.'**
   String get recognitionConsentBody;
+
+  /// No description provided for @consentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recognize this report?'**
+  String get consentTitle;
+
+  /// No description provided for @consentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'To recognize text and values, the file is sent to Mistral AI. The values are stored only on this device.'**
+  String get consentBody;
+
+  /// No description provided for @consentOnlyStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Only store'**
+  String get consentOnlyStore;
+
+  /// No description provided for @consentAgree.
+  ///
+  /// In en, this message translates to:
+  /// **'Agree'**
+  String get consentAgree;
+
+  /// No description provided for @consentNeedsKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a Mistral API key to start recognition.'**
+  String get consentNeedsKey;
+
+  /// No description provided for @consentOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get consentOpenSettings;
 }
 
 class _AppLocalizationsDelegate

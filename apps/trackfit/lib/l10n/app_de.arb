@@ -68,5 +68,11 @@
   "recognitionShowKey": "Schlüssel anzeigen",
   "recognitionHideKey": "Schlüssel verbergen",
   "recognitionConsent": "Befunde an Mistral AI senden",
-  "recognitionConsentBody": "Nötig für die Erkennung. Du kannst das jederzeit widerrufen."
+  "recognitionConsentBody": "Nötig für die Erkennung. Du kannst das jederzeit widerrufen.",
+  "consentTitle": "Befund erkennen lassen?",
+  "consentBody": "Zum Erkennen von Text und Werten wird die Datei an Mistral AI gesendet. Die Werte werden nur auf diesem Gerät gespeichert.",
+  "consentOnlyStore": "Nur ablegen",
+  "consentAgree": "Zustimmen",
+  "consentNeedsKey": "Füge einen Mistral-API-Schlüssel hinzu, um die Erkennung zu starten.",
+  "consentOpenSettings": "Einstellungen"
 }

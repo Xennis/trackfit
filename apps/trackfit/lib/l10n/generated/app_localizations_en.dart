@@ -259,4 +259,23 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get recognitionConsentBody =>
       'Required for recognition. You can withdraw it at any time.';
+
+  @override
+  String get consentTitle => 'Recognize this report?';
+
+  @override
+  String get consentBody =>
+      'To recognize text and values, the file is sent to Mistral AI. The values are stored only on this device.';
+
+  @override
+  String get consentOnlyStore => 'Only store';
+
+  @override
+  String get consentAgree => 'Agree';
+
+  @override
+  String get consentNeedsKey => 'Add a Mistral API key to start recognition.';
+
+  @override
+  String get consentOpenSettings => 'Settings';
 }
