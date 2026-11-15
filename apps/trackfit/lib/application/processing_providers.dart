@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:standardize/standardize.dart';
+import 'package:trackfit_db/trackfit_db.dart';
 
 import '../data/database_providers.dart';
 import '../platform/llm/lab_report_extractor.dart';
@@ -12,6 +13,7 @@ import '../platform/ocr/mistral_ocr.dart';
 import '../platform/ocr/ocr.dart';
 import '../platform/terminology/terminology_loader.dart';
 import 'processing_queue.dart';
+import 'question_answers.dart';
 import 'reading_corrections.dart';
 import 'recognition_settings.dart';
 import 'report_extraction.dart';
@@ -39,7 +41,19 @@ final terminologyProvider = FutureProvider<Terminology>(
 /// readings wait as open questions.
 final coderProvider = FutureProvider<Coder>((ref) async {
   try {
-    return LexicalCoder(await ref.watch(terminologyProvider.future));
+    final terminology = await ref.watch(terminologyProvider.future);
+    final personId = await ref.watch(currentPersonIdProvider.future);
+    final aliases = await QuestionRepository(
+      ref.watch(databaseProvider),
+    ).aliases(personId);
+    return AliasCoder(LexicalCoder(terminology), [
+      for (final alias in aliases)
+        ConfirmedAlias(
+          nameKey: alias.nameKey,
+          unitUcum: alias.unitUcum,
+          code: alias.code,
+        ),
+    ]);
   } on Object catch (error) {
     debugPrint('Terminology not available: ${error.runtimeType}');
     return const NoCoder();
@@ -87,5 +101,17 @@ final readingCorrectionsProvider = FutureProvider<ReadingCorrections>(
   (ref) async => ReadingCorrections(
     db: ref.watch(databaseProvider),
     coder: await ref.watch(coderProvider.future),
+  ),
+);
+
+/// Answers to open questions. Answering refreshes the coder, so later
+/// imports know the answer too.
+final questionAnswersProvider = Provider<QuestionAnswers>(
+  (ref) => QuestionAnswers(
+    db: ref.watch(databaseProvider),
+    coder: () {
+      ref.invalidate(coderProvider);
+      return ref.read(coderProvider.future);
+    },
   ),
 );
