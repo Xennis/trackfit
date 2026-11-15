@@ -1,0 +1,18 @@
+name: standardize
+description: Turn readings as printed into typed values with codes.
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+
+resolution: workspace
+
+dependencies:
+  trackfit_core:
+    path: ../trackfit_core
+  ucum:
+    path: ../ucum
+  unorm_dart: ^0.3.3
+
+dev_dependencies:
+  test: ^1.31.0
