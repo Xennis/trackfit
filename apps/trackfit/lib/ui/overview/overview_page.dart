@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/router.dart';
+import '../../application/recognition_settings.dart';
 import '../../data/database_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../charts/sparkline.dart';
@@ -26,6 +27,7 @@ class OverviewPage extends ConsumerWidget {
     final reports = ref.watch(reportSummariesProvider).value;
     final series = ref.watch(seriesListProvider).value ?? const [];
     final questions = ref.watch(openQuestionsProvider).value ?? const [];
+    final ready = ref.watch(recognitionSettingsProvider).value?.ready ?? false;
 
     final Widget body;
     if (reports == null) {
@@ -37,7 +39,12 @@ class OverviewPage extends ConsumerWidget {
         body: l10n.overviewEmptyBody,
       );
     } else {
-      final processing = reports.where((r) => isProcessing(r.r.status)).length;
+      final processing = reports
+          .where((r) => isRunning(r.r.status, recognitionReady: ready))
+          .length;
+      final waiting = reports
+          .where((r) => needsSetup(r.r.status, recognitionReady: ready))
+          .length;
       final openCount = questions.fold(0, (n, q) => n + q.readings.length);
       final abnormal = series.where((s) => s.isAbnormal).toList();
       body = ListView(
@@ -48,6 +55,12 @@ class OverviewPage extends ConsumerWidget {
               icon: Icons.help_outline,
               text: l10n.questionsBanner(openCount),
               onTap: () => context.go(Routes.questions),
+            ),
+          if (waiting > 0)
+            _Notice(
+              icon: Icons.settings_outlined,
+              text: l10n.overviewNeedsSetup(waiting),
+              onTap: () => context.go(Routes.recognitionSettings),
             ),
           if (processing > 0)
             _Notice(

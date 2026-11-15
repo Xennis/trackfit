@@ -174,5 +174,7 @@
   "settingsBackup": "Datenbank sichern",
   "settingsBackupBody": "Speichert eine Kopie aller Werte. Importierte Dateien sind nicht enthalten.",
   "backupSaved": "Sicherung gespeichert",
-  "backupFailed": "Sicherung fehlgeschlagen"
+  "backupFailed": "Sicherung fehlgeschlagen",
+  "reportStatusNeedsSetup": "Wartet auf Einrichtung der Erkennung",
+  "overviewNeedsSetup": "{count, plural, =1{1 Befund wartet auf die Einrichtung der Erkennung} other{{count} Befunde warten auf die Einrichtung der Erkennung}}"
 }

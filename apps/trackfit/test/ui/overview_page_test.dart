@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:standardize/standardize.dart';
 import 'package:trackfit/app/app.dart';
 import 'package:trackfit_core/trackfit_core.dart';
+import 'package:trackfit_db/trackfit_db.dart';
 
 import '../helpers.dart';
 
@@ -48,5 +49,40 @@ void main() {
     expect(find.text('Hämoglobin'), findsNothing);
     expect(find.text('Latest report'), findsOneWidget);
     expect(find.text('Mar 14, 2025'), findsOneWidget);
+  });
+  testWidgets('a pending report without setup waits instead of spinning', (
+    tester,
+  ) async {
+    final db = memoryDatabase();
+    addTearDown(db.close);
+    final personId = await PersonRepository(
+      db,
+    ).ensureDefaultPerson(defaultTz: 'UTC', now: DateTime.utc(2026));
+    await ReportRepository(db).createReport(
+      personId: personId,
+      files: [
+        NewSourceFile(
+          contentHash: 'e' * 64,
+          fileName: 'befund.pdf',
+          mimeType: 'application/pdf',
+          byteSize: 1,
+          storedPath: 'files/e.pdf',
+          kind: FileKind.pdf,
+          importChannel: ImportChannel.filePicker,
+        ),
+      ],
+      now: DateTime.utc(2026),
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(overrides: testOverrides(db), child: const TrackfitApp()),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('1 report waits for recognition to be set up'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('being processed'), findsNothing);
   });
 }

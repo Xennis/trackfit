@@ -5,6 +5,7 @@ import 'package:trackfit_core/trackfit_core.dart';
 import 'package:trackfit_db/trackfit_db.dart';
 
 import '../../app/router.dart';
+import '../../application/recognition_settings.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../common/empty_state.dart';
 import '../import/import_flow.dart';
@@ -41,20 +42,24 @@ class ReportsPage extends ConsumerWidget {
 }
 
 /// One report in the list.
-class ReportTile extends StatelessWidget {
+class ReportTile extends ConsumerWidget {
   const ReportTile({required this.summary, super.key});
 
   final ReportSummary summary;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final ready = ref.watch(recognitionSettingsProvider).value?.ready ?? false;
     final theme = Theme.of(context);
     final report = summary.r;
     final details = [
       if (report.labName.isNotEmpty) report.labName,
       if (summary.fileCount > 1) l10n.reportFiles(summary.fileCount),
-      if (isProcessing(report.status) || report.status == ReportStatus.failed)
+      if (needsSetup(report.status, recognitionReady: ready))
+        l10n.reportStatusNeedsSetup
+      else if (isProcessing(report.status) ||
+          report.status == ReportStatus.failed)
         reportStatusLabel(l10n, report.status)
       else
         l10n.reportValues(summary.valueCount),
@@ -73,7 +78,7 @@ class ReportTile extends StatelessWidget {
             ? TextStyle(color: theme.colorScheme.error)
             : null,
       ),
-      trailing: isProcessing(report.status)
+      trailing: isRunning(report.status, recognitionReady: ready)
           ? const SizedBox.square(
               dimension: 20,
               child: CircularProgressIndicator(strokeWidth: 2),

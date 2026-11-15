@@ -339,5 +339,14 @@
   "settingsBackup": "Back up database",
   "settingsBackupBody": "Saves a copy of all values. Imported files are not included.",
   "backupSaved": "Backup saved",
-  "backupFailed": "Backup failed"
+  "backupFailed": "Backup failed",
+  "reportStatusNeedsSetup": "Waiting for recognition to be set up",
+  "overviewNeedsSetup": "{count, plural, =1{1 report waits for recognition to be set up} other{{count} reports wait for recognition to be set up}}",
+  "@overviewNeedsSetup": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

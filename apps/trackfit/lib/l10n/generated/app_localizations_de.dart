@@ -649,4 +649,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get backupFailed => 'Sicherung fehlgeschlagen';
+
+  @override
+  String get reportStatusNeedsSetup => 'Wartet auf Einrichtung der Erkennung';
+
+  @override
+  String overviewNeedsSetup(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Befunde warten auf die Einrichtung der Erkennung',
+      one: '1 Befund wartet auf die Einrichtung der Erkennung',
+    );
+    return '$_temp0';
+  }
 }

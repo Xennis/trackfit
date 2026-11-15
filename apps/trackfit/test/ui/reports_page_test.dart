@@ -42,7 +42,7 @@ void main() {
     await tester.pump();
 
     expect(find.text('New report'), findsOneWidget);
-    expect(find.text('Waiting for recognition'), findsOneWidget);
+    expect(find.text('Waiting for recognition to be set up'), findsOneWidget);
     expect(find.byIcon(Icons.picture_as_pdf_outlined), findsOneWidget);
   });
   testWidgets('opens a report with its files', (tester) async {

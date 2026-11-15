@@ -1147,6 +1147,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Backup failed'**
   String get backupFailed;
+
+  /// No description provided for @reportStatusNeedsSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for recognition to be set up'**
+  String get reportStatusNeedsSetup;
+
+  /// No description provided for @overviewNeedsSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 report waits for recognition to be set up} other{{count} reports wait for recognition to be set up}}'**
+  String overviewNeedsSetup(int count);
 }
 
 class _AppLocalizationsDelegate

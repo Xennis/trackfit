@@ -644,4 +644,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get backupFailed => 'Backup failed';
+
+  @override
+  String get reportStatusNeedsSetup => 'Waiting for recognition to be set up';
+
+  @override
+  String overviewNeedsSetup(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reports wait for recognition to be set up',
+      one: '1 report waits for recognition to be set up',
+    );
+    return '$_temp0';
+  }
 }

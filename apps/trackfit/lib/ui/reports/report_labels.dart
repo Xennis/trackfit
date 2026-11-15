@@ -33,3 +33,13 @@ bool isProcessing(ReportStatus status) => switch (status) {
 /// A calendar day with year, in the language of the app, e.g. `14.03.2025`.
 String formatDay(BuildContext context, DateTime day) =>
     DateFormat.yMMMd(Localizations.localeOf(context).toString()).format(day);
+
+/// A pending report that cannot be processed because recognition is not
+/// set up: nothing is running, so no progress is shown.
+bool needsSetup(ReportStatus status, {required bool recognitionReady}) =>
+    status == ReportStatus.pending && !recognitionReady;
+
+/// Whether work on the report is actually running or about to run.
+bool isRunning(ReportStatus status, {required bool recognitionReady}) =>
+    isProcessing(status) &&
+    !needsSetup(status, recognitionReady: recognitionReady);
