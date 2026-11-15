@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:standardize/standardize.dart';
 import 'package:trackfit/application/reading_recoder.dart';
 import 'package:trackfit_core/trackfit_core.dart';
-import 'package:trackfit_db/trackfit_db.dart';
 
 import '../helpers.dart';
 
