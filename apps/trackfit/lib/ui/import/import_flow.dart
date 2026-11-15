@@ -135,16 +135,53 @@ Future<void> importCandidates(
 ) async {
   final l10n = AppLocalizations.of(context);
   final messenger = ScaffoldMessenger.of(context);
+  final imageCount = candidates
+      .where((c) => DetectedType.of(c.name, c.bytes)?.kind == FileKind.image)
+      .length;
+  var imagesAsOneReport = false;
+  if (imageCount > 1) {
+    final answer = await _askCombineImages(context);
+    if (answer == null) return;
+    imagesAsOneReport = answer;
+  }
   try {
     final service = await ref.read(importServiceProvider.future);
     final personId = await ref.read(currentPersonIdProvider.future);
-    final outcome = await service.importFiles(personId, candidates);
+    final outcome = await service.importFiles(
+      personId,
+      candidates,
+      imagesAsOneReport: imagesAsOneReport,
+    );
     messenger.showSnackBar(SnackBar(content: Text(_summary(l10n, outcome))));
   } on Object catch (error) {
     debugPrint('Import failed: ${error.runtimeType}');
     messenger.showSnackBar(SnackBar(content: Text(l10n.importFailed)));
   }
 }
+
+/// Asks whether several images are the pages of one report.
+///
+/// Null when the dialog was dismissed.
+Future<bool?> _askCombineImages(BuildContext context) => showDialog<bool>(
+  context: context,
+  builder: (dialogContext) {
+    final l10n = AppLocalizations.of(dialogContext);
+    return AlertDialog(
+      title: Text(l10n.importCombineTitle),
+      content: Text(l10n.importCombineBody),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(dialogContext).pop(false),
+          child: Text(l10n.importCombineSeparate),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.of(dialogContext).pop(true),
+          child: Text(l10n.importCombineOne),
+        ),
+      ],
+    );
+  },
+);
 
 String _summary(AppLocalizations l10n, ImportOutcome outcome) => [
   if (outcome.reportIds.isNotEmpty) l10n.importDone(outcome.reportIds.length),
