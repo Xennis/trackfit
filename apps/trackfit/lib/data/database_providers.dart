@@ -5,6 +5,8 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:trackfit_db/trackfit_db.dart';
 
+import 'file_store.dart';
+
 /// The user database, stored in the app support directory.
 ///
 /// Queries run in a background isolate, so imports do not block the UI.
@@ -40,3 +42,12 @@ final currentPersonIdProvider = FutureProvider<int>((ref) async {
     db,
   ).ensureDefaultPerson(defaultTz: timeZone, now: DateTime.now().toUtc());
 });
+
+/// Files imported into the app, below the app support directory.
+final fileStoreProvider = FutureProvider<FileStore>(
+  (ref) async => FileStore(await getApplicationSupportDirectory()),
+);
+
+final reportRepositoryProvider = Provider<ReportRepository>(
+  (ref) => ReportRepository(ref.watch(databaseProvider)),
+);
