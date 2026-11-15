@@ -1,0 +1,15 @@
+import '../converters.dart';
+
+-- A person whose data is stored. The app starts with one; profiles for
+-- relatives can be added later without a migration.
+CREATE TABLE person (
+    id           INTEGER NOT NULL PRIMARY KEY,
+    display_name TEXT NOT NULL,
+    birth_date   TEXT
+        CHECK (birth_date IS NULL OR birth_date GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'),
+    sex          TEXT NOT NULL DEFAULT 'unknown' MAPPED BY `sexConverter`
+        CHECK (sex IN ('unknown', 'female', 'male', 'other')),
+    -- IANA zone used for readings without a zone of their own.
+    default_tz   TEXT NOT NULL,
+    created_at   INTEGER NOT NULL MAPPED BY `utcMillisConverter`
+) AS PersonRow;
