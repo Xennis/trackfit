@@ -94,10 +94,16 @@ class LexicalCoder implements Coder {
         rule: rule,
       );
     }
-    final quantitative = valueKind == ValueKind.quantity;
-    final scaled = members
-        .where((m) => quantitative ? m.scale == 'Qn' : m.scale != 'Qn')
-        .toList();
+    // A test that was not done has no value, so its scale says nothing:
+    // it gets the code of the test, chosen by unit like a number.
+    final absent = valueKind == ValueKind.absent;
+    final quantitative = valueKind == ValueKind.quantity || absent;
+    final quantitativeMembers = members.where((m) => m.scale == 'Qn');
+    final scaled = absent && quantitativeMembers.isEmpty
+        ? members
+        : members
+              .where((m) => quantitative ? m.scale == 'Qn' : m.scale != 'Qn')
+              .toList();
     if (scaled.isEmpty) {
       return CodingResult.uncoded(
         CodingOutcome.needsInput,
@@ -108,7 +114,7 @@ class LexicalCoder implements Coder {
     if (!quantitative) return _coded(scaled.first, rule, ['name', 'scale']);
 
     if (unitUcum.isEmpty) {
-      if (scaled.length == 1 && scaled.first.units.isEmpty) {
+      if (scaled.length == 1 && (scaled.first.units.isEmpty || absent)) {
         return _coded(scaled.first, rule, ['name']);
       }
       return CodingResult.uncoded(
@@ -172,6 +178,10 @@ class LexicalCoder implements Coder {
     'vollblut',
     'edta',
     'gesamt',
+    'absolut',
+    'abs',
+    'relativ',
+    'rel',
   ];
 
   /// Measure words at the end of a compound, as in `Leukozytenzahl`.
@@ -185,6 +195,11 @@ class LexicalCoder implements Coder {
   _Resolution _resolveGroups(String nameKey) {
     final direct = _lookup(nameKey);
     if (direct.isNotEmpty) return _Found(direct);
+
+    // A short code in front, e.g. `(GB) Vitamin D (25-OH-…)`: resolve the
+    // rest as a whole, so its own brackets are read as usual.
+    final leading = RegExp(r'^\([^()]{1,8}\)\s*(.+)$').firstMatch(nameKey);
+    if (leading != null) return _resolveGroups(leading.group(1)!);
 
     final paren = RegExp(r'^(.+?)\s*\(([^()]+)\)$').firstMatch(nameKey);
     if (paren != null) {
@@ -226,6 +241,9 @@ class LexicalCoder implements Coder {
   static String? _reduceOnce(String key) {
     final marks = key.replaceAll(RegExp(r'[\s*↑↓!+]+$'), '');
     if (marks != key) return marks;
+    // A short code in front of the name, e.g. the material `(GB) Ferritin`.
+    final leading = RegExp(r'^\([^()]{1,8}\)\s*(.+)$').firstMatch(key);
+    if (leading != null) return leading.group(1);
     final bracket = RegExp(r'^(.+?)\s*\([^()]*\)$').firstMatch(key);
     if (bracket != null) return bracket.group(1);
     for (final qualifier in _qualifiers) {
