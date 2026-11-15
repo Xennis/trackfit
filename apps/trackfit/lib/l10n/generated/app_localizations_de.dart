@@ -48,4 +48,55 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get moreDisclaimer =>
       'trackfit stellt keine Diagnosen und ersetzt keine ärztliche Beratung.';
+
+  @override
+  String get importAction => 'Befund hinzufügen';
+
+  @override
+  String get importTitle => 'Befund hinzufügen';
+
+  @override
+  String get importChooseFiles => 'PDF oder Bilder wählen';
+
+  @override
+  String get importDropHint => 'oder Dateien ins Fenster ziehen';
+
+  @override
+  String get importCombineTitle => 'Mehrere Fotos';
+
+  @override
+  String get importCombineBody => 'Sind diese Fotos Seiten eines Befunds?';
+
+  @override
+  String get importCombineOne => 'Ein Befund';
+
+  @override
+  String get importCombineSeparate => 'Einzelne Befunde';
+
+  @override
+  String importDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Befunde hinzugefügt',
+      one: '1 Befund hinzugefügt',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String importDuplicate(String name) {
+    return '$name wurde bereits importiert';
+  }
+
+  @override
+  String importUnsupported(String name) {
+    return '$name ist kein PDF und kein Bild';
+  }
+
+  @override
+  String get importFailed => 'Import fehlgeschlagen';
+
+  @override
+  String get open => 'Öffnen';
 }

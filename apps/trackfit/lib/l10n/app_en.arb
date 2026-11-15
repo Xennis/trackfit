@@ -27,5 +27,39 @@
   "reportsEmptyTitle": "No reports yet",
   "reportsEmptyBody": "Imported PDFs and photos will show up here.",
   "moreAbout": "About",
-  "moreDisclaimer": "trackfit does not diagnose or give medical advice."
+  "moreDisclaimer": "trackfit does not diagnose or give medical advice.",
+  "importAction": "Add report",
+  "importTitle": "Add report",
+  "importChooseFiles": "Choose PDF or images",
+  "importDropHint": "or drop files into the window",
+  "importCombineTitle": "Several photos",
+  "importCombineBody": "Are these photos pages of one report?",
+  "importCombineOne": "One report",
+  "importCombineSeparate": "Separate reports",
+  "importDone": "{count, plural, =1{1 report added} other{{count} reports added}}",
+  "@importDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importDuplicate": "{name} was imported before",
+  "@importDuplicate": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "importUnsupported": "{name} is not a PDF or image",
+  "@importUnsupported": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "importFailed": "Import failed",
+  "open": "Open"
 }

@@ -12,5 +12,18 @@
   "reportsEmptyTitle": "Noch keine Befunde",
   "reportsEmptyBody": "Importierte PDFs und Fotos erscheinen hier.",
   "moreAbout": "Über",
-  "moreDisclaimer": "trackfit stellt keine Diagnosen und ersetzt keine ärztliche Beratung."
+  "moreDisclaimer": "trackfit stellt keine Diagnosen und ersetzt keine ärztliche Beratung.",
+  "importAction": "Befund hinzufügen",
+  "importTitle": "Befund hinzufügen",
+  "importChooseFiles": "PDF oder Bilder wählen",
+  "importDropHint": "oder Dateien ins Fenster ziehen",
+  "importCombineTitle": "Mehrere Fotos",
+  "importCombineBody": "Sind diese Fotos Seiten eines Befunds?",
+  "importCombineOne": "Ein Befund",
+  "importCombineSeparate": "Einzelne Befunde",
+  "importDone": "{count, plural, =1{1 Befund hinzugefügt} other{{count} Befunde hinzugefügt}}",
+  "importDuplicate": "{name} wurde bereits importiert",
+  "importUnsupported": "{name} ist kein PDF und kein Bild",
+  "importFailed": "Import fehlgeschlagen",
+  "open": "Öffnen"
 }

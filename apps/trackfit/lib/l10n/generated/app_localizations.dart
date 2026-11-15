@@ -175,6 +175,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'trackfit does not diagnose or give medical advice.'**
   String get moreDisclaimer;
+
+  /// No description provided for @importAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add report'**
+  String get importAction;
+
+  /// No description provided for @importTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add report'**
+  String get importTitle;
+
+  /// No description provided for @importChooseFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose PDF or images'**
+  String get importChooseFiles;
+
+  /// No description provided for @importDropHint.
+  ///
+  /// In en, this message translates to:
+  /// **'or drop files into the window'**
+  String get importDropHint;
+
+  /// No description provided for @importCombineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Several photos'**
+  String get importCombineTitle;
+
+  /// No description provided for @importCombineBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Are these photos pages of one report?'**
+  String get importCombineBody;
+
+  /// No description provided for @importCombineOne.
+  ///
+  /// In en, this message translates to:
+  /// **'One report'**
+  String get importCombineOne;
+
+  /// No description provided for @importCombineSeparate.
+  ///
+  /// In en, this message translates to:
+  /// **'Separate reports'**
+  String get importCombineSeparate;
+
+  /// No description provided for @importDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 report added} other{{count} reports added}}'**
+  String importDone(int count);
+
+  /// No description provided for @importDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} was imported before'**
+  String importDuplicate(String name);
+
+  /// No description provided for @importUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is not a PDF or image'**
+  String importUnsupported(String name);
+
+  /// No description provided for @importFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Import failed'**
+  String get importFailed;
+
+  /// No description provided for @open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get open;
 }
 
 class _AppLocalizationsDelegate
