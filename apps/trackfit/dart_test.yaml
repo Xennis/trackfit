@@ -1,0 +1,4 @@
+tags:
+  # Image comparisons; fonts render differently per platform, so they are
+  # created and checked on Linux.
+  golden:
