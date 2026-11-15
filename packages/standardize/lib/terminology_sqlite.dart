@@ -1,8 +1,15 @@
+/// Reading and writing the terminology database.
+///
+/// Kept apart from `standardize.dart`, so the resolver itself needs no
+/// SQLite.
+library;
+
 import 'package:sqlite3/sqlite3.dart';
-import 'package:standardize/standardize.dart';
+
+import 'standardize.dart';
 
 /// Version of the table layout of the terminology database.
-const schemaVersion = 1;
+const terminologySchemaVersion = 1;
 
 /// Writes [terminology] into the empty database [db].
 void writeTerminology(Database db, Terminology terminology) {
@@ -31,7 +38,7 @@ void writeTerminology(Database db, Terminology terminology) {
   final meta = db.prepare('INSERT INTO meta VALUES (?, ?)');
   meta
     ..execute(['release', terminology.release])
-    ..execute(['schema_version', '$schemaVersion'])
+    ..execute(['schema_version', '$terminologySchemaVersion'])
     ..close();
   final loinc = db.prepare(
     'INSERT INTO loinc VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',

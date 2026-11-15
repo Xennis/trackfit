@@ -48,9 +48,7 @@ class Terminology {
        _categories = categories,
        _groups = {
          for (final entry in entries)
-           entry.groupId: [
-             ...entries.where((e) => e.groupId == entry.groupId),
-           ],
+           entry.groupId: [...entries.where((e) => e.groupId == entry.groupId)],
        },
        _byCode = {for (final entry in entries) entry.code: entry};
 

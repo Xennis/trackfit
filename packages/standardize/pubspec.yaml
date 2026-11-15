@@ -8,6 +8,7 @@ environment:
 resolution: workspace
 
 dependencies:
+  sqlite3: ^3.0.0
   trackfit_core:
     path: ../trackfit_core
   ucum:

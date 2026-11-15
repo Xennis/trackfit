@@ -15,3 +15,7 @@ Pure Dart.
 ```bash
 dart test
 ```
+
+`package:standardize/terminology_sqlite.dart` reads and writes the
+terminology database built by `tools/build_terminology`; the resolver itself
+does not need SQLite.

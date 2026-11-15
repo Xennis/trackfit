@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:build_terminology/build_terminology.dart';
 import 'package:sqlite3/sqlite3.dart';
 import 'package:standardize/standardize.dart';
+import 'package:standardize/terminology_sqlite.dart';
 
 /// Builds the terminology database from the seed tables.
 ///
