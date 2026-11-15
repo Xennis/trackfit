@@ -82,3 +82,40 @@ ObservationCompanion labObservation({
     createdAt: testNow,
   );
 }
+
+const testRelease = 'seed-2026.11';
+
+Future<String> insertDecision(TrackfitDatabase db, {String id = ''}) async {
+  final decisionId = id.isEmpty ? '0123456789abcdef' : id;
+  await db
+      .into(db.codingDecision)
+      .insert(
+        CodingDecisionCompanion.insert(
+          id: decisionId,
+          nameKey: 'eisen',
+          valueKind: ValueKind.quantity,
+          terminologyRelease: testRelease,
+          rule: 'engine:lexical',
+          createdAt: testNow,
+        ),
+      );
+  return decisionId;
+}
+
+CodingCurrentCompanion codedAs({
+  required int observationId,
+  required String decisionId,
+  CodingOutcome outcome = CodingOutcome.coded,
+  String? code = '2498-4',
+  String reason = '',
+}) => CodingCurrentCompanion.insert(
+  observationId: Value(observationId),
+  terminologyRelease: testRelease,
+  outcome: outcome,
+  reason: Value(reason),
+  codeSystem: Value(code == null ? null : 'http://loinc.org'),
+  code: Value(code),
+  seriesId: code == null ? 'local:eisen|ug/dL' : 'loinc:$code',
+  decisionId: decisionId,
+  codedAt: testNow,
+);

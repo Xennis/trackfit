@@ -1,0 +1,74 @@
+import '../converters.dart';
+import 'observations.drift';
+
+-- Why a (name, unit, value kind) got its code. Shared by every reading with
+-- the same key, so ten reports printing "LDL-C mmol/L" share one decision.
+CREATE TABLE coding_decision (
+    -- 16 hex characters over name_key, unit_ucum, value_kind, terminology_release and rule.
+    id         TEXT NOT NULL PRIMARY KEY CHECK (length(id) = 16),
+    name_key   TEXT NOT NULL,
+    unit_ucum  TEXT NOT NULL DEFAULT '',
+    value_kind TEXT NOT NULL MAPPED BY `valueKindConverter`
+        CHECK (value_kind IN ('quantity', 'ordinal', 'nominal', 'narrative', 'absent')),
+    -- Version of the terminology the decision was made with.
+    terminology_release TEXT NOT NULL,
+    -- e.g. 'alias:person', 'alias:global', 'engine:lexical', 'manual'.
+    rule       TEXT NOT NULL,
+    -- JSON array, e.g. ["name","property","scale"].
+    evidence   TEXT NOT NULL DEFAULT '[]',
+    -- JSON with the candidates that were rejected and why.
+    rejected   TEXT,
+    -- Confirmed by a person.
+    human      BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at INTEGER NOT NULL MAPPED BY `utcMillisConverter`
+) AS CodingDecisionRow;
+
+-- The coding a reading carries now, exactly one per observation.
+CREATE TABLE coding_current (
+    observation_id  INTEGER NOT NULL PRIMARY KEY REFERENCES observation (id) ON DELETE CASCADE,
+    terminology_release TEXT NOT NULL,
+    outcome         TEXT NOT NULL MAPPED BY `codingOutcomeConverter`
+        CHECK (outcome IN ('coded', 'needs-input', 'refused')),
+    -- Why a reading is not coded, e.g. 'engine:no-match', 'unit:missing'.
+    reason          TEXT NOT NULL DEFAULT '',
+    code_system     TEXT,
+    code            TEXT,
+    -- What may be drawn on one axis: derived from the code, or 'local:<local_key>'.
+    series_id       TEXT NOT NULL,
+    -- Codes of one analyte across properties, e.g. mass and substance concentration.
+    group_id        TEXT,
+    -- Value in the canonical unit of the group.
+    value_canonical REAL,
+    unit_canonical  TEXT,
+    decision_id     TEXT NOT NULL REFERENCES coding_decision (id),
+    coded_at        INTEGER NOT NULL MAPPED BY `utcMillisConverter`,
+    CHECK ((outcome = 'coded') = (code IS NOT NULL)),
+    CHECK ((code IS NULL) = (code_system IS NULL)),
+    CHECK (outcome = 'coded' OR reason <> ''),
+    CHECK ((value_canonical IS NULL) = (unit_canonical IS NULL))
+) AS CodingCurrentRow;
+
+CREATE INDEX idx_coding_current_series ON coding_current (series_id, observation_id);
+CREATE INDEX idx_coding_current_open ON coding_current (outcome) WHERE outcome <> 'coded';
+
+-- Every coding a reading ever had. Only appended.
+CREATE TABLE coding_history (
+    id              INTEGER NOT NULL PRIMARY KEY,
+    observation_id  INTEGER NOT NULL REFERENCES observation (id) ON DELETE CASCADE,
+    cause           TEXT NOT NULL MAPPED BY `codingCauseConverter`
+        CHECK (cause IN ('ingest', 'amend', 'correct', 'recode-release', 'recode-rules', 'recode-alias')),
+    terminology_release TEXT NOT NULL,
+    outcome         TEXT NOT NULL MAPPED BY `codingOutcomeConverter`
+        CHECK (outcome IN ('coded', 'needs-input', 'refused')),
+    reason          TEXT NOT NULL DEFAULT '',
+    code_system     TEXT,
+    code            TEXT,
+    series_id       TEXT NOT NULL,
+    group_id        TEXT,
+    value_canonical REAL,
+    unit_canonical  TEXT,
+    decision_id     TEXT NOT NULL REFERENCES coding_decision (id),
+    coded_at        INTEGER NOT NULL MAPPED BY `utcMillisConverter`
+) AS CodingHistoryRow;
+
+CREATE INDEX idx_coding_history_observation ON coding_history (observation_id, coded_at);
