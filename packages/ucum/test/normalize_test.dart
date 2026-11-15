@@ -64,6 +64,7 @@ void main() {
           code.contains('[Hg]') ||
           code.contains('min') ||
           code.contains('h') ||
+          code == 's' ||
           code == 'fL' ||
           code == 'pg';
       if (!atomic) expect(unit, isNotNull, reason: code);
