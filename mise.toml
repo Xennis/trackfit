@@ -15,6 +15,38 @@ description = "Run the app tests"
 dir = "{{config_root}}/apps/trackfit"
 run = "flutter test"
 
+[tasks."test:packages"]
+description = "Run the tests of the pure Dart packages"
+run = [
+  "cd packages/trackfit_core && dart test",
+  "cd packages/trackfit_db && dart test",
+  "cd packages/ucum && dart test",
+  "cd packages/standardize && dart test",
+]
+
+[tasks."test:all"]
+description = "Analyze and run every test"
+depends = ["analyze", "test", "test:packages"]
+
+[tasks."test:goldens"]
+description = "Update the golden images of the app tests"
+dir = "{{config_root}}/apps/trackfit"
+run = "flutter test --update-goldens --tags golden"
+
+[tasks.codegen]
+description = "Regenerate drift code after schema changes"
+dir = "{{config_root}}/packages/trackfit_db"
+run = "dart run build_runner build"
+
+[tasks.terminology]
+description = "Build the terminology database from the seed tables"
+run = "dart run tools/build_terminology/bin/build_terminology.dart"
+
+[tasks.icons]
+description = "Draw the app icon and the Android launcher images"
+dir = "{{config_root}}/apps/trackfit"
+run = "dart run tool/generate_icons.dart"
+
 [tasks.l10n]
 description = "Regenerate localizations from the ARB files"
 dir = "{{config_root}}/apps/trackfit"

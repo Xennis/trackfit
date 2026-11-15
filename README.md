@@ -45,8 +45,9 @@ mise run get
 mise run run          # start on the Linux desktop with hot reload
 ```
 
-Other tasks: `mise tasks` lists them, e.g. `analyze`, `test`,
-`build:linux`, `start:linux` and `build:apk`.
+Other tasks: `mise tasks` lists them, e.g. `test:all` (analyze and every
+test), `build:linux`, `start:linux`, `build:apk`, `terminology` (rebuild the
+bundled terminology after changing the seed tables) and `codegen` (drift).
 
 ## Disclaimer
 
