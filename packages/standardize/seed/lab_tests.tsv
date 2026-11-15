@@ -1,0 +1,58 @@
+# Common lab tests for the first terminology release.
+# Codes and long names are curated by hand from LOINC (https://loinc.org) and
+# must be checked against the LOINC release before each terminology release.
+# Columns: code, group, property, scale, units (UCUM, comma separated),
+# canonical unit, molar mass (g/mol), category, short name, German name,
+# LOINC long common name, component, system, aliases (| separated)
+718-7	hemoglobin	MCnc	Qn	g/dL,g/L	g/dL	16114.5	blood-count	Hb	Hämoglobin	Hemoglobin [Mass/volume] in Blood	Hemoglobin	Bld	hb|hgb|haemoglobin|hemoglobin|hämoglobin (hb)
+59260-0	hemoglobin	SCnc	Qn	mmol/L	g/dL	16114.5	blood-count	Hb	Hämoglobin	Hemoglobin [Moles/volume] in Blood	Hemoglobin	Bld	
+6690-2	leukocytes	NCnc	Qn	10*3/uL,10*9/L,/nL	10*3/uL		blood-count	Leukozyten	Leukozyten	Leukocytes [#/volume] in Blood by Automated count	Leukocytes	Bld	leukos|leukocytes|wbc|white blood cells|weiße blutkörperchen
+789-8	erythrocytes	NCnc	Qn	10*6/uL,10*12/L,/pL	10*6/uL		blood-count	Erythrozyten	Erythrozyten	Erythrocytes [#/volume] in Blood by Automated count	Erythrocytes	Bld	erys|erythrocytes|rbc|red blood cells|rote blutkörperchen
+4544-3	hematocrit	VFr	Qn	%,L/L	%		blood-count	Hkt	Hämatokrit	Hematocrit [Volume Fraction] of Blood by Automated count	Hematocrit	Bld	hk|hct|hkt|haematocrit|hematocrit
+787-2	mcv	EntVol	Qn	fL	fL		blood-count	MCV	MCV	MCV [Entitic volume] by Automated count	Erythrocyte mean corpuscular volume	RBC	mean corpuscular volume|mittleres erythrozytenvolumen
+785-6	mch	EntMass	Qn	pg	pg		blood-count	MCH	MCH	MCH [Entitic mass] by Automated count	Erythrocyte mean corpuscular hemoglobin	RBC	mean corpuscular hemoglobin|hbe
+786-4	mchc	MCnc	Qn	g/dL,g/L	g/dL		blood-count	MCHC	MCHC	MCHC [Mass/volume] by Automated count	Erythrocyte mean corpuscular hemoglobin concentration	RBC	mean corpuscular hemoglobin concentration
+777-3	platelets	NCnc	Qn	10*3/uL,10*9/L,/nL	10*3/uL		blood-count	Thrombozyten	Thrombozyten	Platelets [#/volume] in Blood by Automated count	Platelets	Bld	thrombos|platelets|plt|blutplättchen
+2498-4	iron	MCnc	Qn	ug/dL,ug/L	ug/dL	55.845	iron	Eisen	Eisen	Iron [Mass/volume] in Serum or Plasma	Iron	Ser/Plas	fe|iron|eisen im serum|serum-eisen|serumeisen
+14798-3	iron	SCnc	Qn	umol/L	ug/dL	55.845	iron	Eisen	Eisen	Iron [Moles/volume] in Serum or Plasma	Iron	Ser/Plas	
+2276-4	ferritin	MCnc	Qn	ng/mL,ug/L	ng/mL		iron	Ferritin	Ferritin	Ferritin [Mass/volume] in Serum or Plasma	Ferritin	Ser/Plas	ferritin im serum|serum-ferritin
+3034-6	transferrin	MCnc	Qn	mg/dL,g/L	mg/dL		iron	Transferrin	Transferrin	Transferrin [Mass/volume] in Serum or Plasma	Transferrin	Ser/Plas	trf
+2502-3	transferrin-saturation	MFr	Qn	%	%		iron	Transferrinsättigung	Transferrinsättigung	Iron saturation [Mass Fraction] in Serum or Plasma	Iron saturation	Ser/Plas	tsat|transferrin saturation|transferrinsaettigung|fe-sättigung|eisensättigung|iron saturation
+2345-7	glucose	MCnc	Qn	mg/dL	mg/dL	180.16	metabolism	Glukose	Glukose	Glucose [Mass/volume] in Serum or Plasma	Glucose	Ser/Plas	glucose|glu|blutzucker|nüchternglukose|nüchtern-glukose|glucose nüchtern|glukose nüchtern
+14749-6	glucose	SCnc	Qn	mmol/L	mg/dL	180.16	metabolism	Glukose	Glukose	Glucose [Moles/volume] in Serum or Plasma	Glucose	Ser/Plas	
+4548-4	hba1c	MFr	Qn	%	%		metabolism	HbA1c	HbA1c	Hemoglobin A1c/Hemoglobin.total in Blood	Hemoglobin A1c/Hemoglobin.total	Bld	glykiertes hämoglobin|glycated hemoglobin|a1c|hba1c (ngsp)
+59261-8	hba1c-ifcc	SRto	Qn	mmol/mol	mmol/mol		metabolism	HbA1c (IFCC)	HbA1c (IFCC)	Hemoglobin A1c/Hemoglobin.total in Blood by IFCC protocol	Hemoglobin A1c/Hemoglobin.total	Bld	hba1c ifcc
+2160-0	creatinine	MCnc	Qn	mg/dL	mg/dL	113.12	kidney	Kreatinin	Kreatinin	Creatinine [Mass/volume] in Serum or Plasma	Creatinine	Ser/Plas	creatinine|crea|krea|kreatinin im serum
+14682-9	creatinine	SCnc	Qn	umol/L	mg/dL	113.12	kidney	Kreatinin	Kreatinin	Creatinine [Moles/volume] in Serum or Plasma	Creatinine	Ser/Plas	
+62238-1	egfr	ArVRat	Qn	mL/min/{1.73_m2}	mL/min/{1.73_m2}		kidney	eGFR	eGFR (CKD-EPI)	Glomerular filtration rate/1.73 sq M.predicted [Volume Rate/Area] in Serum, Plasma or Blood by Creatinine-based formula (CKD-EPI)	Glomerular filtration rate/1.73 sq M.predicted	Ser/Plas/Bld	egfr ckd-epi|gfr|gfr (ckd-epi)|glomeruläre filtrationsrate|egfr (ckd-epi)
+3091-6	urea	MCnc	Qn	mg/dL	mg/dL	60.06	kidney	Harnstoff	Harnstoff	Urea [Mass/volume] in Serum or Plasma	Urea	Ser/Plas	urea|harnstoff im serum
+3084-1	urate	MCnc	Qn	mg/dL	mg/dL	168.11	kidney	Harnsäure	Harnsäure	Urate [Mass/volume] in Serum or Plasma	Urate	Ser/Plas	uric acid|urate|harnsaeure
+2093-3	cholesterol	MCnc	Qn	mg/dL	mg/dL	386.65	lipids	Cholesterin	Gesamtcholesterin	Cholesterol [Mass/volume] in Serum or Plasma	Cholesterol	Ser/Plas	cholesterin|cholesterol|total cholesterol|chol|tc|gesamt-cholesterin|cholesterin gesamt
+14647-2	cholesterol	SCnc	Qn	mmol/L	mg/dL	386.65	lipids	Cholesterin	Gesamtcholesterin	Cholesterol [Moles/volume] in Serum or Plasma	Cholesterol	Ser/Plas	
+2085-9	hdl	MCnc	Qn	mg/dL	mg/dL	386.65	lipids	HDL	HDL-Cholesterin	Cholesterol in HDL [Mass/volume] in Serum or Plasma	Cholesterol.in HDL	Ser/Plas	hdl-c|hdl cholesterol|hdl-cholesterol|hdl cholesterin
+14646-4	hdl	SCnc	Qn	mmol/L	mg/dL	386.65	lipids	HDL	HDL-Cholesterin	Cholesterol in HDL [Moles/volume] in Serum or Plasma	Cholesterol.in HDL	Ser/Plas	
+13457-7	ldl	MCnc	Qn	mg/dL	mg/dL	386.65	lipids	LDL	LDL-Cholesterin	Cholesterol in LDL [Mass/volume] in Serum or Plasma by calculation	Cholesterol.in LDL	Ser/Plas	ldl-c|ldl cholesterol|ldl-cholesterol|ldl cholesterin
+22748-8	ldl	SCnc	Qn	mmol/L	mg/dL	386.65	lipids	LDL	LDL-Cholesterin	Cholesterol in LDL [Moles/volume] in Serum or Plasma	Cholesterol.in LDL	Ser/Plas	
+2571-8	triglycerides	MCnc	Qn	mg/dL	mg/dL	885.7	lipids	Triglyceride	Triglyceride	Triglyceride [Mass/volume] in Serum or Plasma	Triglyceride	Ser/Plas	triglycerides|tg|trigl|triglyzeride
+14927-8	triglycerides	SCnc	Qn	mmol/L	mg/dL	885.7	lipids	Triglyceride	Triglyceride	Triglyceride [Moles/volume] in Serum or Plasma	Triglyceride	Ser/Plas	
+1742-6	alt	CCnc	Qn	U/L	U/L		liver	ALT	ALT (GPT)	Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma	Alanine aminotransferase	Ser/Plas	gpt|alat|alt|alanin-aminotransferase|alanine aminotransferase|gpt/alt
+1920-8	ast	CCnc	Qn	U/L	U/L		liver	AST	AST (GOT)	Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma	Aspartate aminotransferase	Ser/Plas	got|asat|ast|aspartat-aminotransferase|aspartate aminotransferase|got/ast
+2324-2	ggt	CCnc	Qn	U/L	U/L		liver	GGT	Gamma-GT	Gamma glutamyl transferase [Enzymatic activity/volume] in Serum or Plasma	Gamma glutamyl transferase	Ser/Plas	gamma-gt|γ-gt|gamma gt|ggt|gamma-glutamyltransferase|γ-glutamyltransferase
+6768-6	alp	CCnc	Qn	U/L	U/L		liver	AP	Alkalische Phosphatase	Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma	Alkaline phosphatase	Ser/Plas	ap|alp|alkaline phosphatase|alk. phosphatase
+1975-2	bilirubin	MCnc	Qn	mg/dL	mg/dL	584.66	liver	Bilirubin	Bilirubin gesamt	Bilirubin.total [Mass/volume] in Serum or Plasma	Bilirubin	Ser/Plas	bilirubin|total bilirubin|gesamtbilirubin|bilirubin, gesamt
+3016-3	tsh	ACnc	Qn	m[IU]/L,u[IU]/mL,mU/L,uU/mL	m[IU]/L		thyroid	TSH	TSH	Thyrotropin [Units/volume] in Serum or Plasma	Thyrotropin	Ser/Plas	tsh basal|thyreotropin|thyrotropin|tsh basal (3. gen.)
+3024-7	ft4	MCnc	Qn	ng/dL	ng/dL	776.87	thyroid	fT4	Freies T4	Thyroxine (T4) free [Mass/volume] in Serum or Plasma	Thyroxine.free	Ser/Plas	ft4|freies thyroxin|free t4|free thyroxine
+14920-3	ft4	SCnc	Qn	pmol/L	ng/dL	776.87	thyroid	fT4	Freies T4	Thyroxine (T4) free [Moles/volume] in Serum or Plasma	Thyroxine.free	Ser/Plas	
+3051-0	ft3	MCnc	Qn	pg/mL	pg/mL	650.98	thyroid	fT3	Freies T3	Triiodothyronine (T3) Free [Mass/volume] in Serum or Plasma	Triiodothyronine.free	Ser/Plas	ft3|freies trijodthyronin|free t3|free triiodothyronine
+14928-6	ft3	SCnc	Qn	pmol/L	pg/mL	650.98	thyroid	fT3	Freies T3	Triiodothyronine (T3) Free [Moles/volume] in Serum or Plasma	Triiodothyronine.free	Ser/Plas	
+1989-3	vitamin-d	MCnc	Qn	ng/mL,ug/L	ng/mL	400.64	vitamins	Vitamin D	25-OH-Vitamin D	25-hydroxyvitamin D3+25-hydroxyvitamin D2 [Mass/volume] in Serum or Plasma	25-hydroxyvitamin D3+25-hydroxyvitamin D2	Ser/Plas	vitamin d|vit. d|25-oh-vitamin d3|25-oh vitamin d|25-oh-d|25-hydroxy-vitamin d|vitamin d3 (25-oh)|25(oh)d|25-oh-vit. d|calcidiol|vitamin d 25-oh|25-hydroxyvitamin d
+62292-8	vitamin-d	SCnc	Qn	nmol/L	ng/mL	400.64	vitamins	Vitamin D	25-OH-Vitamin D	25-hydroxyvitamin D2+25-hydroxyvitamin D3 [Moles/volume] in Serum or Plasma	25-hydroxyvitamin D2+25-hydroxyvitamin D3	Ser/Plas	
+2132-9	vitamin-b12	MCnc	Qn	pg/mL,ng/L	pg/mL	1355.37	vitamins	Vitamin B12	Vitamin B12	Cobalamin (Vitamin B12) [Mass/volume] in Serum or Plasma	Cobalamin	Ser/Plas	vit. b12|cobalamin|cobalamine|b12
+14685-2	vitamin-b12	SCnc	Qn	pmol/L	pg/mL	1355.37	vitamins	Vitamin B12	Vitamin B12	Cobalamin (Vitamin B12) [Moles/volume] in Serum or Plasma	Cobalamin	Ser/Plas	
+2284-8	folate	MCnc	Qn	ng/mL,ug/L	ng/mL		vitamins	Folsäure	Folsäure	Folate [Mass/volume] in Serum or Plasma	Folate	Ser/Plas	folat|folate|folic acid|folsaeure
+2951-2	sodium	SCnc	Qn	mmol/L	mmol/L		electrolytes	Natrium	Natrium	Sodium [Moles/volume] in Serum or Plasma	Sodium	Ser/Plas	na|sodium|na+
+2823-3	potassium	SCnc	Qn	mmol/L	mmol/L		electrolytes	Kalium	Kalium	Potassium [Moles/volume] in Serum or Plasma	Potassium	Ser/Plas	k|potassium|k+
+17861-6	calcium	MCnc	Qn	mg/dL	mg/dL	40.078	electrolytes	Calcium	Calcium	Calcium [Mass/volume] in Serum or Plasma	Calcium	Ser/Plas	ca|kalzium|calcium gesamt
+2000-8	calcium	SCnc	Qn	mmol/L	mg/dL	40.078	electrolytes	Calcium	Calcium	Calcium [Moles/volume] in Serum or Plasma	Calcium	Ser/Plas	
+1988-5	crp	MCnc	Qn	mg/L,mg/dL	mg/L		inflammation	CRP	CRP	C reactive protein [Mass/volume] in Serum or Plasma	C reactive protein	Ser/Plas	c-reaktives protein|c-reactive protein|c reaktives protein
+2857-1	psa	MCnc	Qn	ng/mL,ug/L	ng/mL		other	PSA	PSA	Prostate specific Ag [Mass/volume] in Serum or Plasma	Prostate specific Ag	Ser/Plas	prostata-spezifisches antigen|psa gesamt|prostate specific antigen
