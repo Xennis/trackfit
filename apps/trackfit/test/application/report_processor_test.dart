@@ -135,8 +135,14 @@ void main() {
 
       ready = true;
       queue.poke();
-      await pumpEventQueue();
-      expect((await reports.getReport(reportId))!.status, ReportStatus.review);
+      // Processing reads files from disk, so wait for the result instead of
+      // a fixed number of event loop turns.
+      final status = await reports
+          .watchReport(reportId)
+          .map((r) => r!.status)
+          .firstWhere((s) => s == ReportStatus.review)
+          .timeout(const Duration(seconds: 10));
+      expect(status, ReportStatus.review);
     });
   });
 }
