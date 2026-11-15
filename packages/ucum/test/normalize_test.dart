@@ -40,6 +40,7 @@ void main() {
     'Zellen/µl': '/uL',
     'Mrd/ml': '10*9/mL',
     'Vol%': '%',
+    'sec.': 's',
   };
 
   for (final MapEntry(key: printed, value: expected) in cases.entries) {

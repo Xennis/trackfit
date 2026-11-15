@@ -47,6 +47,12 @@ const _absent = <String, String>{
   'siehe bemerkung': 'see-comment',
   'siehe befund': 'see-comment',
   'hämolytisch': 'sample-hemolyzed',
+  // "kein Material": no sample for this test.
+  'k.mat.': 'no-specimen',
+  'k. mat.': 'no-specimen',
+  'k.mat': 'no-specimen',
+  'kein material': 'no-specimen',
+  'kein mat.': 'no-specimen',
 };
 
 const _nominal = <String, String>{

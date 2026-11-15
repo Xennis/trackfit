@@ -45,6 +45,7 @@ void main() {
     expect(parseValue('').absentReason, 'not-reported');
     expect(parseValue('n.b.').absentReason, 'not-performed');
     expect(parseValue('folgt').absentReason, 'pending');
+    expect(parseValue('k. Mat.').absentReason, 'no-specimen');
   });
 
   test('two readings in one cell stay narrative', () {
