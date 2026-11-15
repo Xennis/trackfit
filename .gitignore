@@ -1,0 +1,28 @@
+# Local planning notes, never committed
+/docs/
+
+# Local health data for manual testing, never committed
+test_data_local/
+
+# Dart and Flutter
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec_overrides.yaml
+coverage/
+
+# IDEs and editors
+.idea/
+*.iml
+.vscode/
+*.swp
+.DS_Store
+
+# Secrets
+*.env
+.env*
+*.keystore
+*.jks
+key.properties
