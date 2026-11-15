@@ -27,6 +27,11 @@ class TrackfitDatabase extends _$TrackfitDatabase {
   @override
   int get schemaVersion => 1;
 
+  /// Writes a consistent copy of the database to [path], which must not
+  /// exist yet. Safe while the app keeps running.
+  Future<void> backupTo(String path) =>
+      customStatement('VACUUM INTO ?', [path]);
+
   @override
   MigrationStrategy get migration => MigrationStrategy(
     beforeOpen: (details) async {
