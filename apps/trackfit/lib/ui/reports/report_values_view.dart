@@ -141,7 +141,7 @@ class _ValueTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final open = reading.outcome != CodingOutcome.coded;
+    final open = reading.outcome == CodingOutcome.needsInput;
     final page = reading.pageIx;
     final details = [
       if (reading.refText.trim().isNotEmpty)

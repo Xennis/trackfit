@@ -62,4 +62,35 @@ void main() {
     expect(find.text('Eisen'), findsNothing);
     expect(find.text('Fe-Sätt.'), findsOneWidget);
   });
+  testWidgets('a name marked as not standard is not open', (tester) async {
+    final db = memoryDatabase();
+    addTearDown(db.close);
+    final coder = AliasCoder(LexicalCoder(seedTerminology()), [
+      ConfirmedAlias(nameKey: nameKey('Bemerkung')),
+    ]);
+    await seedReport(
+      db,
+      reportDate: '2025-03-14',
+      coder: coder,
+      drafts: const [
+        ObservationDraft(name: 'Bemerkung', value: '1', unit: 'mg/l'),
+      ],
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: testOverrides(db, coder: coder),
+        child: const TrackfitApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Values'));
+    await tester.pumpAndSettle();
+    expect(find.text('Bemerkung'), findsOneWidget);
+    expect(find.text('Not assigned yet'), findsNothing);
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+    expect(find.text('Bemerkung'), findsNothing);
+  });
 }

@@ -46,7 +46,8 @@ class SeriesView {
 
   bool get isAbnormal => latest.flag != Flag.none;
 
-  bool get isOpen => latest.outcome != CodingOutcome.coded;
+  /// Waits for an answer; a name marked as not standard is not open.
+  bool get isOpen => latest.outcome == CodingOutcome.needsInput;
 
   /// The same series shown in [target]; null when it cannot be converted.
   SeriesView? inUnit(String target, {double? molarMass}) {
