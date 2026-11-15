@@ -131,13 +131,16 @@ class HistoryChart extends StatelessWidget {
               sideTitles: SideTitles(
                 showTitles: true,
                 reservedSize: 44,
-                getTitlesWidget: (value, meta) => SideTitleWidget(
-                  meta: meta,
-                  child: Text(
-                    formatNumber(context, value, decimals: 1),
-                    style: theme.textTheme.labelSmall,
-                  ),
-                ),
+                getTitlesWidget: (value, meta) =>
+                    value == meta.min || value == meta.max
+                    ? const SizedBox.shrink()
+                    : SideTitleWidget(
+                        meta: meta,
+                        child: Text(
+                          formatNumber(context, value, decimals: 1),
+                          style: theme.textTheme.labelSmall,
+                        ),
+                      ),
               ),
             ),
             bottomTitles: AxisTitles(
@@ -146,6 +149,11 @@ class HistoryChart extends StatelessWidget {
                 reservedSize: 28,
                 interval: math.max(1, (maxX - minX) / 4),
                 getTitlesWidget: (value, meta) {
+                  // fl_chart adds labels at both edges, which collide with
+                  // the regular ones.
+                  if (value == meta.min || value == meta.max) {
+                    return const SizedBox.shrink();
+                  }
                   final date = DateTime.fromMillisecondsSinceEpoch(
                     (value * Duration.millisecondsPerDay).round(),
                     isUtc: true,
