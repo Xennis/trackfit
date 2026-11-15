@@ -1,11 +1,15 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../app/router.dart';
+import '../../application/backup.dart';
 import '../../application/recognition_settings.dart';
 import '../../application/storage_info.dart';
 import '../../application/theme_settings.dart';
+import '../../data/database_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../reports/report_providers.dart';
 
@@ -73,6 +77,12 @@ class MorePage extends ConsumerWidget {
             isThreeLine: storage != null,
           ),
           ListTile(
+            leading: const Icon(Icons.save_alt_outlined),
+            title: Text(l10n.settingsBackup),
+            subtitle: Text(l10n.settingsBackupBody),
+            onTap: () => _backup(context, ref),
+          ),
+          ListTile(
             leading: const Icon(Icons.info_outline),
             title: Text(l10n.moreAbout),
             subtitle: Text(l10n.moreDisclaimer),
@@ -82,5 +92,27 @@ class MorePage extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _backup(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      final bytes = await backupBytes(
+        ref.read(databaseProvider),
+        await getTemporaryDirectory(),
+      );
+      final saved = await FilePicker.saveFile(
+        fileName: backupFileName(DateTime.now()),
+        bytes: bytes,
+        mimeType: 'application/vnd.sqlite3',
+      );
+      if (saved != null) {
+        messenger.showSnackBar(SnackBar(content: Text(l10n.backupSaved)));
+      }
+    } on Object catch (error) {
+      debugPrint('Backup failed: ${error.runtimeType}');
+      messenger.showSnackBar(SnackBar(content: Text(l10n.backupFailed)));
+    }
   }
 }

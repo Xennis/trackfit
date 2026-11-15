@@ -335,5 +335,9 @@
         "type": "String"
       }
     }
-  }
+  },
+  "settingsBackup": "Back up database",
+  "settingsBackupBody": "Saves a copy of all values. Imported files are not included.",
+  "backupSaved": "Backup saved",
+  "backupFailed": "Backup failed"
 }

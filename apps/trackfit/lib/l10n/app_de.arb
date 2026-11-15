@@ -170,5 +170,9 @@
   "themeDark": "Dunkel",
   "settingsData": "Daten",
   "settingsDataSummary": "{reports} Befunde · {size}",
-  "settingsDataLocation": "Gespeichert in {path}"
+  "settingsDataLocation": "Gespeichert in {path}",
+  "settingsBackup": "Datenbank sichern",
+  "settingsBackupBody": "Speichert eine Kopie aller Werte. Importierte Dateien sind nicht enthalten.",
+  "backupSaved": "Sicherung gespeichert",
+  "backupFailed": "Sicherung fehlgeschlagen"
 }

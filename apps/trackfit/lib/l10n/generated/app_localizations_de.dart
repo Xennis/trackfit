@@ -636,4 +636,17 @@ class AppLocalizationsDe extends AppLocalizations {
   String settingsDataLocation(String path) {
     return 'Gespeichert in $path';
   }
+
+  @override
+  String get settingsBackup => 'Datenbank sichern';
+
+  @override
+  String get settingsBackupBody =>
+      'Speichert eine Kopie aller Werte. Importierte Dateien sind nicht enthalten.';
+
+  @override
+  String get backupSaved => 'Sicherung gespeichert';
+
+  @override
+  String get backupFailed => 'Sicherung fehlgeschlagen';
 }

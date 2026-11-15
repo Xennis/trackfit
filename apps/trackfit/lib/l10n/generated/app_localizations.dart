@@ -1123,6 +1123,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stored in {path}'**
   String settingsDataLocation(String path);
+
+  /// No description provided for @settingsBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up database'**
+  String get settingsBackup;
+
+  /// No description provided for @settingsBackupBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Saves a copy of all values. Imported files are not included.'**
+  String get settingsBackupBody;
+
+  /// No description provided for @backupSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup saved'**
+  String get backupSaved;
+
+  /// No description provided for @backupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup failed'**
+  String get backupFailed;
 }
 
 class _AppLocalizationsDelegate
