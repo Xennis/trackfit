@@ -84,10 +84,14 @@ class _ValueTile extends StatelessWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            formatPrintedValue(reading),
-            style: theme.textTheme.bodyLarge?.copyWith(
-              fontFeatures: const [FontFeature.tabularFigures()],
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 140),
+            child: Text(
+              formatPrintedValue(reading),
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                fontFeatures: const [FontFeature.tabularFigures()],
+              ),
             ),
           ),
           const SizedBox(width: 8),

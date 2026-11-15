@@ -150,10 +150,14 @@ class SeriesTile extends StatelessWidget {
             highlightLast: series.isAbnormal,
           ),
           const SizedBox(width: 12),
-          Text(
-            formatPrintedValue(latest),
-            style: theme.textTheme.bodyLarge?.copyWith(
-              fontFeatures: const [FontFeature.tabularFigures()],
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 120),
+            child: Text(
+              formatPrintedValue(latest),
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                fontFeatures: const [FontFeature.tabularFigures()],
+              ),
             ),
           ),
           const SizedBox(width: 4),
