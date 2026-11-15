@@ -298,5 +298,7 @@
     }
   },
   "questionSearch": "Search tests",
-  "questionOpenReport": "Open report"
+  "questionOpenReport": "Open report",
+  "reportReprocess": "Read values again",
+  "reportReprocessStarted": "The report is read again."
 }

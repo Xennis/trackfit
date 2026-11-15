@@ -579,4 +579,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get questionOpenReport => 'Open report';
+
+  @override
+  String get reportReprocess => 'Read values again';
+
+  @override
+  String get reportReprocessStarted => 'The report is read again.';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:trackfit_core/trackfit_core.dart';
 
 import '../../app/router.dart';
 import '../../application/delete_report.dart';
@@ -95,12 +96,17 @@ class _ReportDetailPageState extends ConsumerState<ReportDetailPage> {
                       report == null
                           ? null
                           : pickReportDate(context, ref, report),
+                    _Action.reprocess => _reprocess(context),
                     _Action.delete => _delete(context, ref),
                   },
                   itemBuilder: (context) => [
                     PopupMenuItem(
                       value: _Action.changeDate,
                       child: Text(l10n.reportChangeDate),
+                    ),
+                    PopupMenuItem(
+                      value: _Action.reprocess,
+                      child: Text(l10n.reportReprocess),
                     ),
                     PopupMenuItem(
                       value: _Action.delete,
@@ -141,6 +147,19 @@ class _ReportDetailPageState extends ConsumerState<ReportDetailPage> {
     );
   }
 
+  /// Queues the report again. Recognized pages are kept, so only the values
+  /// are read again; corrections made by the person stay.
+  Future<void> _reprocess(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    await ref
+        .read(reportRepositoryProvider)
+        .setStatus(reportId, ReportStatus.pending);
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.reportReprocessStarted)),
+    );
+  }
+
   Future<void> _delete(BuildContext context, WidgetRef ref) async {
     final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
@@ -164,4 +183,4 @@ class _ReportDetailPageState extends ConsumerState<ReportDetailPage> {
   }
 }
 
-enum _Action { changeDate, delete }
+enum _Action { changeDate, reprocess, delete }

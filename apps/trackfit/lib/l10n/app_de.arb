@@ -157,5 +157,7 @@
   "questionReasonOther": "Der Wert konnte nicht zugeordnet werden.",
   "questionAnswered": "{count, plural, =1{1 Wert zugeordnet} other{{count} Werte zugeordnet}}",
   "questionSearch": "Tests suchen",
-  "questionOpenReport": "Befund öffnen"
+  "questionOpenReport": "Befund öffnen",
+  "reportReprocess": "Werte erneut auslesen",
+  "reportReprocessStarted": "Der Befund wird erneut ausgelesen."
 }

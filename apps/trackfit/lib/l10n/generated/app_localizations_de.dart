@@ -584,4 +584,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get questionOpenReport => 'Befund öffnen';
+
+  @override
+  String get reportReprocess => 'Werte erneut auslesen';
+
+  @override
+  String get reportReprocessStarted => 'Der Befund wird erneut ausgelesen.';
 }

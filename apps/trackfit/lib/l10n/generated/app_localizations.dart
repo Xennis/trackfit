@@ -1045,6 +1045,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open report'**
   String get questionOpenReport;
+
+  /// No description provided for @reportReprocess.
+  ///
+  /// In en, this message translates to:
+  /// **'Read values again'**
+  String get reportReprocess;
+
+  /// No description provided for @reportReprocessStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'The report is read again.'**
+  String get reportReprocessStarted;
 }
 
 class _AppLocalizationsDelegate
