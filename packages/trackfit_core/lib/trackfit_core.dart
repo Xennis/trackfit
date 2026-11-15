@@ -6,4 +6,5 @@
 library;
 
 export 'src/enums.dart';
+export 'src/observation_draft.dart';
 export 'src/wire_enum.dart';
