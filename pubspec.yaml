@@ -1,0 +1,8 @@
+name: trackfit_workspace
+description: Workspace root for the trackfit app and its packages.
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+
+workspace: []
