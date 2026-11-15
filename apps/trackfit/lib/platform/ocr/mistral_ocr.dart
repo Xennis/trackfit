@@ -4,15 +4,17 @@ import 'package:http/http.dart' as http;
 
 import 'ocr.dart';
 
-/// Recognition with the Mistral OCR API.
+/// Recognition with the Mistral OCR API (OCR 4).
 ///
 /// Sends the document as a base64 data URL and reads the Markdown of every
-/// page. Tables are requested inline in the Markdown.
+/// page. Without `table_format`, tables come inline in the Markdown. The
+/// model is pinned instead of using the `-latest` alias, so results only
+/// change when the model is changed here on purpose.
 class MistralOcr implements Ocr {
   MistralOcr({
     required String apiKey,
     http.Client? client,
-    this.model = 'mistral-ocr-latest',
+    this.model = defaultModel,
     Uri? endpoint,
   }) : _apiKey = apiKey,
        _client = client ?? http.Client(),
@@ -22,6 +24,8 @@ class MistralOcr implements Ocr {
   final http.Client _client;
   final Uri _endpoint;
   final String model;
+
+  static const defaultModel = 'mistral-ocr-4-1';
 
   @override
   String get origin => 'ocr:mistral:$model';

@@ -17,7 +17,7 @@ const _response = '''
     {"index": 0, "markdown": "# Labor Beispiel\\n\\n| Test | Wert |\\n|---|---|\\n| Eisen | 52 |",
      "images": [], "dimensions": {"dpi": 200, "height": 2200, "width": 1700}}
   ],
-  "model": "mistral-ocr-2512",
+  "model": "mistral-ocr-4-1",
   "usage_info": {"pages_processed": 2, "doc_size_bytes": 1024}
 }
 ''';
@@ -43,7 +43,8 @@ void main() {
     expect(sent.url.toString(), 'https://api.mistral.ai/v1/ocr');
     expect(sent.headers['Authorization'], 'Bearer test-key');
     final body = jsonDecode(sent.body) as Map<String, Object?>;
-    expect(body['model'], 'mistral-ocr-latest');
+    expect(body['model'], 'mistral-ocr-4-1');
+    expect(body.containsKey('table_format'), isFalse);
     final document = body['document']! as Map<String, Object?>;
     expect(document['type'], 'document_url');
     expect(
