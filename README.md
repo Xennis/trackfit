@@ -22,10 +22,17 @@ This is a Dart [pub workspace](https://dart.dev/tools/pub/workspaces).
 
 ```
 apps/
-  trackfit/          Flutter app (Android, Linux)
-packages/            Pure Dart packages, testable without Flutter
-tools/               Command line tools, e.g. building the terminology database
+  trackfit/            Flutter app (Android, Linux)
+packages/
+  trackfit_core/       shared types: enums, observation drafts
+  trackfit_db/         SQLite schema and data access (drift)
+  ucum/                parse and convert units of lab results
+  standardize/         name keys, value parsing, LOINC resolver, seed data
+tools/
+  build_terminology/   builds the terminology database bundled with the app
 ```
+
+Each package has its own README.
 
 ## Development
 
