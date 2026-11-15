@@ -6,13 +6,24 @@
 # LOINC long common name, component, system, aliases (| separated)
 718-7	hemoglobin	MCnc	Qn	g/dL,g/L	g/dL	16114.5	blood-count	Hb	Hämoglobin	Hemoglobin [Mass/volume] in Blood	Hemoglobin	Bld	hb|hgb|haemoglobin|hemoglobin|hämoglobin (hb)
 59260-0	hemoglobin	SCnc	Qn	mmol/L	g/dL	16114.5	blood-count	Hb	Hämoglobin	Hemoglobin [Moles/volume] in Blood	Hemoglobin	Bld	
-6690-2	leukocytes	NCnc	Qn	10*3/uL,10*9/L,/nL	10*3/uL		blood-count	Leukozyten	Leukozyten	Leukocytes [#/volume] in Blood by Automated count	Leukocytes	Bld	leukos|leukocytes|wbc|white blood cells|weiße blutkörperchen
-789-8	erythrocytes	NCnc	Qn	10*6/uL,10*12/L,/pL	10*6/uL		blood-count	Erythrozyten	Erythrozyten	Erythrocytes [#/volume] in Blood by Automated count	Erythrocytes	Bld	erys|erythrocytes|rbc|red blood cells|rote blutkörperchen
-4544-3	hematocrit	VFr	Qn	%,L/L	%		blood-count	Hkt	Hämatokrit	Hematocrit [Volume Fraction] of Blood by Automated count	Erythrocyte/Blood	Bld	hk|hct|hkt|haematocrit|hematocrit
+6690-2	leukocytes	NCnc	Qn	10*3/uL,10*9/L,/nL	10*3/uL		blood-count	Leukozyten	Leukozyten	Leukocytes [#/volume] in Blood by Automated count	Leukocytes	Bld	leukos|leukocytes|wbc|white blood cells|weiße blutkörperchen|leukocyten|leukozytenzahl|leukos gesamt
+789-8	erythrocytes	NCnc	Qn	10*6/uL,10*12/L,/pL	10*6/uL		blood-count	Erythrozyten	Erythrozyten	Erythrocytes [#/volume] in Blood by Automated count	Erythrocytes	Bld	erys|erythrocytes|rbc|red blood cells|rote blutkörperchen|ery|erythrocyten|erythrozytenzahl
+4544-3	hematocrit	VFr	Qn	%,L/L	%		blood-count	Hkt	Hämatokrit	Hematocrit [Volume Fraction] of Blood by Automated count	Erythrocyte/Blood	Bld	hk|hct|hkt|haematocrit|hematocrit|haematokrit
 787-2	mcv	EntMeanVol	Qn	fL	fL		blood-count	MCV	MCV	MCV [Entitic mean volume] in Red Blood Cells by Automated count	Observation	RBC	mean corpuscular volume|mittleres erythrozytenvolumen
 785-6	mch	EntMass	Qn	pg	pg		blood-count	MCH	MCH	MCH [Entitic mass] by Automated count	Hemoglobin	RBC	mean corpuscular hemoglobin|hbe
 786-4	mchc	EntMCnc	Qn	g/dL,g/L	g/dL		blood-count	MCHC	MCHC	MCHC [Entitic Mass/volume] in Red Blood Cells by Automated count	Hemoglobin	RBC	mean corpuscular hemoglobin concentration
-777-3	platelets	NCnc	Qn	10*3/uL,10*9/L,/nL	10*3/uL		blood-count	Thrombozyten	Thrombozyten	Platelets [#/volume] in Blood by Automated count	Platelets	Bld	thrombos|platelets|plt|blutplättchen
+777-3	platelets	NCnc	Qn	10*3/uL,10*9/L,/nL	10*3/uL		blood-count	Thrombozyten	Thrombozyten	Platelets [#/volume] in Blood by Automated count	Platelets	Bld	thrombos|platelets|plt|blutplättchen|thrombocyten|thrombo|thrombozytenzahl
+706-2	basophils-percent	NFr	Qn	%	%		blood-count	Basophile %	Basophile (relativ)	Basophils/Leukocytes in Blood by Automated count	Basophils/leukocytes	Bld	basophile|basophils|baso|basos|basophile granulozyten
+704-7	basophils-count	NCnc	Qn	10*3/uL,10*9/L,/nL	10*3/uL		blood-count	Basophile	Basophile (absolut)	Basophils [#/volume] in Blood by Automated count	Basophils	Bld	basophile|basophils|baso|basos|basophile granulozyten
+713-8	eosinophils-percent	NFr	Qn	%	%		blood-count	Eosinophile %	Eosinophile (relativ)	Eosinophils/Leukocytes in Blood by Automated count	Eosinophils/leukocytes	Bld	eosinophile|eosinophils|eos|eosino|eosinophile granulozyten
+711-2	eosinophils-count	NCnc	Qn	10*3/uL,10*9/L,/nL	10*3/uL		blood-count	Eosinophile	Eosinophile (absolut)	Eosinophils [#/volume] in Blood by Automated count	Eosinophils	Bld	eosinophile|eosinophils|eos|eosino|eosinophile granulozyten
+736-9	lymphocytes-percent	NFr	Qn	%	%		blood-count	Lymphozyten %	Lymphozyten (relativ)	Lymphocytes/Leukocytes in Blood by Automated count	Lymphocytes/leukocytes	Bld	lymphozyten|lymphocytes|lympho|lymphos|lym|lymphocyten
+731-0	lymphocytes-count	NCnc	Qn	10*3/uL,10*9/L,/nL	10*3/uL		blood-count	Lymphozyten	Lymphozyten (absolut)	Lymphocytes [#/volume] in Blood by Automated count	Lymphocytes	Bld	lymphozyten|lymphocytes|lympho|lymphos|lym|lymphocyten
+5905-5	monocytes-percent	NFr	Qn	%	%		blood-count	Monozyten %	Monozyten (relativ)	Monocytes/Leukocytes in Blood by Automated count	Monocytes/leukocytes	Bld	monozyten|monocytes|mono|monos|monocyten
+742-7	monocytes-count	NCnc	Qn	10*3/uL,10*9/L,/nL	10*3/uL		blood-count	Monozyten	Monozyten (absolut)	Monocytes [#/volume] in Blood by Automated count	Monocytes	Bld	monozyten|monocytes|mono|monos|monocyten
+770-8	neutrophils-percent	NFr	Qn	%	%		blood-count	Neutrophile %	Neutrophile (relativ)	Neutrophils/Leukocytes in Blood by Automated count	Neutrophils/leukocytes	Bld	neutrophile|neutrophils|neutro|neutros|neutrophile granulozyten|neutrophile granulocyten
+751-8	neutrophils-count	NCnc	Qn	10*3/uL,10*9/L,/nL	10*3/uL		blood-count	Neutrophile	Neutrophile (absolut)	Neutrophils [#/volume] in Blood by Automated count	Neutrophils	Bld	neutrophile|neutrophils|neutro|neutros|neutrophile granulozyten|neutrophile granulocyten
+788-0	rdw	DistWidth	Qn	%	%		blood-count	EVB	Erythrozytenverteilungsbreite	Erythrocyte [DistWidth] in Blood by Automated count	Erythrocyte	Bld	evb|rdw|rdw-cv|ery-verteilungsbreite|erythrozyten-verteilungsbreite|erythrocyte distribution width
 2498-4	iron	MCnc	Qn	ug/dL,ug/L	ug/dL	55.845	iron	Eisen	Eisen	Iron [Mass/volume] in Serum or Plasma	Iron	Ser/Plas	fe|iron|eisen im serum|serum-eisen|serumeisen
 14798-3	iron	SCnc	Qn	umol/L	ug/dL	55.845	iron	Eisen	Eisen	Iron [Moles/volume] in Serum or Plasma	Iron	Ser/Plas	
 2276-4	ferritin	MCnc	Qn	ng/mL,ug/L	ng/mL		iron	Ferritin	Ferritin	Ferritin [Mass/volume] in Serum or Plasma	Ferritin	Ser/Plas	ferritin im serum|serum-ferritin
@@ -35,10 +46,10 @@
 22748-8	ldl	SCnc	Qn	mmol/L	mg/dL	386.65	lipids	LDL	LDL-Cholesterin	Cholesterol in LDL [Moles/volume] in Serum or Plasma	Cholesterol.in LDL	Ser/Plas	
 2571-8	triglycerides	MCnc	Qn	mg/dL	mg/dL	885.7	lipids	Triglyceride	Triglyceride	Triglyceride [Mass/volume] in Serum or Plasma	Triglyceride	Ser/Plas	triglycerides|tg|trigl|triglyzeride
 14927-8	triglycerides	SCnc	Qn	mmol/L	mg/dL	885.7	lipids	Triglyceride	Triglyceride	Triglyceride [Moles/volume] in Serum or Plasma	Triglyceride	Ser/Plas	
-1742-6	alt	CCnc	Qn	U/L	U/L		liver	ALT	ALT (GPT)	Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma	Alanine aminotransferase	Ser/Plas	gpt|alat|alt|alanin-aminotransferase|alanine aminotransferase|gpt/alt
-1920-8	ast	CCnc	Qn	U/L	U/L		liver	AST	AST (GOT)	Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma	Aspartate aminotransferase	Ser/Plas	got|asat|ast|aspartat-aminotransferase|aspartate aminotransferase|got/ast
-2324-2	ggt	CCnc	Qn	U/L	U/L		liver	GGT	Gamma-GT	Gamma glutamyl transferase [Enzymatic activity/volume] in Serum or Plasma	Gamma glutamyl transferase	Ser/Plas	gamma-gt|γ-gt|gamma gt|ggt|gamma-glutamyltransferase|γ-glutamyltransferase
-6768-6	alp	CCnc	Qn	U/L	U/L		liver	AP	Alkalische Phosphatase	Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma	Alkaline phosphatase	Ser/Plas	ap|alp|alkaline phosphatase|alk. phosphatase
+1742-6	alt	CCnc	Qn	U/L,[IU]/L	U/L		liver	ALT	ALT (GPT)	Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma	Alanine aminotransferase	Ser/Plas	gpt|alat|alt|alanin-aminotransferase|alanine aminotransferase|gpt/alt
+1920-8	ast	CCnc	Qn	U/L,[IU]/L	U/L		liver	AST	AST (GOT)	Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma	Aspartate aminotransferase	Ser/Plas	got|asat|ast|aspartat-aminotransferase|aspartate aminotransferase|got/ast
+2324-2	ggt	CCnc	Qn	U/L,[IU]/L	U/L		liver	GGT	Gamma-GT	Gamma glutamyl transferase [Enzymatic activity/volume] in Serum or Plasma	Gamma glutamyl transferase	Ser/Plas	gamma-gt|γ-gt|gamma gt|ggt|gamma-glutamyltransferase|γ-glutamyltransferase
+6768-6	alp	CCnc	Qn	U/L,[IU]/L	U/L		liver	AP	Alkalische Phosphatase	Alkaline phosphatase [Enzymatic activity/volume] in Serum or Plasma	Alkaline phosphatase	Ser/Plas	ap|alp|alkaline phosphatase|alk. phosphatase
 1975-2	bilirubin	MCnc	Qn	mg/dL	mg/dL	584.66	liver	Bilirubin	Bilirubin gesamt	Bilirubin.total [Mass/volume] in Serum or Plasma	Bilirubin	Ser/Plas	bilirubin|total bilirubin|gesamtbilirubin|bilirubin, gesamt
 3016-3	tsh	ACnc	Qn	m[IU]/L,u[IU]/mL,mU/L,uU/mL	m[IU]/L		thyroid	TSH	TSH	Thyrotropin [Units/volume] in Serum or Plasma	Thyrotropin	Ser/Plas	tsh basal|thyreotropin|thyrotropin|tsh basal (3. gen.)
 3024-7	ft4	MCnc	Qn	ng/dL	ng/dL	776.87	thyroid	fT4	Freies T4	Thyroxine (T4) free [Mass/volume] in Serum or Plasma	Thyroxine.free	Ser/Plas	ft4|freies thyroxin|free t4|free thyroxine
@@ -49,7 +60,7 @@
 68438-1	vitamin-d	SCnc	Qn	nmol/L	ng/mL	400.64	vitamins	Vitamin D	25-OH-Vitamin D	25-Hydroxyvitamin D3+25-Hydroxyvitamin D2 [Moles/volume] in Serum or Plasma	Calcidiol+ercalcidiol	Ser/Plas	
 1989-3	vitamin-d3	MCnc	Qn	ng/mL,ug/L	ng/mL	400.64	vitamins	Vitamin D3	25-OH-Vitamin D3	25-hydroxyvitamin D3 [Mass/volume] in Serum or Plasma	Calcidiol	Ser/Plas	vitamin d3|25-oh-vitamin d3|vitamin d3 (25-oh)|25-hydroxyvitamin d3|25-hydroxy-vitamin d3|25-oh-d3|25(oh)d3|calcidiol
 14635-7	vitamin-d3	SCnc	Qn	nmol/L	ng/mL	400.64	vitamins	Vitamin D3	25-OH-Vitamin D3	25-hydroxyvitamin D3 [Moles/volume] in Serum or Plasma	Calcidiol	Ser/Plas	
-2132-9	vitamin-b12	MCnc	Qn	pg/mL,ng/L	pg/mL	1355.37	vitamins	Vitamin B12	Vitamin B12	Cobalamin (Vitamin B12) [Mass/volume] in Serum or Plasma	Cobalamins	Ser/Plas	vit. b12|cobalamin|cobalamine|b12
+2132-9	vitamin-b12	MCnc	Qn	pg/mL,ng/L	pg/mL	1355.37	vitamins	Vitamin B12	Vitamin B12	Cobalamin (Vitamin B12) [Mass/volume] in Serum or Plasma	Cobalamins	Ser/Plas	vit. b12|cobalamin|cobalamine|b12|vitamin b 12|vit. b 12
 14685-2	vitamin-b12	SCnc	Qn	pmol/L	pg/mL	1355.37	vitamins	Vitamin B12	Vitamin B12	Cobalamin (Vitamin B12) [Moles/volume] in Serum or Plasma	Cobalamins	Ser/Plas	
 2284-8	folate	MCnc	Qn	ng/mL,ug/L	ng/mL		vitamins	Folsäure	Folsäure	Folate [Mass/volume] in Serum or Plasma	Folate	Ser/Plas	folat|folate|folic acid|folsaeure
 2951-2	sodium	SCnc	Qn	mmol/L	mmol/L		electrolytes	Natrium	Natrium	Sodium [Moles/volume] in Serum or Plasma	Sodium	Ser/Plas	na|sodium|na+
@@ -58,3 +69,15 @@
 2000-8	calcium	SCnc	Qn	mmol/L	mg/dL	40.078	electrolytes	Calcium	Calcium	Calcium [Moles/volume] in Serum or Plasma	Calcium	Ser/Plas	
 1988-5	crp	MCnc	Qn	mg/L,mg/dL	mg/L		inflammation	CRP	CRP	C reactive protein [Mass/volume] in Serum or Plasma	C reactive protein	Ser/Plas	c-reaktives protein|c-reactive protein|c reaktives protein
 2857-1	psa	MCnc	Qn	ng/mL,ug/L	ng/mL		other	PSA	PSA	Prostate specific Ag [Mass/volume] in Serum or Plasma	Prostate specific Ag	Ser/Plas	prostata-spezifisches antigen|psa gesamt|prostate specific antigen
+2885-2	total-protein	MCnc	Qn	g/dL,g/L	g/dL		liver	Gesamteiweiß	Gesamteiweiß	Protein [Mass/volume] in Serum or Plasma	Protein	Ser/Plas	gesamteiweiss|gesamtprotein|total protein|eiweiß gesamt|eiweiss gesamt|protein gesamt|tp
+1751-7	albumin	MCnc	Qn	g/dL,g/L	g/dL		liver	Albumin	Albumin	Albumin [Mass/volume] in Serum or Plasma	Albumin	Ser/Plas	albumin|alb|albumin im serum
+5195-3	hbsag	PrThr	Ord				infection	HBsAg	HBs-Antigen	Hepatitis B virus surface Ag [Presence] in Serum	Hepatitis B virus surface Ag	Ser	hbsag|hbs-ag|hbs ag|hbs-antigen|hepatitis b surface antigen
+16933-4	anti-hbc	PrThr	Ord				infection	Anti-HBc	Anti-HBc	Hepatitis B virus core Ab [Presence] in Serum	Hepatitis B virus core Ab	Ser	anti-hbc|anti hbc|hbc-ak|hbc antikörper|hepatitis b core antikörper
+16128-1	anti-hcv	PrThr	Ord				infection	Anti-HCV	Anti-HCV	Hepatitis C virus Ab [Presence] in Serum	Hepatitis C virus Ab	Ser	anti-hcv|anti hcv|hcv-ak|hcv antikörper|hepatitis c antikörper
+7918-6	anti-hiv	PrThr	Ord				infection	Anti-HIV-1/2	Anti-HIV-1/2	HIV 1+2 Ab [Presence] in Serum	HIV 1+2 Ab	Ser	anti-hiv|anti-hiv-1/-2|anti-hiv 1/2|anti-hiv-1/2|hiv-1/-2-ak|hiv 1/2 antikörper|hiv 1+2 antikörper
+22587-0	treponema	PrThr	Ord				infection	TPHA	Treponema-pallidum-Antikörper	Treponema pallidum Ab [Presence] in Serum	Treponema pallidum Ab	Ser	treponema pallidum antikörper|treponema pallidum ak|tp-ak|tpha|tppa|lues-suchtest|syphilis-suchtest
+22244-8	cmv-igg	PrThr	Ord				infection	CMV-IgG	CMV-IgG-Antikörper	Cytomegalovirus IgG Ab [Presence] in Serum or Plasma	Cytomegalovirus Ab.IgG	Ser/Plas	anti-cmv|anti cmv|anti-cmv-igg|cmv igg|cmv-igg|cmv-igg-ak|cytomegalievirus igg
+29610-3	hbv-dna	PrThr	Ord				infection	HBV-PCR	HBV-DNA (PCR)	Hepatitis B virus DNA [Presence] in Serum or Plasma by NAA with probe detection	Hepatitis B virus DNA	Ser/Plas	hbv-pcr|hbv pcr|hbv-dna|hbv-nat
+11259-9	hcv-rna	PrThr	Ord				infection	HCV-PCR	HCV-RNA (PCR)	Hepatitis C virus RNA [Presence] in Serum or Plasma by NAA with probe detection	Hepatitis C virus RNA	Ser/Plas	hcv-pcr|hcv pcr|hcv-rna|hcv-nat
+25835-0	hiv1-rna	PrThr	Ord				infection	HIV-1-PCR	HIV-1-RNA (PCR)	HIV 1 RNA [Presence] in Serum or Plasma by NAA with probe detection	HIV 1 RNA	Ser/Plas	hiv1-pcr|hiv-1-pcr|hiv 1 pcr|hiv-1-rna|hiv1-rna|hiv-nat
+90460-7	hev-rna	PrThr	Ord				infection	HEV-PCR	HEV-RNA (PCR)	Hepatitis E virus RNA [Presence] in Serum or Plasma by NAA with probe detection	Hepatitis E virus RNA	Ser/Plas	hev-pcr|hev pcr|hev-rna|hev-nat
