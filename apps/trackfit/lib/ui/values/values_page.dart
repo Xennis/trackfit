@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/router.dart';
+import '../../data/database_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../charts/sparkline.dart';
 import '../common/empty_state.dart';
@@ -42,8 +43,22 @@ class _ValuesPageState extends ConsumerState<ValuesPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final all = ref.watch(seriesListProvider);
+    final openCount = ref.watch(openQuestionsProvider).value?.length ?? 0;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.navValues)),
+      appBar: AppBar(
+        title: Text(l10n.navValues),
+        actions: [
+          if (openCount > 0)
+            IconButton(
+              tooltip: l10n.questionsTitle,
+              onPressed: () => context.go(Routes.questions),
+              icon: Badge.count(
+                count: openCount,
+                child: const Icon(Icons.help_outline),
+              ),
+            ),
+        ],
+      ),
       body: switch (all) {
         AsyncData(value: final list) when list.isEmpty => EmptyState(
           icon: Icons.show_chart_outlined,

@@ -142,5 +142,20 @@
   "valueRetracted": "Wert als fehlerhaft markiert",
   "editNeedsName": "Gib den Namen des Tests ein",
   "addValueNeedsDate": "Setze zuerst das Befunddatum.",
-  "showPage": "Seite zeigen"
+  "showPage": "Seite zeigen",
+  "questionsTitle": "Offene Fragen",
+  "questionsEmpty": "Keine offenen Fragen.",
+  "questionsBanner": "{count, plural, =1{1 Wert braucht deine Hilfe} other{{count} Werte brauchen deine Hilfe}}",
+  "questionWhichTest": "Welcher Test ist das?",
+  "questionChooseTest": "Test wählen",
+  "questionNotStandard": "Kein Standardtest",
+  "questionReports": "{count, plural, =1{in 1 Befund} other{in {count} Befunden}}",
+  "questionReasonNoMatch": "Der Name ist noch nicht bekannt.",
+  "questionReasonAmbiguous": "Der Name passt zu mehr als einem Test.",
+  "questionReasonUnitMissing": "Die Einheit fehlt. Bearbeite den Wert im Befund.",
+  "questionReasonUnitConflict": "Die Einheit passt nicht zu diesem Test. Prüfe den Wert im Befund.",
+  "questionReasonOther": "Der Wert konnte nicht zugeordnet werden.",
+  "questionAnswered": "{count, plural, =1{1 Wert zugeordnet} other{{count} Werte zugeordnet}}",
+  "questionSearch": "Tests suchen",
+  "questionOpenReport": "Befund öffnen"
 }

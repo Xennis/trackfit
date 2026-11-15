@@ -63,3 +63,13 @@ final observationRepositoryProvider = Provider<ObservationRepository>(
 final seriesRepositoryProvider = Provider<SeriesRepository>(
   (ref) => SeriesRepository(ref.watch(databaseProvider)),
 );
+
+final questionRepositoryProvider = Provider<QuestionRepository>(
+  (ref) => QuestionRepository(ref.watch(databaseProvider)),
+);
+
+/// Open questions of the current person.
+final openQuestionsProvider = StreamProvider<List<OpenQuestion>>((ref) async* {
+  final personId = await ref.watch(currentPersonIdProvider.future);
+  yield* ref.watch(questionRepositoryProvider).watchOpen(personId);
+});

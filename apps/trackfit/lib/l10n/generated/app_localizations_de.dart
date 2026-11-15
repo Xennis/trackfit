@@ -512,4 +512,76 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get showPage => 'Seite zeigen';
+
+  @override
+  String get questionsTitle => 'Offene Fragen';
+
+  @override
+  String get questionsEmpty => 'Keine offenen Fragen.';
+
+  @override
+  String questionsBanner(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Werte brauchen deine Hilfe',
+      one: '1 Wert braucht deine Hilfe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get questionWhichTest => 'Welcher Test ist das?';
+
+  @override
+  String get questionChooseTest => 'Test wählen';
+
+  @override
+  String get questionNotStandard => 'Kein Standardtest';
+
+  @override
+  String questionReports(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count Befunden',
+      one: 'in 1 Befund',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get questionReasonNoMatch => 'Der Name ist noch nicht bekannt.';
+
+  @override
+  String get questionReasonAmbiguous =>
+      'Der Name passt zu mehr als einem Test.';
+
+  @override
+  String get questionReasonUnitMissing =>
+      'Die Einheit fehlt. Bearbeite den Wert im Befund.';
+
+  @override
+  String get questionReasonUnitConflict =>
+      'Die Einheit passt nicht zu diesem Test. Prüfe den Wert im Befund.';
+
+  @override
+  String get questionReasonOther => 'Der Wert konnte nicht zugeordnet werden.';
+
+  @override
+  String questionAnswered(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Werte zugeordnet',
+      one: '1 Wert zugeordnet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get questionSearch => 'Tests suchen';
+
+  @override
+  String get questionOpenReport => 'Befund öffnen';
 }

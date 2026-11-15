@@ -262,5 +262,41 @@
   "valueRetracted": "Value marked as error",
   "editNeedsName": "Enter the name of the test",
   "addValueNeedsDate": "Set the report date first.",
-  "showPage": "Show page"
+  "showPage": "Show page",
+  "questionsTitle": "Open questions",
+  "questionsEmpty": "No open questions.",
+  "questionsBanner": "{count, plural, =1{1 value needs your help} other{{count} values need your help}}",
+  "@questionsBanner": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "questionWhichTest": "Which test is this?",
+  "questionChooseTest": "Choose test",
+  "questionNotStandard": "Not a standard test",
+  "questionReports": "{count, plural, =1{in 1 report} other{in {count} reports}}",
+  "@questionReports": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "questionReasonNoMatch": "The name is not known yet.",
+  "questionReasonAmbiguous": "The name fits more than one test.",
+  "questionReasonUnitMissing": "The unit is missing. Edit the value in its report.",
+  "questionReasonUnitConflict": "The unit does not fit this test. Check the value in its report.",
+  "questionReasonOther": "The value could not be assigned.",
+  "questionAnswered": "{count, plural, =1{1 value assigned} other{{count} values assigned}}",
+  "@questionAnswered": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "questionSearch": "Search tests",
+  "questionOpenReport": "Open report"
 }

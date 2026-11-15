@@ -6,6 +6,7 @@ import '../ui/more/about_page.dart';
 import '../ui/more/more_page.dart';
 import '../ui/more/recognition_settings_page.dart';
 import '../ui/overview/overview_page.dart';
+import '../ui/questions/open_questions_page.dart';
 import '../ui/reports/report_detail_page.dart';
 import '../ui/reports/reports_page.dart';
 import '../ui/shell/app_shell.dart';
@@ -21,6 +22,7 @@ abstract final class Routes {
 
   static const recognitionSettings = '$more/recognition';
   static const about = '$more/about';
+  static const questions = '$values/questions';
 
   static String report(int id) => '$reports/$id';
 
@@ -41,6 +43,10 @@ final routerProvider = Provider<GoRouter>((ref) {
             Routes.values,
             const ValuesPage(),
             routes: [
+              GoRoute(
+                path: 'questions',
+                builder: (context, state) => const OpenQuestionsPage(),
+              ),
               GoRoute(
                 path: ':key',
                 builder: (context, state) =>

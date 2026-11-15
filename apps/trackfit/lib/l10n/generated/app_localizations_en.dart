@@ -508,4 +508,75 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get showPage => 'Show page';
+
+  @override
+  String get questionsTitle => 'Open questions';
+
+  @override
+  String get questionsEmpty => 'No open questions.';
+
+  @override
+  String questionsBanner(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count values need your help',
+      one: '1 value needs your help',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get questionWhichTest => 'Which test is this?';
+
+  @override
+  String get questionChooseTest => 'Choose test';
+
+  @override
+  String get questionNotStandard => 'Not a standard test';
+
+  @override
+  String questionReports(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count reports',
+      one: 'in 1 report',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get questionReasonNoMatch => 'The name is not known yet.';
+
+  @override
+  String get questionReasonAmbiguous => 'The name fits more than one test.';
+
+  @override
+  String get questionReasonUnitMissing =>
+      'The unit is missing. Edit the value in its report.';
+
+  @override
+  String get questionReasonUnitConflict =>
+      'The unit does not fit this test. Check the value in its report.';
+
+  @override
+  String get questionReasonOther => 'The value could not be assigned.';
+
+  @override
+  String questionAnswered(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count values assigned',
+      one: '1 value assigned',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get questionSearch => 'Search tests';
+
+  @override
+  String get questionOpenReport => 'Open report';
 }

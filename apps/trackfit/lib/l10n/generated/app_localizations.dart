@@ -955,6 +955,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show page'**
   String get showPage;
+
+  /// No description provided for @questionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open questions'**
+  String get questionsTitle;
+
+  /// No description provided for @questionsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No open questions.'**
+  String get questionsEmpty;
+
+  /// No description provided for @questionsBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 value needs your help} other{{count} values need your help}}'**
+  String questionsBanner(int count);
+
+  /// No description provided for @questionWhichTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Which test is this?'**
+  String get questionWhichTest;
+
+  /// No description provided for @questionChooseTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose test'**
+  String get questionChooseTest;
+
+  /// No description provided for @questionNotStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a standard test'**
+  String get questionNotStandard;
+
+  /// No description provided for @questionReports.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in 1 report} other{in {count} reports}}'**
+  String questionReports(int count);
+
+  /// No description provided for @questionReasonNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The name is not known yet.'**
+  String get questionReasonNoMatch;
+
+  /// No description provided for @questionReasonAmbiguous.
+  ///
+  /// In en, this message translates to:
+  /// **'The name fits more than one test.'**
+  String get questionReasonAmbiguous;
+
+  /// No description provided for @questionReasonUnitMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'The unit is missing. Edit the value in its report.'**
+  String get questionReasonUnitMissing;
+
+  /// No description provided for @questionReasonUnitConflict.
+  ///
+  /// In en, this message translates to:
+  /// **'The unit does not fit this test. Check the value in its report.'**
+  String get questionReasonUnitConflict;
+
+  /// No description provided for @questionReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'The value could not be assigned.'**
+  String get questionReasonOther;
+
+  /// No description provided for @questionAnswered.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 value assigned} other{{count} values assigned}}'**
+  String questionAnswered(int count);
+
+  /// No description provided for @questionSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search tests'**
+  String get questionSearch;
+
+  /// No description provided for @questionOpenReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Open report'**
+  String get questionOpenReport;
 }
 
 class _AppLocalizationsDelegate
