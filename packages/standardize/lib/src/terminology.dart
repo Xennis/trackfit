@@ -42,9 +42,10 @@ class Terminology {
   Terminology({
     required this.release,
     required List<TerminologyEntry> entries,
-    required Map<String, String> aliases,
+    required Iterable<(String, String)> aliases,
     required Set<String> categories,
-  }) : _aliases = aliases,
+  }) : _aliases = _index(aliases, (key) => key),
+       _compactAliases = _index(aliases, compactKey),
        _categories = categories,
        _groups = {
          for (final entry in entries)
@@ -64,7 +65,7 @@ class Terminology {
     required String categories,
   }) {
     final entries = <TerminologyEntry>[];
-    final aliases = <String, String>{};
+    final aliases = <(String, String)>{};
     for (final row in _rows(labTests)) {
       if (row.length < 14) {
         throw FormatException('lab test row needs 14 columns', row.join('\t'));
@@ -110,14 +111,11 @@ class Terminology {
           ),
         ),
       );
+      // A name may stand for several analytes, e.g. "Basophile" for the
+      // share in percent and for the absolute count; the unit decides.
       for (final name in [shortName, displayDe, ...names.split('|')]) {
         final key = nameKey(name);
-        if (key.isEmpty) continue;
-        final existing = aliases[key];
-        if (existing != null && existing != group) {
-          throw FormatException('"$name" names $existing and $group');
-        }
-        aliases[key] = group;
+        if (key.isNotEmpty) aliases.add((key, group));
       }
     }
     return Terminology(
@@ -129,13 +127,37 @@ class Terminology {
   }
 
   final String release;
-  final Map<String, String> _aliases;
+  final Map<String, Set<String>> _aliases;
+  final Map<String, Set<String>> _compactAliases;
   final Set<String> _categories;
   final Map<String, List<TerminologyEntry>> _groups;
   final Map<String, TerminologyEntry> _byCode;
 
-  /// Analyte a folded name stands for, if known.
-  String? groupOf(String nameKey) => _aliases[nameKey];
+  /// A folded name without spaces, hyphens, dots, slashes and brackets, so
+  /// `Vitamin B 12` and `Vitamin B12` meet.
+  static String compactKey(String nameKey) =>
+      nameKey.replaceAll(RegExp(r'[\s\-_./()]'), '');
+
+  static Map<String, Set<String>> _index(
+    Iterable<(String, String)> aliases,
+    String Function(String) key,
+  ) {
+    final index = <String, Set<String>>{};
+    for (final (name, group) in aliases) {
+      index.putIfAbsent(key(name), () => {}).add(group);
+    }
+    return index;
+  }
+
+  /// Analytes a folded name stands for; empty when unknown.
+  Set<String> groupsOf(String nameKey) =>
+      _aliases[nameKey] ?? _compactAliases[compactKey(nameKey)] ?? const {};
+
+  /// The analyte a folded name stands for, when there is exactly one.
+  String? groupOf(String nameKey) {
+    final groups = groupsOf(nameKey);
+    return groups.length == 1 ? groups.single : null;
+  }
 
   /// Whether a folded name is a category such as "Blutbild", not one test.
   bool isCategory(String nameKey) => _categories.contains(nameKey);
@@ -149,8 +171,14 @@ class Terminology {
   /// All codes, e.g. for choosing one by hand.
   Iterable<TerminologyEntry> get entries => _byCode.values;
 
-  /// Folded names and the analyte they stand for.
-  Map<String, String> get aliases => Map.unmodifiable(_aliases);
+  /// Folded names and the analytes they stand for.
+  Iterable<(String, String)> get aliases sync* {
+    for (final MapEntry(key: name, value: groups) in _aliases.entries) {
+      for (final group in groups) {
+        yield (name, group);
+      }
+    }
+  }
 
   Set<String> get categories => Set.unmodifiable(_categories);
 

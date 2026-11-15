@@ -9,7 +9,7 @@ import 'package:sqlite3/sqlite3.dart';
 import 'standardize.dart';
 
 /// Version of the table layout of the terminology database.
-const terminologySchemaVersion = 1;
+const terminologySchemaVersion = 2;
 
 /// Writes [terminology] into the empty database [db].
 void writeTerminology(Database db, Terminology terminology) {
@@ -31,7 +31,11 @@ void writeTerminology(Database db, Terminology terminology) {
         component      TEXT NOT NULL,
         system         TEXT NOT NULL
       );
-      CREATE TABLE alias (name_key TEXT NOT NULL PRIMARY KEY, group_id TEXT NOT NULL);
+      CREATE TABLE alias (
+        name_key TEXT NOT NULL,
+        group_id TEXT NOT NULL,
+        PRIMARY KEY (name_key, group_id)
+      );
       CREATE TABLE category (name_key TEXT NOT NULL PRIMARY KEY);
     ''')
     ..execute('BEGIN');
@@ -63,7 +67,9 @@ void writeTerminology(Database db, Terminology terminology) {
   }
   loinc.close();
   final alias = db.prepare('INSERT INTO alias VALUES (?, ?)');
-  terminology.aliases.forEach((key, group) => alias.execute([key, group]));
+  for (final (key, group) in terminology.aliases) {
+    alias.execute([key, group]);
+  }
   alias.close();
   final category = db.prepare('INSERT INTO category VALUES (?)');
   for (final key in terminology.categories) {
@@ -105,10 +111,10 @@ Terminology readTerminology(Database db) {
           ),
         ),
     ],
-    aliases: {
+    aliases: [
       for (final row in db.select('SELECT * FROM alias'))
-        row['name_key'] as String: row['group_id'] as String,
-    },
+        (row['name_key'] as String, row['group_id'] as String),
+    ],
     categories: {
       for (final row in db.select('SELECT * FROM category'))
         row['name_key'] as String,
