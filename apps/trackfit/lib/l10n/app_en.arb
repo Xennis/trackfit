@@ -348,5 +348,6 @@
         "type": "int"
       }
     }
-  }
+  },
+  "categoryInfection": "Infections"
 }

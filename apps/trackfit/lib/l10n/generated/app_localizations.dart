@@ -1159,6 +1159,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 report waits for recognition to be set up} other{{count} reports wait for recognition to be set up}}'**
   String overviewNeedsSetup(int count);
+
+  /// No description provided for @categoryInfection.
+  ///
+  /// In en, this message translates to:
+  /// **'Infections'**
+  String get categoryInfection;
 }
 
 class _AppLocalizationsDelegate

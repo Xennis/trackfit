@@ -122,6 +122,7 @@ String categoryLabel(AppLocalizations l10n, String category) =>
       'vitamins' => l10n.categoryVitamins,
       'electrolytes' => l10n.categoryElectrolytes,
       'inflammation' => l10n.categoryInflammation,
+      'infection' => l10n.categoryInfection,
       _ => l10n.categoryOther,
     };
 
@@ -137,6 +138,7 @@ const categoryOrder = [
   'vitamins',
   'electrolytes',
   'inflammation',
+  'infection',
 ];
 
 /// A number in the locale of [context], with at most [decimals] places.
