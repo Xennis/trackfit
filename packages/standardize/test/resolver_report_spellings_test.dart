@@ -59,6 +59,10 @@ const _cases = <(String name, String value, String unit, String code)>[
   ('aPTT', '29,5', 'sec', '14979-9'),
   ('PTT', 'k. Mat.', 'sec.', '14979-9'),
   ('INR', 'k. Mat.', '', '6301-6'),
+  ('Roche cobas Anti-HBs qualitativ', 'positiv', '', '22322-2'),
+  ('Roche cobas Anti-HBs quantitativ', '120', 'mIU/ml', '5193-8'),
+  ('Anti-HBs quantitativ', '120', '', '5193-8'),
+  ('Siemens Atellica CMV IgG', 'reaktiv', '', '22244-8'),
 ];
 
 void main() {
