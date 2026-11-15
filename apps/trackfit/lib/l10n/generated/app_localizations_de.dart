@@ -590,4 +590,25 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get reportReprocessStarted => 'Der Befund wird erneut ausgelesen.';
+
+  @override
+  String overviewProcessing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Befunde werden verarbeitet',
+      one: '1 Befund wird verarbeitet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get overviewAbnormal => 'Auffällig';
+
+  @override
+  String get overviewNoAbnormal =>
+      'Keine auffälligen Werte in den letzten Messungen.';
+
+  @override
+  String get overviewLatestReport => 'Letzter Befund';
 }

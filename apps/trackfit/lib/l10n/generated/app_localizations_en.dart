@@ -585,4 +585,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportReprocessStarted => 'The report is read again.';
+
+  @override
+  String overviewProcessing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reports are being processed',
+      one: '1 report is being processed',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get overviewAbnormal => 'Abnormal';
+
+  @override
+  String get overviewNoAbnormal =>
+      'No abnormal values in the latest measurements.';
+
+  @override
+  String get overviewLatestReport => 'Latest report';
 }

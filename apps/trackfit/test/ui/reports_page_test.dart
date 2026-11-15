@@ -36,7 +36,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(overrides: testOverrides(db), child: const TrackfitApp()),
     );
-    await tester.pumpAndSettle();
+    await pumpFrames(tester);
     await tester.tap(find.text('Reports'));
     await tester.pump();
     await tester.pump();
@@ -78,7 +78,7 @@ void main() {
         child: const TrackfitApp(),
       ),
     );
-    await tester.pumpAndSettle();
+    await pumpFrames(tester);
     await tester.tap(find.text('Reports'));
     await tester.pump();
     await tester.pump();

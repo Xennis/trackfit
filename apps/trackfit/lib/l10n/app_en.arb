@@ -300,5 +300,16 @@
   "questionSearch": "Search tests",
   "questionOpenReport": "Open report",
   "reportReprocess": "Read values again",
-  "reportReprocessStarted": "The report is read again."
+  "reportReprocessStarted": "The report is read again.",
+  "overviewProcessing": "{count, plural, =1{1 report is being processed} other{{count} reports are being processed}}",
+  "@overviewProcessing": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "overviewAbnormal": "Abnormal",
+  "overviewNoAbnormal": "No abnormal values in the latest measurements.",
+  "overviewLatestReport": "Latest report"
 }

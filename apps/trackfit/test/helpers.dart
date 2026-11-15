@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/misc.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:standardize/standardize.dart';
 import 'package:trackfit/application/processing_providers.dart';
 import 'package:trackfit/application/reading_builder.dart';
@@ -142,3 +143,11 @@ Terminology seedTerminology() => Terminology.fromSeed(
     '../../packages/standardize/seed/categories.tsv',
   ).readAsStringSync(),
 );
+
+/// Pumps a few frames, for screens with endless animations such as a
+/// progress indicator, where `pumpAndSettle` would never return.
+Future<void> pumpFrames(WidgetTester tester, {int count = 5}) async {
+  for (var i = 0; i < count; i++) {
+    await tester.pump(const Duration(milliseconds: 50));
+  }
+}

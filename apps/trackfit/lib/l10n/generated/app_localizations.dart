@@ -1057,6 +1057,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The report is read again.'**
   String get reportReprocessStarted;
+
+  /// No description provided for @overviewProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 report is being processed} other{{count} reports are being processed}}'**
+  String overviewProcessing(int count);
+
+  /// No description provided for @overviewAbnormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Abnormal'**
+  String get overviewAbnormal;
+
+  /// No description provided for @overviewNoAbnormal.
+  ///
+  /// In en, this message translates to:
+  /// **'No abnormal values in the latest measurements.'**
+  String get overviewNoAbnormal;
+
+  /// No description provided for @overviewLatestReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest report'**
+  String get overviewLatestReport;
 }
 
 class _AppLocalizationsDelegate

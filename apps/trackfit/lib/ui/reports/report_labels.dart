@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:trackfit_core/trackfit_core.dart';
 import 'package:trackfit_db/trackfit_db.dart';
 
@@ -9,9 +10,7 @@ String reportTitle(BuildContext context, ReportRow report) {
   if (report.title.isNotEmpty) return report.title;
   final date = report.reportDate;
   if (date != null) {
-    return MaterialLocalizations.of(
-      context,
-    ).formatMediumDate(DateTime.parse(date));
+    return formatDay(context, DateTime.parse(date));
   }
   return AppLocalizations.of(context).reportUntitled;
 }
@@ -30,3 +29,7 @@ bool isProcessing(ReportStatus status) => switch (status) {
   ReportStatus.pending || ReportStatus.ocr || ReportStatus.extracting => true,
   _ => false,
 };
+
+/// A calendar day with year, in the language of the app, e.g. `14.03.2025`.
+String formatDay(BuildContext context, DateTime day) =>
+    DateFormat.yMMMd(Localizations.localeOf(context).toString()).format(day);

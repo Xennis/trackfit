@@ -7,6 +7,7 @@ import '../../app/router.dart';
 import '../../application/processing_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../charts/history_chart.dart';
+import '../reports/report_labels.dart';
 import 'series_view_model.dart';
 import 'value_format.dart';
 import 'values_providers.dart';
@@ -82,7 +83,6 @@ class _ValueDetailPageState extends ConsumerState<ValueDetailPage> {
         original;
     final theme = Theme.of(context);
     final latest = view.latest;
-    final localizations = MaterialLocalizations.of(context);
     final points = view.pointsSince(_since);
     return Scaffold(
       appBar: AppBar(title: Text(view.name)),
@@ -103,9 +103,7 @@ class _ValueDetailPageState extends ConsumerState<ValueDetailPage> {
               const SizedBox(width: 8),
               Text(
                 l10n.valueLatestOn(
-                  localizations.formatMediumDate(
-                    DateTime.parse(latest.localDate),
-                  ),
+                  formatDay(context, DateTime.parse(latest.localDate)),
                 ),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
@@ -164,9 +162,7 @@ class _ValueDetailPageState extends ConsumerState<ValueDetailPage> {
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(
-                localizations.formatMediumDate(
-                  DateTime.parse(reading.localDate),
-                ),
+                formatDay(context, DateTime.parse(reading.localDate)),
               ),
               subtitle: reading.refText.isEmpty
                   ? null
