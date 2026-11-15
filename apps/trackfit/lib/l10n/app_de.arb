@@ -26,5 +26,7 @@
   "importUnsupported": "{name} ist kein PDF und kein Bild",
   "importFailed": "Import fehlgeschlagen",
   "open": "Öffnen",
-  "importDropOverlay": "PDFs oder Bilder ablegen, um Befunde hinzuzufügen"
+  "importDropOverlay": "PDFs oder Bilder ablegen, um Befunde hinzuzufügen",
+  "importCamera": "Foto aufnehmen",
+  "importGallery": "Aus Galerie wählen"
 }

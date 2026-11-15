@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:trackfit_core/trackfit_core.dart';
 
 import '../../application/import_providers.dart';
@@ -28,6 +29,24 @@ Future<void> showImportSheet(BuildContext context, WidgetRef ref) =>
                   style: Theme.of(sheetContext).textTheme.titleLarge,
                 ),
               ),
+              if (_isAndroid) ...[
+                ListTile(
+                  leading: const Icon(Icons.photo_camera_outlined),
+                  title: Text(l10n.importCamera),
+                  onTap: () {
+                    Navigator.of(sheetContext).pop();
+                    takePhotoAndImport(context, ref);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.photo_library_outlined),
+                  title: Text(l10n.importGallery),
+                  onTap: () {
+                    Navigator.of(sheetContext).pop();
+                    pickPhotosAndImport(context, ref);
+                  },
+                ),
+              ],
               ListTile(
                 leading: const Icon(Icons.upload_file_outlined),
                 title: Text(l10n.importChooseFiles),
@@ -50,6 +69,9 @@ Future<void> showImportSheet(BuildContext context, WidgetRef ref) =>
       },
     );
 
+bool get _isAndroid =>
+    !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+
 /// Whether the app runs on a desktop operating system.
 bool get isDesktop =>
     !kIsWeb &&
@@ -70,6 +92,35 @@ Future<void> pickAndImportFiles(BuildContext context, WidgetRef ref) async {
         name: file.name,
         bytes: await file.readAsBytes(),
         channel: ImportChannel.filePicker,
+      ),
+  ];
+  if (!context.mounted) return;
+  await importCandidates(context, ref, candidates);
+}
+
+/// Takes a photo with the camera and imports it.
+Future<void> takePhotoAndImport(BuildContext context, WidgetRef ref) async {
+  final photo = await ImagePicker().pickImage(source: ImageSource.camera);
+  if (photo == null || !context.mounted) return;
+  await importCandidates(context, ref, [
+    ImportCandidate(
+      name: photo.name,
+      bytes: await photo.readAsBytes(),
+      channel: ImportChannel.camera,
+    ),
+  ]);
+}
+
+/// Lets the person choose photos from the gallery and imports them.
+Future<void> pickPhotosAndImport(BuildContext context, WidgetRef ref) async {
+  final photos = await ImagePicker().pickMultiImage();
+  if (photos.isEmpty) return;
+  final candidates = [
+    for (final photo in photos)
+      ImportCandidate(
+        name: photo.name,
+        bytes: await photo.readAsBytes(),
+        channel: ImportChannel.gallery,
       ),
   ];
   if (!context.mounted) return;

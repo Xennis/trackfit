@@ -103,4 +103,10 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get importDropOverlay =>
       'PDFs oder Bilder ablegen, um Befunde hinzuzufügen';
+
+  @override
+  String get importCamera => 'Foto aufnehmen';
+
+  @override
+  String get importGallery => 'Aus Galerie wählen';
 }

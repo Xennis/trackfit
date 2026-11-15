@@ -259,6 +259,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Drop PDFs or images to add reports'**
   String get importDropOverlay;
+
+  /// No description provided for @importCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get importCamera;
+
+  /// No description provided for @importGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get importGallery;
 }
 
 class _AppLocalizationsDelegate

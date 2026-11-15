@@ -62,5 +62,7 @@
   },
   "importFailed": "Import failed",
   "open": "Open",
-  "importDropOverlay": "Drop PDFs or images to add reports"
+  "importDropOverlay": "Drop PDFs or images to add reports",
+  "importCamera": "Take a photo",
+  "importGallery": "Choose from gallery"
 }

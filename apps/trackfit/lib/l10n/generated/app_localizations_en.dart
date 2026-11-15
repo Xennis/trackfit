@@ -102,4 +102,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get importDropOverlay => 'Drop PDFs or images to add reports';
+
+  @override
+  String get importCamera => 'Take a photo';
+
+  @override
+  String get importGallery => 'Choose from gallery';
 }
