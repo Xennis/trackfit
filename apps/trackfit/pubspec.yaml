@@ -38,6 +38,8 @@ dependencies:
     path: ../../packages/trackfit_core
   trackfit_db:
     path: ../../packages/trackfit_db
+  ucum:
+    path: ../../packages/ucum
 
 dev_dependencies:
   flutter_test:

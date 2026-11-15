@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trackfit_core/trackfit_core.dart';
 import 'package:trackfit_db/trackfit_db.dart';
+import 'package:ucum/ucum.dart';
 
 import '../../l10n/generated/app_localizations.dart';
 import 'value_format.dart';
@@ -28,6 +29,8 @@ class SeriesView {
     : unit = _displayUnit(summary),
       points = _points(summary, _displayUnit(summary));
 
+  SeriesView._(this.summary, this.unit, this.points);
+
   final SeriesSummary summary;
 
   /// Unit the series is shown in: the canonical unit of a coded analyte,
@@ -44,6 +47,28 @@ class SeriesView {
   bool get isAbnormal => latest.flag != Flag.none;
 
   bool get isOpen => latest.outcome != CodingOutcome.coded;
+
+  /// The same series shown in [target]; null when it cannot be converted.
+  SeriesView? inUnit(String target, {double? molarMass}) {
+    if (target == unit) return this;
+    double? convert(double? v) =>
+        v == null ? null : convertValue(v, unit, target, molarMass: molarMass);
+    final converted = <SeriesPoint>[];
+    for (final p in points) {
+      final value = convert(p.value);
+      if (value == null) return null;
+      converted.add(
+        SeriesPoint(
+          reading: p.reading,
+          date: p.date,
+          value: value,
+          refLow: convert(p.refLow),
+          refHigh: convert(p.refHigh),
+        ),
+      );
+    }
+    return SeriesView._(summary, target, converted);
+  }
 
   /// Points from [since] on.
   List<SeriesPoint> pointsSince(DateTime? since) => since == null

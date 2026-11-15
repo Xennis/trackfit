@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:standardize/standardize.dart';
 
 import '../../app/router.dart';
+import '../../application/processing_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../charts/history_chart.dart';
 import 'series_view_model.dart';
@@ -23,6 +25,7 @@ class ValueDetailPage extends ConsumerStatefulWidget {
 
 class _ValueDetailPageState extends ConsumerState<ValueDetailPage> {
   _Range _range = _Range.all;
+  String? _unit;
 
   DateTime? get _since => switch (_range) {
     _Range.oneYear => DateTime.now().subtract(const Duration(days: 365)),
@@ -51,8 +54,32 @@ class _ValueDetailPageState extends ConsumerState<ValueDetailPage> {
     };
   }
 
-  Widget _build(BuildContext context, SeriesView view) {
+  /// Units the analyte can be shown in, with its molar mass.
+  (List<String>, double?) _unitOptions(SeriesView view) {
+    final coder = ref.watch(coderProvider).value;
+    final group = view.latest.groupId;
+    if (coder is! LexicalCoder || group == null) return ([view.unit], null);
+    final members = coder.terminology.membersOf(group);
+    final molarMass = members.map((m) => m.molarMass).nonNulls.firstOrNull;
+    final units = <String>{view.unit};
+    for (final member in members) {
+      units.addAll(member.units);
+    }
+    final convertible = [
+      for (final unit in units)
+        if (view.inUnit(unit, molarMass: molarMass) != null) unit,
+    ];
+    return (convertible, molarMass);
+  }
+
+  Widget _build(BuildContext context, SeriesView original) {
     final l10n = AppLocalizations.of(context);
+    final (units, molarMass) = _unitOptions(original);
+    final view =
+        (_unit == null
+            ? null
+            : original.inUnit(_unit!, molarMass: molarMass)) ??
+        original;
     final theme = Theme.of(context);
     final latest = view.latest;
     final localizations = MaterialLocalizations.of(context);
@@ -87,20 +114,40 @@ class _ValueDetailPageState extends ConsumerState<ValueDetailPage> {
             ],
           ),
           const SizedBox(height: 16),
-          SegmentedButton<_Range>(
-            segments: [
-              ButtonSegment(
-                value: _Range.oneYear,
-                label: Text(l10n.valueRange1y),
+          Wrap(
+            spacing: 16,
+            runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              SegmentedButton<_Range>(
+                segments: [
+                  ButtonSegment(
+                    value: _Range.oneYear,
+                    label: Text(l10n.valueRange1y),
+                  ),
+                  ButtonSegment(
+                    value: _Range.threeYears,
+                    label: Text(l10n.valueRange3y),
+                  ),
+                  ButtonSegment(
+                    value: _Range.all,
+                    label: Text(l10n.valueRangeAll),
+                  ),
+                ],
+                selected: {_range},
+                onSelectionChanged: (value) =>
+                    setState(() => _range = value.first),
               ),
-              ButtonSegment(
-                value: _Range.threeYears,
-                label: Text(l10n.valueRange3y),
-              ),
-              ButtonSegment(value: _Range.all, label: Text(l10n.valueRangeAll)),
+              if (units.length > 1)
+                DropdownButton<String>(
+                  value: view.unit,
+                  items: [
+                    for (final unit in units)
+                      DropdownMenuItem(value: unit, child: Text(unit)),
+                  ],
+                  onChanged: (unit) => setState(() => _unit = unit),
+                ),
             ],
-            selected: {_range},
-            onSelectionChanged: (value) => setState(() => _range = value.first),
           ),
           const SizedBox(height: 16),
           if (view.points.isEmpty)

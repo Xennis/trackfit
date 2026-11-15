@@ -67,6 +67,15 @@ void main() {
     expect(find.text('55 µg/dl'), findsOneWidget);
     expect(find.text('LOINC 14798-3'), findsOneWidget);
 
+    await tester.tap(find.text('ug/dL'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('umol/L').last);
+    await tester.pumpAndSettle();
+    final inMoles = tester.widget<HistoryChart>(find.byType(HistoryChart));
+    expect(inMoles.unit, 'umol/L');
+    expect(inMoles.points.last.value, closeTo(9.3, 0.01));
+    expect(inMoles.points.first.value, closeTo(9.85, 0.01));
+
     await tester.tap(find.text('Values'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Leukozyten'));
