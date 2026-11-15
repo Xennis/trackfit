@@ -35,7 +35,7 @@
 59261-8	hba1c-ifcc	SFr	Qn	mmol/mol	mmol/mol		metabolism	HbA1c (IFCC)	HbA1c (IFCC)	Hemoglobin A1c/Hemoglobin.total standardized per IFCC-RMP for CDT in Blood	Hemoglobin A1c/Hemoglobin.total^^standardized per IFCC-RMP for CDT	Bld	hba1c ifcc
 2160-0	creatinine	MCnc	Qn	mg/dL	mg/dL	113.12	kidney	Kreatinin	Kreatinin	Creatinine [Mass/volume] in Serum or Plasma	Creatinine	Ser/Plas	creatinine|crea|krea|kreatinin im serum
 14682-9	creatinine	SCnc	Qn	umol/L	mg/dL	113.12	kidney	Kreatinin	Kreatinin	Creatinine [Moles/volume] in Serum or Plasma	Creatinine	Ser/Plas	
-62238-1	egfr	ArVRat	Qn	mL/min/{1.73_m2}	mL/min/{1.73_m2}		kidney	eGFR	eGFR (CKD-EPI)	Glomerular filtration rate [Volume Rate/Area] in Serum, Plasma or Blood by Creatinine-based formula (CKD-EPI)/1.73 sq M	Glomerular filtration rate	Ser/Plas/Bld	egfr ckd-epi|gfr|gfr (ckd-epi)|glomeruläre filtrationsrate|egfr (ckd-epi)
+62238-1	egfr	ArVRat	Qn	mL/min/{1.73_m2},mL/min	mL/min/{1.73_m2}		kidney	eGFR	eGFR (CKD-EPI)	Glomerular filtration rate [Volume Rate/Area] in Serum, Plasma or Blood by Creatinine-based formula (CKD-EPI)/1.73 sq M	Glomerular filtration rate	Ser/Plas/Bld	egfr ckd-epi|gfr|gfr (ckd-epi)|glomeruläre filtrationsrate|egfr (ckd-epi)
 3091-6	urea	MCnc	Qn	mg/dL	mg/dL	60.06	kidney	Harnstoff	Harnstoff	Urea [Mass/volume] in Serum or Plasma	Urea	Ser/Plas	urea|harnstoff im serum
 3084-1	urate	MCnc	Qn	mg/dL	mg/dL	168.11	kidney	Harnsäure	Harnsäure	Urate [Mass/volume] in Serum or Plasma	Urate	Ser/Plas	uric acid|urate|harnsaeure
 2093-3	cholesterol	MCnc	Qn	mg/dL	mg/dL	386.65	lipids	Cholesterin	Gesamtcholesterin	Cholesterol [Mass/volume] in Serum or Plasma	Cholesterol	Ser/Plas	cholesterin|cholesterol|total cholesterol|chol|tc|gesamt-cholesterin|cholesterin gesamt
@@ -58,7 +58,7 @@
 14928-6	ft3	SCnc	Qn	pmol/L	pg/mL	650.98	thyroid	fT3	Freies T3	Triiodothyronine (T3) Free [Moles/volume] in Serum or Plasma	Triiodothyronine.free	Ser/Plas	
 62292-8	vitamin-d	MCnc	Qn	ng/mL,ug/L	ng/mL	400.64	vitamins	Vitamin D	25-OH-Vitamin D	25-Hydroxyvitamin D3+25-Hydroxyvitamin D2 [Mass/volume] in Serum or Plasma	Calcidiol+ercalcidiol	Ser/Plas	vitamin d|vit. d|25-oh vitamin d|25-oh-vitamin d|25-oh-d|25-hydroxy-vitamin d|25-hydroxyvitamin d|25(oh)d|25-oh-vit. d|vitamin d 25-oh|vitamin d gesamt|25-oh-vitamin d gesamt
 68438-1	vitamin-d	SCnc	Qn	nmol/L	ng/mL	400.64	vitamins	Vitamin D	25-OH-Vitamin D	25-Hydroxyvitamin D3+25-Hydroxyvitamin D2 [Moles/volume] in Serum or Plasma	Calcidiol+ercalcidiol	Ser/Plas	
-1989-3	vitamin-d3	MCnc	Qn	ng/mL,ug/L	ng/mL	400.64	vitamins	Vitamin D3	25-OH-Vitamin D3	25-hydroxyvitamin D3 [Mass/volume] in Serum or Plasma	Calcidiol	Ser/Plas	vitamin d3|25-oh-vitamin d3|vitamin d3 (25-oh)|25-hydroxyvitamin d3|25-hydroxy-vitamin d3|25-oh-d3|25(oh)d3|calcidiol
+1989-3	vitamin-d3	MCnc	Qn	ng/mL,ug/L	ng/mL	400.64	vitamins	Vitamin D3	25-OH-Vitamin D3	25-hydroxyvitamin D3 [Mass/volume] in Serum or Plasma	Calcidiol	Ser/Plas	vitamin d3|25-oh-vitamin d3|vitamin d3 (25-oh)|25-hydroxyvitamin d3|25-hydroxy-vitamin d3|25-oh-d3|25(oh)d3|calcidiol|25-oh-cholecalciferol|25-hydroxycholecalciferol|vitamin d (25-oh-cholecalciferol)|vitamin d3 (25-oh-cholecalciferol)
 14635-7	vitamin-d3	SCnc	Qn	nmol/L	ng/mL	400.64	vitamins	Vitamin D3	25-OH-Vitamin D3	25-hydroxyvitamin D3 [Moles/volume] in Serum or Plasma	Calcidiol	Ser/Plas	
 2132-9	vitamin-b12	MCnc	Qn	pg/mL,ng/L	pg/mL	1355.37	vitamins	Vitamin B12	Vitamin B12	Cobalamin (Vitamin B12) [Mass/volume] in Serum or Plasma	Cobalamins	Ser/Plas	vit. b12|cobalamin|cobalamine|b12|vitamin b 12|vit. b 12
 14685-2	vitamin-b12	SCnc	Qn	pmol/L	pg/mL	1355.37	vitamins	Vitamin B12	Vitamin B12	Cobalamin (Vitamin B12) [Moles/volume] in Serum or Plasma	Cobalamins	Ser/Plas	
@@ -81,3 +81,12 @@
 11259-9	hcv-rna	PrThr	Ord				infection	HCV-PCR	HCV-RNA (PCR)	Hepatitis C virus RNA [Presence] in Serum or Plasma by NAA with probe detection	Hepatitis C virus RNA	Ser/Plas	hcv-pcr|hcv pcr|hcv-rna|hcv-nat
 25835-0	hiv1-rna	PrThr	Ord				infection	HIV-1-PCR	HIV-1-RNA (PCR)	HIV 1 RNA [Presence] in Serum or Plasma by NAA with probe detection	HIV 1 RNA	Ser/Plas	hiv1-pcr|hiv-1-pcr|hiv 1 pcr|hiv-1-rna|hiv1-rna|hiv-nat
 90460-7	hev-rna	PrThr	Ord				infection	HEV-PCR	HEV-RNA (PCR)	Hepatitis E virus RNA [Presence] in Serum or Plasma by NAA with probe detection	Hepatitis E virus RNA	Ser/Plas	hev-pcr|hev pcr|hev-rna|hev-nat
+2601-3	magnesium	SCnc	Qn	mmol/L	mmol/L	24.305	electrolytes	Magnesium	Magnesium	Magnesium [Moles/volume] in Serum or Plasma	Magnesium	Ser/Plas	magnesium|mg2+|magnesium im serum
+19123-9	magnesium	MCnc	Qn	mg/dL	mmol/L	24.305	electrolytes	Magnesium	Magnesium	Magnesium [Mass/volume] in Serum or Plasma	Magnesium	Ser/Plas	
+5763-8	zinc	MCnc	Qn	ug/dL,ug/L,mg/L,ug/mL	ug/dL	65.38	electrolytes	Zink	Zink	Zinc [Mass/volume] in Serum or Plasma	Zinc	Ser/Plas	zink|zinc|zn|zink im serum
+14955-9	zinc	SCnc	Qn	umol/L	ug/dL	65.38	electrolytes	Zink	Zink	Zinc [Moles/volume] in Serum or Plasma	Zinc	Ser/Plas	
+2924-9	vitamin-b2	MCnc	Qn	ug/L,ng/mL,ug/dL	ug/L		vitamins	Vitamin B2	Vitamin B2 (Riboflavin)	Riboflavin [Mass/volume] in Serum or Plasma	Riboflavin	Ser/Plas	vitamin b2|vit. b2|riboflavin|vitamin b 2
+33914-3	egfr-mdrd	ArVRat	Qn	mL/min/{1.73_m2},mL/min	mL/min/{1.73_m2}		kidney	eGFR (MDRD)	eGFR (MDRD)	Glomerular filtration rate [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD)/1.73 sq M	Glomerular filtration rate	Ser/Plas	mdrd-filtrationsrate|mdrd filtrationsrate|egfr (mdrd)|gfr (mdrd)|egfr mdrd|gfr mdrd|mdrd|egfr nach mdrd|gfr nach mdrd
+6301-6	inr	RelTime	Qn				coagulation	INR	INR	INR in Platelet poor plasma by Coagulation assay	Coagulation	PPP	inr|inr (pt)|inr-wert
+14979-9	aptt	Time	Qn	s	s		coagulation	aPTT	aPTT	aPTT in Platelet poor plasma by Coagulation assay	Coagulation	PPP	ptt|aptt|a-ptt|partielle thromboplastinzeit|aktivierte partielle thromboplastinzeit|ptt (aptt)
+5894-1	quick	RelTime	Qn	%	%		coagulation	Quick	Quick (Thromboplastinzeit)	Prothrombin time (PT) actual/Normal	Coagulation actual/normal	PPP	quick|quick-wert|quickwert|tpz|thromboplastinzeit|prothrombinzeit|quick (tpz)
