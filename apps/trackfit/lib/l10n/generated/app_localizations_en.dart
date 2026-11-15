@@ -624,7 +624,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String settingsDataSummary(int reports, String size) {
-    return '$reports reports · $size';
+    String _temp0 = intl.Intl.pluralLogic(
+      reports,
+      locale: localeName,
+      other: '$reports reports',
+      one: '1 report',
+    );
+    return '$_temp0 · $size';
   }
 
   @override

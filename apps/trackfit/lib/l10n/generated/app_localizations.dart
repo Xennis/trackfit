@@ -1115,7 +1115,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsDataSummary.
   ///
   /// In en, this message translates to:
-  /// **'{reports} reports · {size}'**
+  /// **'{reports, plural, =1{1 report} other{{reports} reports}} · {size}'**
   String settingsDataSummary(int reports, String size);
 
   /// No description provided for @settingsDataLocation.

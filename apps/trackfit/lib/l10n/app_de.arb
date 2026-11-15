@@ -169,7 +169,7 @@
   "themeLight": "Hell",
   "themeDark": "Dunkel",
   "settingsData": "Daten",
-  "settingsDataSummary": "{reports} Befunde · {size}",
+  "settingsDataSummary": "{reports, plural, =1{1 Befund} other{{reports} Befunde}} · {size}",
   "settingsDataLocation": "Gespeichert in {path}",
   "settingsBackup": "Datenbank sichern",
   "settingsBackupBody": "Speichert eine Kopie aller Werte. Importierte Dateien sind nicht enthalten.",

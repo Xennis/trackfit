@@ -317,7 +317,7 @@
   "themeLight": "Light",
   "themeDark": "Dark",
   "settingsData": "Data",
-  "settingsDataSummary": "{reports} reports · {size}",
+  "settingsDataSummary": "{reports, plural, =1{1 report} other{{reports} reports}} · {size}",
   "@settingsDataSummary": {
     "placeholders": {
       "reports": {
