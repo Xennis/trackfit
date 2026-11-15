@@ -173,6 +173,7 @@ class LexicalCoder implements Coder {
     'qualitativ',
     'im serum',
     'i.s.',
+    'i.s',
     'serum',
     'plasma',
     'vollblut',
