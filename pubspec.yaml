@@ -11,6 +11,7 @@ workspace:
   - packages/trackfit_db
   - packages/standardize
   - packages/ucum
+  - tools/build_terminology
 
 dev_dependencies:
   flutter_lints: ^6.0.0
