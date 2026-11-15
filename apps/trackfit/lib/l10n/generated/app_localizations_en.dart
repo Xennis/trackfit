@@ -492,13 +492,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get save => 'Save';
 
   @override
-  String get markAsError => 'Mark as error';
+  String get markAsError => 'Hide value';
 
   @override
   String get valueSaved => 'Value saved';
 
   @override
-  String get valueRetracted => 'Value marked as error';
+  String get valueRetracted => 'Value hidden';
 
   @override
   String get editNeedsName => 'Enter the name of the test';

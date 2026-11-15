@@ -54,12 +54,12 @@ void main() {
     expect(find.text('52 µg/dl'), findsNothing);
   });
 
-  testWidgets('marks a value as error', (tester) async {
+  testWidgets('hides a value', (tester) async {
     await pump(tester);
 
     await tester.tap(find.text('Eisen'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Mark as error'));
+    await tester.tap(find.text('Hide value'));
     await settle(tester);
 
     expect(find.text('52 µg/dl'), findsNothing);

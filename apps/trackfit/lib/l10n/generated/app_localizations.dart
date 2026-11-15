@@ -923,7 +923,7 @@ abstract class AppLocalizations {
   /// No description provided for @markAsError.
   ///
   /// In en, this message translates to:
-  /// **'Mark as error'**
+  /// **'Hide value'**
   String get markAsError;
 
   /// No description provided for @valueSaved.
@@ -935,7 +935,7 @@ abstract class AppLocalizations {
   /// No description provided for @valueRetracted.
   ///
   /// In en, this message translates to:
-  /// **'Value marked as error'**
+  /// **'Value hidden'**
   String get valueRetracted;
 
   /// No description provided for @editNeedsName.

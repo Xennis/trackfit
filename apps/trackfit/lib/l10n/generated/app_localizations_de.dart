@@ -496,13 +496,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get save => 'Speichern';
 
   @override
-  String get markAsError => 'Als fehlerhaft markieren';
+  String get markAsError => 'Ausblenden';
 
   @override
   String get valueSaved => 'Wert gespeichert';
 
   @override
-  String get valueRetracted => 'Wert als fehlerhaft markiert';
+  String get valueRetracted => 'Wert ausgeblendet';
 
   @override
   String get editNeedsName => 'Gib den Namen des Tests ein';
