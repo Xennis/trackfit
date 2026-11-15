@@ -4,3 +4,6 @@
 /// standardization and storage can share these types without depending on
 /// each other.
 library;
+
+export 'src/enums.dart';
+export 'src/wire_enum.dart';
