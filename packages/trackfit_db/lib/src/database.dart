@@ -18,6 +18,7 @@ part 'database.g.dart';
     'schema/observations.drift',
     'schema/coding.drift',
     'schema/views.drift',
+    'schema/report_queries.drift',
   },
 )
 class TrackfitDatabase extends _$TrackfitDatabase {

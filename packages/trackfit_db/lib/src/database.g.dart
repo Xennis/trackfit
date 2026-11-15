@@ -1005,6 +1005,770 @@ class ReportCompanion extends UpdateCompanion<ReportRow> {
   }
 }
 
+class SourceFile extends Table with TableInfo<SourceFile, SourceFileRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  SourceFile(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL PRIMARY KEY',
+  );
+  static const VerificationMeta _personIdMeta = const VerificationMeta(
+    'personId',
+  );
+  late final GeneratedColumn<int> personId = GeneratedColumn<int>(
+    'person_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL REFERENCES person(id)',
+  );
+  static const VerificationMeta _reportIdMeta = const VerificationMeta(
+    'reportId',
+  );
+  late final GeneratedColumn<int> reportId = GeneratedColumn<int>(
+    'report_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL REFERENCES report(id)ON DELETE CASCADE',
+  );
+  static const VerificationMeta _positionMeta = const VerificationMeta(
+    'position',
+  );
+  late final GeneratedColumn<int> position = GeneratedColumn<int>(
+    'position',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL CHECK (position >= 0)',
+  );
+  static const VerificationMeta _contentHashMeta = const VerificationMeta(
+    'contentHash',
+  );
+  late final GeneratedColumn<String> contentHash = GeneratedColumn<String>(
+    'content_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL CHECK (length(content_hash) = 64)',
+  );
+  static const VerificationMeta _fileNameMeta = const VerificationMeta(
+    'fileName',
+  );
+  late final GeneratedColumn<String> fileName = GeneratedColumn<String>(
+    'file_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _mimeTypeMeta = const VerificationMeta(
+    'mimeType',
+  );
+  late final GeneratedColumn<String> mimeType = GeneratedColumn<String>(
+    'mime_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _byteSizeMeta = const VerificationMeta(
+    'byteSize',
+  );
+  late final GeneratedColumn<int> byteSize = GeneratedColumn<int>(
+    'byte_size',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL CHECK (byte_size >= 0)',
+  );
+  static const VerificationMeta _storedPathMeta = const VerificationMeta(
+    'storedPath',
+  );
+  late final GeneratedColumn<String> storedPath = GeneratedColumn<String>(
+    'stored_path',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  late final GeneratedColumnWithTypeConverter<FileKind, String> kind =
+      GeneratedColumn<String>(
+        'kind',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+        $customConstraints:
+            'NOT NULL CHECK (kind IN (\'pdf\', \'image\', \'other\'))',
+      ).withConverter<FileKind>(SourceFile.$converterkind);
+  late final GeneratedColumnWithTypeConverter<ImportChannel, String>
+  importChannel = GeneratedColumn<String>(
+    'import_channel',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints:
+        'NOT NULL CHECK (import_channel IN (\'file-picker\', \'drag-drop\', \'camera\', \'gallery\', \'share\'))',
+  ).withConverter<ImportChannel>(SourceFile.$converterimportChannel);
+  static const VerificationMeta _pageCountMeta = const VerificationMeta(
+    'pageCount',
+  );
+  late final GeneratedColumn<int> pageCount = GeneratedColumn<int>(
+    'page_count',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'CHECK (page_count IS NULL OR page_count > 0)',
+  );
+  late final GeneratedColumnWithTypeConverter<DateTime, int> importedAt =
+      GeneratedColumn<int>(
+        'imported_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+        $customConstraints: 'NOT NULL',
+      ).withConverter<DateTime>(SourceFile.$converterimportedAt);
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    personId,
+    reportId,
+    position,
+    contentHash,
+    fileName,
+    mimeType,
+    byteSize,
+    storedPath,
+    kind,
+    importChannel,
+    pageCount,
+    importedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'source_file';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SourceFileRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('person_id')) {
+      context.handle(
+        _personIdMeta,
+        personId.isAcceptableOrUnknown(data['person_id']!, _personIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_personIdMeta);
+    }
+    if (data.containsKey('report_id')) {
+      context.handle(
+        _reportIdMeta,
+        reportId.isAcceptableOrUnknown(data['report_id']!, _reportIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_reportIdMeta);
+    }
+    if (data.containsKey('position')) {
+      context.handle(
+        _positionMeta,
+        position.isAcceptableOrUnknown(data['position']!, _positionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_positionMeta);
+    }
+    if (data.containsKey('content_hash')) {
+      context.handle(
+        _contentHashMeta,
+        contentHash.isAcceptableOrUnknown(
+          data['content_hash']!,
+          _contentHashMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_contentHashMeta);
+    }
+    if (data.containsKey('file_name')) {
+      context.handle(
+        _fileNameMeta,
+        fileName.isAcceptableOrUnknown(data['file_name']!, _fileNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_fileNameMeta);
+    }
+    if (data.containsKey('mime_type')) {
+      context.handle(
+        _mimeTypeMeta,
+        mimeType.isAcceptableOrUnknown(data['mime_type']!, _mimeTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_mimeTypeMeta);
+    }
+    if (data.containsKey('byte_size')) {
+      context.handle(
+        _byteSizeMeta,
+        byteSize.isAcceptableOrUnknown(data['byte_size']!, _byteSizeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_byteSizeMeta);
+    }
+    if (data.containsKey('stored_path')) {
+      context.handle(
+        _storedPathMeta,
+        storedPath.isAcceptableOrUnknown(data['stored_path']!, _storedPathMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_storedPathMeta);
+    }
+    if (data.containsKey('page_count')) {
+      context.handle(
+        _pageCountMeta,
+        pageCount.isAcceptableOrUnknown(data['page_count']!, _pageCountMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {personId, contentHash},
+    {reportId, position},
+  ];
+  @override
+  SourceFileRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SourceFileRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      personId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}person_id'],
+      )!,
+      reportId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}report_id'],
+      )!,
+      position: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}position'],
+      )!,
+      contentHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_hash'],
+      )!,
+      fileName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}file_name'],
+      )!,
+      mimeType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}mime_type'],
+      )!,
+      byteSize: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}byte_size'],
+      )!,
+      storedPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}stored_path'],
+      )!,
+      kind: SourceFile.$converterkind.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}kind'],
+        )!,
+      ),
+      importChannel: SourceFile.$converterimportChannel.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}import_channel'],
+        )!,
+      ),
+      pageCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}page_count'],
+      ),
+      importedAt: SourceFile.$converterimportedAt.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}imported_at'],
+        )!,
+      ),
+    );
+  }
+
+  @override
+  SourceFile createAlias(String alias) {
+    return SourceFile(attachedDatabase, alias);
+  }
+
+  static TypeConverter<FileKind, String> $converterkind = fileKindConverter;
+  static TypeConverter<ImportChannel, String> $converterimportChannel =
+      importChannelConverter;
+  static TypeConverter<DateTime, int> $converterimportedAt = utcMillisConverter;
+  @override
+  List<String> get customConstraints => const [
+    'UNIQUE(person_id, content_hash)',
+    'UNIQUE(report_id, position)',
+  ];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class SourceFileRow extends DataClass implements Insertable<SourceFileRow> {
+  final int id;
+  final int personId;
+  final int reportId;
+
+  /// Order of the file within its report, starting at 0.
+  final int position;
+  final String contentHash;
+  final String fileName;
+  final String mimeType;
+  final int byteSize;
+
+  /// Path relative to the app data directory.
+  final String storedPath;
+  final FileKind kind;
+  final ImportChannel importChannel;
+  final int? pageCount;
+  final DateTime importedAt;
+  const SourceFileRow({
+    required this.id,
+    required this.personId,
+    required this.reportId,
+    required this.position,
+    required this.contentHash,
+    required this.fileName,
+    required this.mimeType,
+    required this.byteSize,
+    required this.storedPath,
+    required this.kind,
+    required this.importChannel,
+    this.pageCount,
+    required this.importedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['person_id'] = Variable<int>(personId);
+    map['report_id'] = Variable<int>(reportId);
+    map['position'] = Variable<int>(position);
+    map['content_hash'] = Variable<String>(contentHash);
+    map['file_name'] = Variable<String>(fileName);
+    map['mime_type'] = Variable<String>(mimeType);
+    map['byte_size'] = Variable<int>(byteSize);
+    map['stored_path'] = Variable<String>(storedPath);
+    {
+      map['kind'] = Variable<String>(SourceFile.$converterkind.toSql(kind));
+    }
+    {
+      map['import_channel'] = Variable<String>(
+        SourceFile.$converterimportChannel.toSql(importChannel),
+      );
+    }
+    if (!nullToAbsent || pageCount != null) {
+      map['page_count'] = Variable<int>(pageCount);
+    }
+    {
+      map['imported_at'] = Variable<int>(
+        SourceFile.$converterimportedAt.toSql(importedAt),
+      );
+    }
+    return map;
+  }
+
+  SourceFileCompanion toCompanion(bool nullToAbsent) {
+    return SourceFileCompanion(
+      id: Value(id),
+      personId: Value(personId),
+      reportId: Value(reportId),
+      position: Value(position),
+      contentHash: Value(contentHash),
+      fileName: Value(fileName),
+      mimeType: Value(mimeType),
+      byteSize: Value(byteSize),
+      storedPath: Value(storedPath),
+      kind: Value(kind),
+      importChannel: Value(importChannel),
+      pageCount: pageCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(pageCount),
+      importedAt: Value(importedAt),
+    );
+  }
+
+  factory SourceFileRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SourceFileRow(
+      id: serializer.fromJson<int>(json['id']),
+      personId: serializer.fromJson<int>(json['person_id']),
+      reportId: serializer.fromJson<int>(json['report_id']),
+      position: serializer.fromJson<int>(json['position']),
+      contentHash: serializer.fromJson<String>(json['content_hash']),
+      fileName: serializer.fromJson<String>(json['file_name']),
+      mimeType: serializer.fromJson<String>(json['mime_type']),
+      byteSize: serializer.fromJson<int>(json['byte_size']),
+      storedPath: serializer.fromJson<String>(json['stored_path']),
+      kind: serializer.fromJson<FileKind>(json['kind']),
+      importChannel: serializer.fromJson<ImportChannel>(json['import_channel']),
+      pageCount: serializer.fromJson<int?>(json['page_count']),
+      importedAt: serializer.fromJson<DateTime>(json['imported_at']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'person_id': serializer.toJson<int>(personId),
+      'report_id': serializer.toJson<int>(reportId),
+      'position': serializer.toJson<int>(position),
+      'content_hash': serializer.toJson<String>(contentHash),
+      'file_name': serializer.toJson<String>(fileName),
+      'mime_type': serializer.toJson<String>(mimeType),
+      'byte_size': serializer.toJson<int>(byteSize),
+      'stored_path': serializer.toJson<String>(storedPath),
+      'kind': serializer.toJson<FileKind>(kind),
+      'import_channel': serializer.toJson<ImportChannel>(importChannel),
+      'page_count': serializer.toJson<int?>(pageCount),
+      'imported_at': serializer.toJson<DateTime>(importedAt),
+    };
+  }
+
+  SourceFileRow copyWith({
+    int? id,
+    int? personId,
+    int? reportId,
+    int? position,
+    String? contentHash,
+    String? fileName,
+    String? mimeType,
+    int? byteSize,
+    String? storedPath,
+    FileKind? kind,
+    ImportChannel? importChannel,
+    Value<int?> pageCount = const Value.absent(),
+    DateTime? importedAt,
+  }) => SourceFileRow(
+    id: id ?? this.id,
+    personId: personId ?? this.personId,
+    reportId: reportId ?? this.reportId,
+    position: position ?? this.position,
+    contentHash: contentHash ?? this.contentHash,
+    fileName: fileName ?? this.fileName,
+    mimeType: mimeType ?? this.mimeType,
+    byteSize: byteSize ?? this.byteSize,
+    storedPath: storedPath ?? this.storedPath,
+    kind: kind ?? this.kind,
+    importChannel: importChannel ?? this.importChannel,
+    pageCount: pageCount.present ? pageCount.value : this.pageCount,
+    importedAt: importedAt ?? this.importedAt,
+  );
+  SourceFileRow copyWithCompanion(SourceFileCompanion data) {
+    return SourceFileRow(
+      id: data.id.present ? data.id.value : this.id,
+      personId: data.personId.present ? data.personId.value : this.personId,
+      reportId: data.reportId.present ? data.reportId.value : this.reportId,
+      position: data.position.present ? data.position.value : this.position,
+      contentHash: data.contentHash.present
+          ? data.contentHash.value
+          : this.contentHash,
+      fileName: data.fileName.present ? data.fileName.value : this.fileName,
+      mimeType: data.mimeType.present ? data.mimeType.value : this.mimeType,
+      byteSize: data.byteSize.present ? data.byteSize.value : this.byteSize,
+      storedPath: data.storedPath.present
+          ? data.storedPath.value
+          : this.storedPath,
+      kind: data.kind.present ? data.kind.value : this.kind,
+      importChannel: data.importChannel.present
+          ? data.importChannel.value
+          : this.importChannel,
+      pageCount: data.pageCount.present ? data.pageCount.value : this.pageCount,
+      importedAt: data.importedAt.present
+          ? data.importedAt.value
+          : this.importedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SourceFileRow(')
+          ..write('id: $id, ')
+          ..write('personId: $personId, ')
+          ..write('reportId: $reportId, ')
+          ..write('position: $position, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('fileName: $fileName, ')
+          ..write('mimeType: $mimeType, ')
+          ..write('byteSize: $byteSize, ')
+          ..write('storedPath: $storedPath, ')
+          ..write('kind: $kind, ')
+          ..write('importChannel: $importChannel, ')
+          ..write('pageCount: $pageCount, ')
+          ..write('importedAt: $importedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    personId,
+    reportId,
+    position,
+    contentHash,
+    fileName,
+    mimeType,
+    byteSize,
+    storedPath,
+    kind,
+    importChannel,
+    pageCount,
+    importedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SourceFileRow &&
+          other.id == this.id &&
+          other.personId == this.personId &&
+          other.reportId == this.reportId &&
+          other.position == this.position &&
+          other.contentHash == this.contentHash &&
+          other.fileName == this.fileName &&
+          other.mimeType == this.mimeType &&
+          other.byteSize == this.byteSize &&
+          other.storedPath == this.storedPath &&
+          other.kind == this.kind &&
+          other.importChannel == this.importChannel &&
+          other.pageCount == this.pageCount &&
+          other.importedAt == this.importedAt);
+}
+
+class SourceFileCompanion extends UpdateCompanion<SourceFileRow> {
+  final Value<int> id;
+  final Value<int> personId;
+  final Value<int> reportId;
+  final Value<int> position;
+  final Value<String> contentHash;
+  final Value<String> fileName;
+  final Value<String> mimeType;
+  final Value<int> byteSize;
+  final Value<String> storedPath;
+  final Value<FileKind> kind;
+  final Value<ImportChannel> importChannel;
+  final Value<int?> pageCount;
+  final Value<DateTime> importedAt;
+  const SourceFileCompanion({
+    this.id = const Value.absent(),
+    this.personId = const Value.absent(),
+    this.reportId = const Value.absent(),
+    this.position = const Value.absent(),
+    this.contentHash = const Value.absent(),
+    this.fileName = const Value.absent(),
+    this.mimeType = const Value.absent(),
+    this.byteSize = const Value.absent(),
+    this.storedPath = const Value.absent(),
+    this.kind = const Value.absent(),
+    this.importChannel = const Value.absent(),
+    this.pageCount = const Value.absent(),
+    this.importedAt = const Value.absent(),
+  });
+  SourceFileCompanion.insert({
+    this.id = const Value.absent(),
+    required int personId,
+    required int reportId,
+    required int position,
+    required String contentHash,
+    required String fileName,
+    required String mimeType,
+    required int byteSize,
+    required String storedPath,
+    required FileKind kind,
+    required ImportChannel importChannel,
+    this.pageCount = const Value.absent(),
+    required DateTime importedAt,
+  }) : personId = Value(personId),
+       reportId = Value(reportId),
+       position = Value(position),
+       contentHash = Value(contentHash),
+       fileName = Value(fileName),
+       mimeType = Value(mimeType),
+       byteSize = Value(byteSize),
+       storedPath = Value(storedPath),
+       kind = Value(kind),
+       importChannel = Value(importChannel),
+       importedAt = Value(importedAt);
+  static Insertable<SourceFileRow> custom({
+    Expression<int>? id,
+    Expression<int>? personId,
+    Expression<int>? reportId,
+    Expression<int>? position,
+    Expression<String>? contentHash,
+    Expression<String>? fileName,
+    Expression<String>? mimeType,
+    Expression<int>? byteSize,
+    Expression<String>? storedPath,
+    Expression<String>? kind,
+    Expression<String>? importChannel,
+    Expression<int>? pageCount,
+    Expression<int>? importedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (personId != null) 'person_id': personId,
+      if (reportId != null) 'report_id': reportId,
+      if (position != null) 'position': position,
+      if (contentHash != null) 'content_hash': contentHash,
+      if (fileName != null) 'file_name': fileName,
+      if (mimeType != null) 'mime_type': mimeType,
+      if (byteSize != null) 'byte_size': byteSize,
+      if (storedPath != null) 'stored_path': storedPath,
+      if (kind != null) 'kind': kind,
+      if (importChannel != null) 'import_channel': importChannel,
+      if (pageCount != null) 'page_count': pageCount,
+      if (importedAt != null) 'imported_at': importedAt,
+    });
+  }
+
+  SourceFileCompanion copyWith({
+    Value<int>? id,
+    Value<int>? personId,
+    Value<int>? reportId,
+    Value<int>? position,
+    Value<String>? contentHash,
+    Value<String>? fileName,
+    Value<String>? mimeType,
+    Value<int>? byteSize,
+    Value<String>? storedPath,
+    Value<FileKind>? kind,
+    Value<ImportChannel>? importChannel,
+    Value<int?>? pageCount,
+    Value<DateTime>? importedAt,
+  }) {
+    return SourceFileCompanion(
+      id: id ?? this.id,
+      personId: personId ?? this.personId,
+      reportId: reportId ?? this.reportId,
+      position: position ?? this.position,
+      contentHash: contentHash ?? this.contentHash,
+      fileName: fileName ?? this.fileName,
+      mimeType: mimeType ?? this.mimeType,
+      byteSize: byteSize ?? this.byteSize,
+      storedPath: storedPath ?? this.storedPath,
+      kind: kind ?? this.kind,
+      importChannel: importChannel ?? this.importChannel,
+      pageCount: pageCount ?? this.pageCount,
+      importedAt: importedAt ?? this.importedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (personId.present) {
+      map['person_id'] = Variable<int>(personId.value);
+    }
+    if (reportId.present) {
+      map['report_id'] = Variable<int>(reportId.value);
+    }
+    if (position.present) {
+      map['position'] = Variable<int>(position.value);
+    }
+    if (contentHash.present) {
+      map['content_hash'] = Variable<String>(contentHash.value);
+    }
+    if (fileName.present) {
+      map['file_name'] = Variable<String>(fileName.value);
+    }
+    if (mimeType.present) {
+      map['mime_type'] = Variable<String>(mimeType.value);
+    }
+    if (byteSize.present) {
+      map['byte_size'] = Variable<int>(byteSize.value);
+    }
+    if (storedPath.present) {
+      map['stored_path'] = Variable<String>(storedPath.value);
+    }
+    if (kind.present) {
+      map['kind'] = Variable<String>(
+        SourceFile.$converterkind.toSql(kind.value),
+      );
+    }
+    if (importChannel.present) {
+      map['import_channel'] = Variable<String>(
+        SourceFile.$converterimportChannel.toSql(importChannel.value),
+      );
+    }
+    if (pageCount.present) {
+      map['page_count'] = Variable<int>(pageCount.value);
+    }
+    if (importedAt.present) {
+      map['imported_at'] = Variable<int>(
+        SourceFile.$converterimportedAt.toSql(importedAt.value),
+      );
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SourceFileCompanion(')
+          ..write('id: $id, ')
+          ..write('personId: $personId, ')
+          ..write('reportId: $reportId, ')
+          ..write('position: $position, ')
+          ..write('contentHash: $contentHash, ')
+          ..write('fileName: $fileName, ')
+          ..write('mimeType: $mimeType, ')
+          ..write('byteSize: $byteSize, ')
+          ..write('storedPath: $storedPath, ')
+          ..write('kind: $kind, ')
+          ..write('importChannel: $importChannel, ')
+          ..write('pageCount: $pageCount, ')
+          ..write('importedAt: $importedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class Extraction extends Table with TableInfo<Extraction, ExtractionRow> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -7901,770 +8665,6 @@ class VObservation extends ViewInfo<VObservation, VObservationData>
   };
 }
 
-class SourceFile extends Table with TableInfo<SourceFile, SourceFileRow> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  SourceFile(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    $customConstraints: 'NOT NULL PRIMARY KEY',
-  );
-  static const VerificationMeta _personIdMeta = const VerificationMeta(
-    'personId',
-  );
-  late final GeneratedColumn<int> personId = GeneratedColumn<int>(
-    'person_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL REFERENCES person(id)',
-  );
-  static const VerificationMeta _reportIdMeta = const VerificationMeta(
-    'reportId',
-  );
-  late final GeneratedColumn<int> reportId = GeneratedColumn<int>(
-    'report_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL REFERENCES report(id)ON DELETE CASCADE',
-  );
-  static const VerificationMeta _positionMeta = const VerificationMeta(
-    'position',
-  );
-  late final GeneratedColumn<int> position = GeneratedColumn<int>(
-    'position',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL CHECK (position >= 0)',
-  );
-  static const VerificationMeta _contentHashMeta = const VerificationMeta(
-    'contentHash',
-  );
-  late final GeneratedColumn<String> contentHash = GeneratedColumn<String>(
-    'content_hash',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL CHECK (length(content_hash) = 64)',
-  );
-  static const VerificationMeta _fileNameMeta = const VerificationMeta(
-    'fileName',
-  );
-  late final GeneratedColumn<String> fileName = GeneratedColumn<String>(
-    'file_name',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  static const VerificationMeta _mimeTypeMeta = const VerificationMeta(
-    'mimeType',
-  );
-  late final GeneratedColumn<String> mimeType = GeneratedColumn<String>(
-    'mime_type',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  static const VerificationMeta _byteSizeMeta = const VerificationMeta(
-    'byteSize',
-  );
-  late final GeneratedColumn<int> byteSize = GeneratedColumn<int>(
-    'byte_size',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL CHECK (byte_size >= 0)',
-  );
-  static const VerificationMeta _storedPathMeta = const VerificationMeta(
-    'storedPath',
-  );
-  late final GeneratedColumn<String> storedPath = GeneratedColumn<String>(
-    'stored_path',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  late final GeneratedColumnWithTypeConverter<FileKind, String> kind =
-      GeneratedColumn<String>(
-        'kind',
-        aliasedName,
-        false,
-        type: DriftSqlType.string,
-        requiredDuringInsert: true,
-        $customConstraints:
-            'NOT NULL CHECK (kind IN (\'pdf\', \'image\', \'other\'))',
-      ).withConverter<FileKind>(SourceFile.$converterkind);
-  late final GeneratedColumnWithTypeConverter<ImportChannel, String>
-  importChannel = GeneratedColumn<String>(
-    'import_channel',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints:
-        'NOT NULL CHECK (import_channel IN (\'file-picker\', \'drag-drop\', \'camera\', \'gallery\', \'share\'))',
-  ).withConverter<ImportChannel>(SourceFile.$converterimportChannel);
-  static const VerificationMeta _pageCountMeta = const VerificationMeta(
-    'pageCount',
-  );
-  late final GeneratedColumn<int> pageCount = GeneratedColumn<int>(
-    'page_count',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    $customConstraints: 'CHECK (page_count IS NULL OR page_count > 0)',
-  );
-  late final GeneratedColumnWithTypeConverter<DateTime, int> importedAt =
-      GeneratedColumn<int>(
-        'imported_at',
-        aliasedName,
-        false,
-        type: DriftSqlType.int,
-        requiredDuringInsert: true,
-        $customConstraints: 'NOT NULL',
-      ).withConverter<DateTime>(SourceFile.$converterimportedAt);
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    personId,
-    reportId,
-    position,
-    contentHash,
-    fileName,
-    mimeType,
-    byteSize,
-    storedPath,
-    kind,
-    importChannel,
-    pageCount,
-    importedAt,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'source_file';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<SourceFileRow> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('person_id')) {
-      context.handle(
-        _personIdMeta,
-        personId.isAcceptableOrUnknown(data['person_id']!, _personIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_personIdMeta);
-    }
-    if (data.containsKey('report_id')) {
-      context.handle(
-        _reportIdMeta,
-        reportId.isAcceptableOrUnknown(data['report_id']!, _reportIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_reportIdMeta);
-    }
-    if (data.containsKey('position')) {
-      context.handle(
-        _positionMeta,
-        position.isAcceptableOrUnknown(data['position']!, _positionMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_positionMeta);
-    }
-    if (data.containsKey('content_hash')) {
-      context.handle(
-        _contentHashMeta,
-        contentHash.isAcceptableOrUnknown(
-          data['content_hash']!,
-          _contentHashMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_contentHashMeta);
-    }
-    if (data.containsKey('file_name')) {
-      context.handle(
-        _fileNameMeta,
-        fileName.isAcceptableOrUnknown(data['file_name']!, _fileNameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_fileNameMeta);
-    }
-    if (data.containsKey('mime_type')) {
-      context.handle(
-        _mimeTypeMeta,
-        mimeType.isAcceptableOrUnknown(data['mime_type']!, _mimeTypeMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_mimeTypeMeta);
-    }
-    if (data.containsKey('byte_size')) {
-      context.handle(
-        _byteSizeMeta,
-        byteSize.isAcceptableOrUnknown(data['byte_size']!, _byteSizeMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_byteSizeMeta);
-    }
-    if (data.containsKey('stored_path')) {
-      context.handle(
-        _storedPathMeta,
-        storedPath.isAcceptableOrUnknown(data['stored_path']!, _storedPathMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_storedPathMeta);
-    }
-    if (data.containsKey('page_count')) {
-      context.handle(
-        _pageCountMeta,
-        pageCount.isAcceptableOrUnknown(data['page_count']!, _pageCountMeta),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  List<Set<GeneratedColumn>> get uniqueKeys => [
-    {personId, contentHash},
-    {reportId, position},
-  ];
-  @override
-  SourceFileRow map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return SourceFileRow(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      personId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}person_id'],
-      )!,
-      reportId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}report_id'],
-      )!,
-      position: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}position'],
-      )!,
-      contentHash: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}content_hash'],
-      )!,
-      fileName: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}file_name'],
-      )!,
-      mimeType: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}mime_type'],
-      )!,
-      byteSize: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}byte_size'],
-      )!,
-      storedPath: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}stored_path'],
-      )!,
-      kind: SourceFile.$converterkind.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}kind'],
-        )!,
-      ),
-      importChannel: SourceFile.$converterimportChannel.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}import_channel'],
-        )!,
-      ),
-      pageCount: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}page_count'],
-      ),
-      importedAt: SourceFile.$converterimportedAt.fromSql(
-        attachedDatabase.typeMapping.read(
-          DriftSqlType.int,
-          data['${effectivePrefix}imported_at'],
-        )!,
-      ),
-    );
-  }
-
-  @override
-  SourceFile createAlias(String alias) {
-    return SourceFile(attachedDatabase, alias);
-  }
-
-  static TypeConverter<FileKind, String> $converterkind = fileKindConverter;
-  static TypeConverter<ImportChannel, String> $converterimportChannel =
-      importChannelConverter;
-  static TypeConverter<DateTime, int> $converterimportedAt = utcMillisConverter;
-  @override
-  List<String> get customConstraints => const [
-    'UNIQUE(person_id, content_hash)',
-    'UNIQUE(report_id, position)',
-  ];
-  @override
-  bool get dontWriteConstraints => true;
-}
-
-class SourceFileRow extends DataClass implements Insertable<SourceFileRow> {
-  final int id;
-  final int personId;
-  final int reportId;
-
-  /// Order of the file within its report, starting at 0.
-  final int position;
-  final String contentHash;
-  final String fileName;
-  final String mimeType;
-  final int byteSize;
-
-  /// Path relative to the app data directory.
-  final String storedPath;
-  final FileKind kind;
-  final ImportChannel importChannel;
-  final int? pageCount;
-  final DateTime importedAt;
-  const SourceFileRow({
-    required this.id,
-    required this.personId,
-    required this.reportId,
-    required this.position,
-    required this.contentHash,
-    required this.fileName,
-    required this.mimeType,
-    required this.byteSize,
-    required this.storedPath,
-    required this.kind,
-    required this.importChannel,
-    this.pageCount,
-    required this.importedAt,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['person_id'] = Variable<int>(personId);
-    map['report_id'] = Variable<int>(reportId);
-    map['position'] = Variable<int>(position);
-    map['content_hash'] = Variable<String>(contentHash);
-    map['file_name'] = Variable<String>(fileName);
-    map['mime_type'] = Variable<String>(mimeType);
-    map['byte_size'] = Variable<int>(byteSize);
-    map['stored_path'] = Variable<String>(storedPath);
-    {
-      map['kind'] = Variable<String>(SourceFile.$converterkind.toSql(kind));
-    }
-    {
-      map['import_channel'] = Variable<String>(
-        SourceFile.$converterimportChannel.toSql(importChannel),
-      );
-    }
-    if (!nullToAbsent || pageCount != null) {
-      map['page_count'] = Variable<int>(pageCount);
-    }
-    {
-      map['imported_at'] = Variable<int>(
-        SourceFile.$converterimportedAt.toSql(importedAt),
-      );
-    }
-    return map;
-  }
-
-  SourceFileCompanion toCompanion(bool nullToAbsent) {
-    return SourceFileCompanion(
-      id: Value(id),
-      personId: Value(personId),
-      reportId: Value(reportId),
-      position: Value(position),
-      contentHash: Value(contentHash),
-      fileName: Value(fileName),
-      mimeType: Value(mimeType),
-      byteSize: Value(byteSize),
-      storedPath: Value(storedPath),
-      kind: Value(kind),
-      importChannel: Value(importChannel),
-      pageCount: pageCount == null && nullToAbsent
-          ? const Value.absent()
-          : Value(pageCount),
-      importedAt: Value(importedAt),
-    );
-  }
-
-  factory SourceFileRow.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return SourceFileRow(
-      id: serializer.fromJson<int>(json['id']),
-      personId: serializer.fromJson<int>(json['person_id']),
-      reportId: serializer.fromJson<int>(json['report_id']),
-      position: serializer.fromJson<int>(json['position']),
-      contentHash: serializer.fromJson<String>(json['content_hash']),
-      fileName: serializer.fromJson<String>(json['file_name']),
-      mimeType: serializer.fromJson<String>(json['mime_type']),
-      byteSize: serializer.fromJson<int>(json['byte_size']),
-      storedPath: serializer.fromJson<String>(json['stored_path']),
-      kind: serializer.fromJson<FileKind>(json['kind']),
-      importChannel: serializer.fromJson<ImportChannel>(json['import_channel']),
-      pageCount: serializer.fromJson<int?>(json['page_count']),
-      importedAt: serializer.fromJson<DateTime>(json['imported_at']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'person_id': serializer.toJson<int>(personId),
-      'report_id': serializer.toJson<int>(reportId),
-      'position': serializer.toJson<int>(position),
-      'content_hash': serializer.toJson<String>(contentHash),
-      'file_name': serializer.toJson<String>(fileName),
-      'mime_type': serializer.toJson<String>(mimeType),
-      'byte_size': serializer.toJson<int>(byteSize),
-      'stored_path': serializer.toJson<String>(storedPath),
-      'kind': serializer.toJson<FileKind>(kind),
-      'import_channel': serializer.toJson<ImportChannel>(importChannel),
-      'page_count': serializer.toJson<int?>(pageCount),
-      'imported_at': serializer.toJson<DateTime>(importedAt),
-    };
-  }
-
-  SourceFileRow copyWith({
-    int? id,
-    int? personId,
-    int? reportId,
-    int? position,
-    String? contentHash,
-    String? fileName,
-    String? mimeType,
-    int? byteSize,
-    String? storedPath,
-    FileKind? kind,
-    ImportChannel? importChannel,
-    Value<int?> pageCount = const Value.absent(),
-    DateTime? importedAt,
-  }) => SourceFileRow(
-    id: id ?? this.id,
-    personId: personId ?? this.personId,
-    reportId: reportId ?? this.reportId,
-    position: position ?? this.position,
-    contentHash: contentHash ?? this.contentHash,
-    fileName: fileName ?? this.fileName,
-    mimeType: mimeType ?? this.mimeType,
-    byteSize: byteSize ?? this.byteSize,
-    storedPath: storedPath ?? this.storedPath,
-    kind: kind ?? this.kind,
-    importChannel: importChannel ?? this.importChannel,
-    pageCount: pageCount.present ? pageCount.value : this.pageCount,
-    importedAt: importedAt ?? this.importedAt,
-  );
-  SourceFileRow copyWithCompanion(SourceFileCompanion data) {
-    return SourceFileRow(
-      id: data.id.present ? data.id.value : this.id,
-      personId: data.personId.present ? data.personId.value : this.personId,
-      reportId: data.reportId.present ? data.reportId.value : this.reportId,
-      position: data.position.present ? data.position.value : this.position,
-      contentHash: data.contentHash.present
-          ? data.contentHash.value
-          : this.contentHash,
-      fileName: data.fileName.present ? data.fileName.value : this.fileName,
-      mimeType: data.mimeType.present ? data.mimeType.value : this.mimeType,
-      byteSize: data.byteSize.present ? data.byteSize.value : this.byteSize,
-      storedPath: data.storedPath.present
-          ? data.storedPath.value
-          : this.storedPath,
-      kind: data.kind.present ? data.kind.value : this.kind,
-      importChannel: data.importChannel.present
-          ? data.importChannel.value
-          : this.importChannel,
-      pageCount: data.pageCount.present ? data.pageCount.value : this.pageCount,
-      importedAt: data.importedAt.present
-          ? data.importedAt.value
-          : this.importedAt,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('SourceFileRow(')
-          ..write('id: $id, ')
-          ..write('personId: $personId, ')
-          ..write('reportId: $reportId, ')
-          ..write('position: $position, ')
-          ..write('contentHash: $contentHash, ')
-          ..write('fileName: $fileName, ')
-          ..write('mimeType: $mimeType, ')
-          ..write('byteSize: $byteSize, ')
-          ..write('storedPath: $storedPath, ')
-          ..write('kind: $kind, ')
-          ..write('importChannel: $importChannel, ')
-          ..write('pageCount: $pageCount, ')
-          ..write('importedAt: $importedAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    id,
-    personId,
-    reportId,
-    position,
-    contentHash,
-    fileName,
-    mimeType,
-    byteSize,
-    storedPath,
-    kind,
-    importChannel,
-    pageCount,
-    importedAt,
-  );
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is SourceFileRow &&
-          other.id == this.id &&
-          other.personId == this.personId &&
-          other.reportId == this.reportId &&
-          other.position == this.position &&
-          other.contentHash == this.contentHash &&
-          other.fileName == this.fileName &&
-          other.mimeType == this.mimeType &&
-          other.byteSize == this.byteSize &&
-          other.storedPath == this.storedPath &&
-          other.kind == this.kind &&
-          other.importChannel == this.importChannel &&
-          other.pageCount == this.pageCount &&
-          other.importedAt == this.importedAt);
-}
-
-class SourceFileCompanion extends UpdateCompanion<SourceFileRow> {
-  final Value<int> id;
-  final Value<int> personId;
-  final Value<int> reportId;
-  final Value<int> position;
-  final Value<String> contentHash;
-  final Value<String> fileName;
-  final Value<String> mimeType;
-  final Value<int> byteSize;
-  final Value<String> storedPath;
-  final Value<FileKind> kind;
-  final Value<ImportChannel> importChannel;
-  final Value<int?> pageCount;
-  final Value<DateTime> importedAt;
-  const SourceFileCompanion({
-    this.id = const Value.absent(),
-    this.personId = const Value.absent(),
-    this.reportId = const Value.absent(),
-    this.position = const Value.absent(),
-    this.contentHash = const Value.absent(),
-    this.fileName = const Value.absent(),
-    this.mimeType = const Value.absent(),
-    this.byteSize = const Value.absent(),
-    this.storedPath = const Value.absent(),
-    this.kind = const Value.absent(),
-    this.importChannel = const Value.absent(),
-    this.pageCount = const Value.absent(),
-    this.importedAt = const Value.absent(),
-  });
-  SourceFileCompanion.insert({
-    this.id = const Value.absent(),
-    required int personId,
-    required int reportId,
-    required int position,
-    required String contentHash,
-    required String fileName,
-    required String mimeType,
-    required int byteSize,
-    required String storedPath,
-    required FileKind kind,
-    required ImportChannel importChannel,
-    this.pageCount = const Value.absent(),
-    required DateTime importedAt,
-  }) : personId = Value(personId),
-       reportId = Value(reportId),
-       position = Value(position),
-       contentHash = Value(contentHash),
-       fileName = Value(fileName),
-       mimeType = Value(mimeType),
-       byteSize = Value(byteSize),
-       storedPath = Value(storedPath),
-       kind = Value(kind),
-       importChannel = Value(importChannel),
-       importedAt = Value(importedAt);
-  static Insertable<SourceFileRow> custom({
-    Expression<int>? id,
-    Expression<int>? personId,
-    Expression<int>? reportId,
-    Expression<int>? position,
-    Expression<String>? contentHash,
-    Expression<String>? fileName,
-    Expression<String>? mimeType,
-    Expression<int>? byteSize,
-    Expression<String>? storedPath,
-    Expression<String>? kind,
-    Expression<String>? importChannel,
-    Expression<int>? pageCount,
-    Expression<int>? importedAt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (personId != null) 'person_id': personId,
-      if (reportId != null) 'report_id': reportId,
-      if (position != null) 'position': position,
-      if (contentHash != null) 'content_hash': contentHash,
-      if (fileName != null) 'file_name': fileName,
-      if (mimeType != null) 'mime_type': mimeType,
-      if (byteSize != null) 'byte_size': byteSize,
-      if (storedPath != null) 'stored_path': storedPath,
-      if (kind != null) 'kind': kind,
-      if (importChannel != null) 'import_channel': importChannel,
-      if (pageCount != null) 'page_count': pageCount,
-      if (importedAt != null) 'imported_at': importedAt,
-    });
-  }
-
-  SourceFileCompanion copyWith({
-    Value<int>? id,
-    Value<int>? personId,
-    Value<int>? reportId,
-    Value<int>? position,
-    Value<String>? contentHash,
-    Value<String>? fileName,
-    Value<String>? mimeType,
-    Value<int>? byteSize,
-    Value<String>? storedPath,
-    Value<FileKind>? kind,
-    Value<ImportChannel>? importChannel,
-    Value<int?>? pageCount,
-    Value<DateTime>? importedAt,
-  }) {
-    return SourceFileCompanion(
-      id: id ?? this.id,
-      personId: personId ?? this.personId,
-      reportId: reportId ?? this.reportId,
-      position: position ?? this.position,
-      contentHash: contentHash ?? this.contentHash,
-      fileName: fileName ?? this.fileName,
-      mimeType: mimeType ?? this.mimeType,
-      byteSize: byteSize ?? this.byteSize,
-      storedPath: storedPath ?? this.storedPath,
-      kind: kind ?? this.kind,
-      importChannel: importChannel ?? this.importChannel,
-      pageCount: pageCount ?? this.pageCount,
-      importedAt: importedAt ?? this.importedAt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (personId.present) {
-      map['person_id'] = Variable<int>(personId.value);
-    }
-    if (reportId.present) {
-      map['report_id'] = Variable<int>(reportId.value);
-    }
-    if (position.present) {
-      map['position'] = Variable<int>(position.value);
-    }
-    if (contentHash.present) {
-      map['content_hash'] = Variable<String>(contentHash.value);
-    }
-    if (fileName.present) {
-      map['file_name'] = Variable<String>(fileName.value);
-    }
-    if (mimeType.present) {
-      map['mime_type'] = Variable<String>(mimeType.value);
-    }
-    if (byteSize.present) {
-      map['byte_size'] = Variable<int>(byteSize.value);
-    }
-    if (storedPath.present) {
-      map['stored_path'] = Variable<String>(storedPath.value);
-    }
-    if (kind.present) {
-      map['kind'] = Variable<String>(
-        SourceFile.$converterkind.toSql(kind.value),
-      );
-    }
-    if (importChannel.present) {
-      map['import_channel'] = Variable<String>(
-        SourceFile.$converterimportChannel.toSql(importChannel.value),
-      );
-    }
-    if (pageCount.present) {
-      map['page_count'] = Variable<int>(pageCount.value);
-    }
-    if (importedAt.present) {
-      map['imported_at'] = Variable<int>(
-        SourceFile.$converterimportedAt.toSql(importedAt.value),
-      );
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('SourceFileCompanion(')
-          ..write('id: $id, ')
-          ..write('personId: $personId, ')
-          ..write('reportId: $reportId, ')
-          ..write('position: $position, ')
-          ..write('contentHash: $contentHash, ')
-          ..write('fileName: $fileName, ')
-          ..write('mimeType: $mimeType, ')
-          ..write('byteSize: $byteSize, ')
-          ..write('storedPath: $storedPath, ')
-          ..write('kind: $kind, ')
-          ..write('importChannel: $importChannel, ')
-          ..write('pageCount: $pageCount, ')
-          ..write('importedAt: $importedAt')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class SourcePage extends Table with TableInfo<SourcePage, SourcePageRow> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -10649,13 +10649,13 @@ abstract class _$TrackfitDatabase extends GeneratedDatabase {
   _$TrackfitDatabase(QueryExecutor e) : super(e);
   late final Person person = Person(this);
   late final Report report = Report(this);
+  late final SourceFile sourceFile = SourceFile(this);
   late final Extraction extraction = Extraction(this);
   late final Observation observation = Observation(this);
   late final CodingDecision codingDecision = CodingDecision(this);
   late final CodingCurrent codingCurrent = CodingCurrent(this);
   late final Concept concept = Concept(this);
   late final VObservation vObservation = VObservation(this);
-  late final SourceFile sourceFile = SourceFile(this);
   late final SourcePage sourcePage = SourcePage(this);
   late final VReportPage vReportPage = VReportPage(this);
   late final Index idxCodingCurrentSeries = Index(
@@ -10708,6 +10708,25 @@ abstract class _$TrackfitDatabase extends GeneratedDatabase {
     'idx_report_person_date',
     'CREATE INDEX idx_report_person_date ON report (person_id, report_date)',
   );
+  Selectable<ReportSummariesResult> reportSummaries({required int personId}) {
+    return customSelect(
+      'SELECT"r"."id" AS "nested_0.id", "r"."person_id" AS "nested_0.person_id", "r"."title" AS "nested_0.title", "r"."report_date" AS "nested_0.report_date", "r"."date_source" AS "nested_0.date_source", "r"."lab_name" AS "nested_0.lab_name", "r"."status" AS "nested_0.status", "r"."error" AS "nested_0.error", "r"."created_at" AS "nested_0.created_at", "r"."deleted_at" AS "nested_0.deleted_at", (SELECT COUNT(*) FROM source_file AS f WHERE f.report_id = r.id) AS file_count, (SELECT f.kind FROM source_file AS f WHERE f.report_id = r.id ORDER BY f.position LIMIT 1) AS first_file_kind, (SELECT COUNT(*) FROM v_observation AS o WHERE o.report_id = r.id) AS value_count, (SELECT COUNT(*) FROM v_observation AS o WHERE o.report_id = r.id AND o.outcome = \'needs-input\') AS open_count FROM report AS r WHERE r.person_id = ?1 AND r.deleted_at IS NULL ORDER BY r.report_date IS NULL DESC, r.report_date DESC, r.created_at DESC',
+      variables: [Variable<int>(personId)],
+      readsFrom: {sourceFile, report, observation, codingCurrent, concept},
+    ).asyncMap(
+      (QueryRow row) async => ReportSummariesResult(
+        r: await report.mapFromRow(row, tablePrefix: 'nested_0'),
+        fileCount: row.read<int>('file_count'),
+        firstFileKind: NullAwareTypeConverter.wrapFromSql(
+          SourceFile.$converterkind,
+          row.readNullable<String>('first_file_kind'),
+        ),
+        valueCount: row.read<int>('value_count'),
+        openCount: row.read<int>('open_count'),
+      ),
+    );
+  }
+
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -10715,13 +10734,13 @@ abstract class _$TrackfitDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     person,
     report,
+    sourceFile,
     extraction,
     observation,
     codingDecision,
     codingCurrent,
     concept,
     vObservation,
-    sourceFile,
     sourcePage,
     vReportPage,
     idxCodingCurrentSeries,
@@ -10746,6 +10765,13 @@ abstract class _$TrackfitDatabase extends GeneratedDatabase {
         'report',
         limitUpdateKind: UpdateKind.delete,
       ),
+      result: [TableUpdate('source_file', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'report',
+        limitUpdateKind: UpdateKind.delete,
+      ),
       result: [TableUpdate('extraction', kind: UpdateKind.delete)],
     ),
     WritePropagation(
@@ -10754,13 +10780,6 @@ abstract class _$TrackfitDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('coding_current', kind: UpdateKind.delete)],
-    ),
-    WritePropagation(
-      on: TableUpdateQuery.onTableName(
-        'report',
-        limitUpdateKind: UpdateKind.delete,
-      ),
-      result: [TableUpdate('source_file', kind: UpdateKind.delete)],
     ),
     WritePropagation(
       on: TableUpdateQuery.onTableName(
@@ -10777,4 +10796,19 @@ abstract class _$TrackfitDatabase extends GeneratedDatabase {
       result: [TableUpdate('coding_history', kind: UpdateKind.delete)],
     ),
   ]);
+}
+
+class ReportSummariesResult {
+  final ReportRow r;
+  final int fileCount;
+  final FileKind? firstFileKind;
+  final int valueCount;
+  final int openCount;
+  ReportSummariesResult({
+    required this.r,
+    required this.fileCount,
+    this.firstFileKind,
+    required this.valueCount,
+    required this.openCount,
+  });
 }

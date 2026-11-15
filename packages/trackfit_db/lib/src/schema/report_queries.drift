@@ -1,0 +1,16 @@
+import 'reports.drift';
+import 'views.drift';
+
+-- Reports of a person for the list: reports without a date (new or still
+-- processing) first, then the newest report date.
+reportSummaries(:person_id AS INTEGER):
+SELECT r.**,
+       (SELECT COUNT(*) FROM source_file f WHERE f.report_id = r.id) AS file_count,
+       (SELECT f.kind FROM source_file f WHERE f.report_id = r.id
+         ORDER BY f.position LIMIT 1) AS first_file_kind,
+       (SELECT COUNT(*) FROM v_observation o WHERE o.report_id = r.id) AS value_count,
+       (SELECT COUNT(*) FROM v_observation o
+         WHERE o.report_id = r.id AND o.outcome = 'needs-input') AS open_count
+  FROM report r
+ WHERE r.person_id = :person_id AND r.deleted_at IS NULL
+ ORDER BY r.report_date IS NULL DESC, r.report_date DESC, r.created_at DESC;
