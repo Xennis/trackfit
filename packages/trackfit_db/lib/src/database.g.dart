@@ -6427,6 +6427,1272 @@ class CodingHistoryCompanion extends UpdateCompanion<CodingHistoryRow> {
   }
 }
 
+class Concept extends Table with TableInfo<Concept, ConceptRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  Concept(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _terminologyReleaseMeta =
+      const VerificationMeta('terminologyRelease');
+  late final GeneratedColumn<String> terminologyRelease =
+      GeneratedColumn<String>(
+        'terminology_release',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+        $customConstraints: 'NOT NULL',
+      );
+  static const VerificationMeta _codeSystemMeta = const VerificationMeta(
+    'codeSystem',
+  );
+  late final GeneratedColumn<String> codeSystem = GeneratedColumn<String>(
+    'code_system',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _displayMeta = const VerificationMeta(
+    'display',
+  );
+  late final GeneratedColumn<String> display = GeneratedColumn<String>(
+    'display',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _displayDeMeta = const VerificationMeta(
+    'displayDe',
+  );
+  late final GeneratedColumn<String> displayDe = GeneratedColumn<String>(
+    'display_de',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _shortNameMeta = const VerificationMeta(
+    'shortName',
+  );
+  late final GeneratedColumn<String> shortName = GeneratedColumn<String>(
+    'short_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _componentMeta = const VerificationMeta(
+    'component',
+  );
+  late final GeneratedColumn<String> component = GeneratedColumn<String>(
+    'component',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _propertyMeta = const VerificationMeta(
+    'property',
+  );
+  late final GeneratedColumn<String> property = GeneratedColumn<String>(
+    'property',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _timeAspectMeta = const VerificationMeta(
+    'timeAspect',
+  );
+  late final GeneratedColumn<String> timeAspect = GeneratedColumn<String>(
+    'time_aspect',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _systemMeta = const VerificationMeta('system');
+  late final GeneratedColumn<String> system = GeneratedColumn<String>(
+    'system',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _scaleMeta = const VerificationMeta('scale');
+  late final GeneratedColumn<String> scale = GeneratedColumn<String>(
+    'scale',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _methodMeta = const VerificationMeta('method');
+  late final GeneratedColumn<String> method = GeneratedColumn<String>(
+    'method',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    terminologyRelease,
+    codeSystem,
+    code,
+    display,
+    displayDe,
+    shortName,
+    category,
+    component,
+    property,
+    timeAspect,
+    system,
+    scale,
+    method,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'concept';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ConceptRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('terminology_release')) {
+      context.handle(
+        _terminologyReleaseMeta,
+        terminologyRelease.isAcceptableOrUnknown(
+          data['terminology_release']!,
+          _terminologyReleaseMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_terminologyReleaseMeta);
+    }
+    if (data.containsKey('code_system')) {
+      context.handle(
+        _codeSystemMeta,
+        codeSystem.isAcceptableOrUnknown(data['code_system']!, _codeSystemMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeSystemMeta);
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('display')) {
+      context.handle(
+        _displayMeta,
+        display.isAcceptableOrUnknown(data['display']!, _displayMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_displayMeta);
+    }
+    if (data.containsKey('display_de')) {
+      context.handle(
+        _displayDeMeta,
+        displayDe.isAcceptableOrUnknown(data['display_de']!, _displayDeMeta),
+      );
+    }
+    if (data.containsKey('short_name')) {
+      context.handle(
+        _shortNameMeta,
+        shortName.isAcceptableOrUnknown(data['short_name']!, _shortNameMeta),
+      );
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    }
+    if (data.containsKey('component')) {
+      context.handle(
+        _componentMeta,
+        component.isAcceptableOrUnknown(data['component']!, _componentMeta),
+      );
+    }
+    if (data.containsKey('property')) {
+      context.handle(
+        _propertyMeta,
+        property.isAcceptableOrUnknown(data['property']!, _propertyMeta),
+      );
+    }
+    if (data.containsKey('time_aspect')) {
+      context.handle(
+        _timeAspectMeta,
+        timeAspect.isAcceptableOrUnknown(data['time_aspect']!, _timeAspectMeta),
+      );
+    }
+    if (data.containsKey('system')) {
+      context.handle(
+        _systemMeta,
+        system.isAcceptableOrUnknown(data['system']!, _systemMeta),
+      );
+    }
+    if (data.containsKey('scale')) {
+      context.handle(
+        _scaleMeta,
+        scale.isAcceptableOrUnknown(data['scale']!, _scaleMeta),
+      );
+    }
+    if (data.containsKey('method')) {
+      context.handle(
+        _methodMeta,
+        method.isAcceptableOrUnknown(data['method']!, _methodMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {
+    terminologyRelease,
+    codeSystem,
+    code,
+  };
+  @override
+  ConceptRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ConceptRow(
+      terminologyRelease: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}terminology_release'],
+      )!,
+      codeSystem: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code_system'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      display: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}display'],
+      )!,
+      displayDe: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}display_de'],
+      )!,
+      shortName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}short_name'],
+      )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      component: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}component'],
+      )!,
+      property: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}property'],
+      )!,
+      timeAspect: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}time_aspect'],
+      )!,
+      system: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}system'],
+      )!,
+      scale: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}scale'],
+      )!,
+      method: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}method'],
+      )!,
+    );
+  }
+
+  @override
+  Concept createAlias(String alias) {
+    return Concept(attachedDatabase, alias);
+  }
+
+  @override
+  List<String> get customConstraints => const [
+    'PRIMARY KEY(terminology_release, code_system, code)',
+  ];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class ConceptRow extends DataClass implements Insertable<ConceptRow> {
+  final String terminologyRelease;
+  final String codeSystem;
+  final String code;
+
+  /// LOINC long common name.
+  final String display;
+  final String displayDe;
+  final String shortName;
+
+  /// Grouping in the app, e.g. 'blood-count', 'iron'.
+  final String category;
+  final String component;
+  final String property;
+  final String timeAspect;
+  final String system;
+  final String scale;
+  final String method;
+  const ConceptRow({
+    required this.terminologyRelease,
+    required this.codeSystem,
+    required this.code,
+    required this.display,
+    required this.displayDe,
+    required this.shortName,
+    required this.category,
+    required this.component,
+    required this.property,
+    required this.timeAspect,
+    required this.system,
+    required this.scale,
+    required this.method,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['terminology_release'] = Variable<String>(terminologyRelease);
+    map['code_system'] = Variable<String>(codeSystem);
+    map['code'] = Variable<String>(code);
+    map['display'] = Variable<String>(display);
+    map['display_de'] = Variable<String>(displayDe);
+    map['short_name'] = Variable<String>(shortName);
+    map['category'] = Variable<String>(category);
+    map['component'] = Variable<String>(component);
+    map['property'] = Variable<String>(property);
+    map['time_aspect'] = Variable<String>(timeAspect);
+    map['system'] = Variable<String>(system);
+    map['scale'] = Variable<String>(scale);
+    map['method'] = Variable<String>(method);
+    return map;
+  }
+
+  ConceptCompanion toCompanion(bool nullToAbsent) {
+    return ConceptCompanion(
+      terminologyRelease: Value(terminologyRelease),
+      codeSystem: Value(codeSystem),
+      code: Value(code),
+      display: Value(display),
+      displayDe: Value(displayDe),
+      shortName: Value(shortName),
+      category: Value(category),
+      component: Value(component),
+      property: Value(property),
+      timeAspect: Value(timeAspect),
+      system: Value(system),
+      scale: Value(scale),
+      method: Value(method),
+    );
+  }
+
+  factory ConceptRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ConceptRow(
+      terminologyRelease: serializer.fromJson<String>(
+        json['terminology_release'],
+      ),
+      codeSystem: serializer.fromJson<String>(json['code_system']),
+      code: serializer.fromJson<String>(json['code']),
+      display: serializer.fromJson<String>(json['display']),
+      displayDe: serializer.fromJson<String>(json['display_de']),
+      shortName: serializer.fromJson<String>(json['short_name']),
+      category: serializer.fromJson<String>(json['category']),
+      component: serializer.fromJson<String>(json['component']),
+      property: serializer.fromJson<String>(json['property']),
+      timeAspect: serializer.fromJson<String>(json['time_aspect']),
+      system: serializer.fromJson<String>(json['system']),
+      scale: serializer.fromJson<String>(json['scale']),
+      method: serializer.fromJson<String>(json['method']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'terminology_release': serializer.toJson<String>(terminologyRelease),
+      'code_system': serializer.toJson<String>(codeSystem),
+      'code': serializer.toJson<String>(code),
+      'display': serializer.toJson<String>(display),
+      'display_de': serializer.toJson<String>(displayDe),
+      'short_name': serializer.toJson<String>(shortName),
+      'category': serializer.toJson<String>(category),
+      'component': serializer.toJson<String>(component),
+      'property': serializer.toJson<String>(property),
+      'time_aspect': serializer.toJson<String>(timeAspect),
+      'system': serializer.toJson<String>(system),
+      'scale': serializer.toJson<String>(scale),
+      'method': serializer.toJson<String>(method),
+    };
+  }
+
+  ConceptRow copyWith({
+    String? terminologyRelease,
+    String? codeSystem,
+    String? code,
+    String? display,
+    String? displayDe,
+    String? shortName,
+    String? category,
+    String? component,
+    String? property,
+    String? timeAspect,
+    String? system,
+    String? scale,
+    String? method,
+  }) => ConceptRow(
+    terminologyRelease: terminologyRelease ?? this.terminologyRelease,
+    codeSystem: codeSystem ?? this.codeSystem,
+    code: code ?? this.code,
+    display: display ?? this.display,
+    displayDe: displayDe ?? this.displayDe,
+    shortName: shortName ?? this.shortName,
+    category: category ?? this.category,
+    component: component ?? this.component,
+    property: property ?? this.property,
+    timeAspect: timeAspect ?? this.timeAspect,
+    system: system ?? this.system,
+    scale: scale ?? this.scale,
+    method: method ?? this.method,
+  );
+  ConceptRow copyWithCompanion(ConceptCompanion data) {
+    return ConceptRow(
+      terminologyRelease: data.terminologyRelease.present
+          ? data.terminologyRelease.value
+          : this.terminologyRelease,
+      codeSystem: data.codeSystem.present
+          ? data.codeSystem.value
+          : this.codeSystem,
+      code: data.code.present ? data.code.value : this.code,
+      display: data.display.present ? data.display.value : this.display,
+      displayDe: data.displayDe.present ? data.displayDe.value : this.displayDe,
+      shortName: data.shortName.present ? data.shortName.value : this.shortName,
+      category: data.category.present ? data.category.value : this.category,
+      component: data.component.present ? data.component.value : this.component,
+      property: data.property.present ? data.property.value : this.property,
+      timeAspect: data.timeAspect.present
+          ? data.timeAspect.value
+          : this.timeAspect,
+      system: data.system.present ? data.system.value : this.system,
+      scale: data.scale.present ? data.scale.value : this.scale,
+      method: data.method.present ? data.method.value : this.method,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ConceptRow(')
+          ..write('terminologyRelease: $terminologyRelease, ')
+          ..write('codeSystem: $codeSystem, ')
+          ..write('code: $code, ')
+          ..write('display: $display, ')
+          ..write('displayDe: $displayDe, ')
+          ..write('shortName: $shortName, ')
+          ..write('category: $category, ')
+          ..write('component: $component, ')
+          ..write('property: $property, ')
+          ..write('timeAspect: $timeAspect, ')
+          ..write('system: $system, ')
+          ..write('scale: $scale, ')
+          ..write('method: $method')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    terminologyRelease,
+    codeSystem,
+    code,
+    display,
+    displayDe,
+    shortName,
+    category,
+    component,
+    property,
+    timeAspect,
+    system,
+    scale,
+    method,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ConceptRow &&
+          other.terminologyRelease == this.terminologyRelease &&
+          other.codeSystem == this.codeSystem &&
+          other.code == this.code &&
+          other.display == this.display &&
+          other.displayDe == this.displayDe &&
+          other.shortName == this.shortName &&
+          other.category == this.category &&
+          other.component == this.component &&
+          other.property == this.property &&
+          other.timeAspect == this.timeAspect &&
+          other.system == this.system &&
+          other.scale == this.scale &&
+          other.method == this.method);
+}
+
+class ConceptCompanion extends UpdateCompanion<ConceptRow> {
+  final Value<String> terminologyRelease;
+  final Value<String> codeSystem;
+  final Value<String> code;
+  final Value<String> display;
+  final Value<String> displayDe;
+  final Value<String> shortName;
+  final Value<String> category;
+  final Value<String> component;
+  final Value<String> property;
+  final Value<String> timeAspect;
+  final Value<String> system;
+  final Value<String> scale;
+  final Value<String> method;
+  final Value<int> rowid;
+  const ConceptCompanion({
+    this.terminologyRelease = const Value.absent(),
+    this.codeSystem = const Value.absent(),
+    this.code = const Value.absent(),
+    this.display = const Value.absent(),
+    this.displayDe = const Value.absent(),
+    this.shortName = const Value.absent(),
+    this.category = const Value.absent(),
+    this.component = const Value.absent(),
+    this.property = const Value.absent(),
+    this.timeAspect = const Value.absent(),
+    this.system = const Value.absent(),
+    this.scale = const Value.absent(),
+    this.method = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ConceptCompanion.insert({
+    required String terminologyRelease,
+    required String codeSystem,
+    required String code,
+    required String display,
+    this.displayDe = const Value.absent(),
+    this.shortName = const Value.absent(),
+    this.category = const Value.absent(),
+    this.component = const Value.absent(),
+    this.property = const Value.absent(),
+    this.timeAspect = const Value.absent(),
+    this.system = const Value.absent(),
+    this.scale = const Value.absent(),
+    this.method = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : terminologyRelease = Value(terminologyRelease),
+       codeSystem = Value(codeSystem),
+       code = Value(code),
+       display = Value(display);
+  static Insertable<ConceptRow> custom({
+    Expression<String>? terminologyRelease,
+    Expression<String>? codeSystem,
+    Expression<String>? code,
+    Expression<String>? display,
+    Expression<String>? displayDe,
+    Expression<String>? shortName,
+    Expression<String>? category,
+    Expression<String>? component,
+    Expression<String>? property,
+    Expression<String>? timeAspect,
+    Expression<String>? system,
+    Expression<String>? scale,
+    Expression<String>? method,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (terminologyRelease != null) 'terminology_release': terminologyRelease,
+      if (codeSystem != null) 'code_system': codeSystem,
+      if (code != null) 'code': code,
+      if (display != null) 'display': display,
+      if (displayDe != null) 'display_de': displayDe,
+      if (shortName != null) 'short_name': shortName,
+      if (category != null) 'category': category,
+      if (component != null) 'component': component,
+      if (property != null) 'property': property,
+      if (timeAspect != null) 'time_aspect': timeAspect,
+      if (system != null) 'system': system,
+      if (scale != null) 'scale': scale,
+      if (method != null) 'method': method,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ConceptCompanion copyWith({
+    Value<String>? terminologyRelease,
+    Value<String>? codeSystem,
+    Value<String>? code,
+    Value<String>? display,
+    Value<String>? displayDe,
+    Value<String>? shortName,
+    Value<String>? category,
+    Value<String>? component,
+    Value<String>? property,
+    Value<String>? timeAspect,
+    Value<String>? system,
+    Value<String>? scale,
+    Value<String>? method,
+    Value<int>? rowid,
+  }) {
+    return ConceptCompanion(
+      terminologyRelease: terminologyRelease ?? this.terminologyRelease,
+      codeSystem: codeSystem ?? this.codeSystem,
+      code: code ?? this.code,
+      display: display ?? this.display,
+      displayDe: displayDe ?? this.displayDe,
+      shortName: shortName ?? this.shortName,
+      category: category ?? this.category,
+      component: component ?? this.component,
+      property: property ?? this.property,
+      timeAspect: timeAspect ?? this.timeAspect,
+      system: system ?? this.system,
+      scale: scale ?? this.scale,
+      method: method ?? this.method,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (terminologyRelease.present) {
+      map['terminology_release'] = Variable<String>(terminologyRelease.value);
+    }
+    if (codeSystem.present) {
+      map['code_system'] = Variable<String>(codeSystem.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (display.present) {
+      map['display'] = Variable<String>(display.value);
+    }
+    if (displayDe.present) {
+      map['display_de'] = Variable<String>(displayDe.value);
+    }
+    if (shortName.present) {
+      map['short_name'] = Variable<String>(shortName.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (component.present) {
+      map['component'] = Variable<String>(component.value);
+    }
+    if (property.present) {
+      map['property'] = Variable<String>(property.value);
+    }
+    if (timeAspect.present) {
+      map['time_aspect'] = Variable<String>(timeAspect.value);
+    }
+    if (system.present) {
+      map['system'] = Variable<String>(system.value);
+    }
+    if (scale.present) {
+      map['scale'] = Variable<String>(scale.value);
+    }
+    if (method.present) {
+      map['method'] = Variable<String>(method.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ConceptCompanion(')
+          ..write('terminologyRelease: $terminologyRelease, ')
+          ..write('codeSystem: $codeSystem, ')
+          ..write('code: $code, ')
+          ..write('display: $display, ')
+          ..write('displayDe: $displayDe, ')
+          ..write('shortName: $shortName, ')
+          ..write('category: $category, ')
+          ..write('component: $component, ')
+          ..write('property: $property, ')
+          ..write('timeAspect: $timeAspect, ')
+          ..write('system: $system, ')
+          ..write('scale: $scale, ')
+          ..write('method: $method, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class CodingAlias extends Table with TableInfo<CodingAlias, CodingAliasRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  CodingAlias(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL PRIMARY KEY',
+  );
+  static const VerificationMeta _scopeMeta = const VerificationMeta('scope');
+  late final GeneratedColumn<String> scope = GeneratedColumn<String>(
+    'scope',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints:
+        'NOT NULL CHECK (scope = \'global\' OR scope GLOB \'person:[0-9]*\')',
+  );
+  static const VerificationMeta _nameKeyMeta = const VerificationMeta(
+    'nameKey',
+  );
+  late final GeneratedColumn<String> nameKey = GeneratedColumn<String>(
+    'name_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _unitUcumMeta = const VerificationMeta(
+    'unitUcum',
+  );
+  late final GeneratedColumn<String> unitUcum = GeneratedColumn<String>(
+    'unit_ucum',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  static const VerificationMeta _codeSystemMeta = const VerificationMeta(
+    'codeSystem',
+  );
+  late final GeneratedColumn<String> codeSystem = GeneratedColumn<String>(
+    'code_system',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: '',
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: '',
+  );
+  late final GeneratedColumnWithTypeConverter<DateTime, int> confirmedAt =
+      GeneratedColumn<int>(
+        'confirmed_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: true,
+        $customConstraints: 'NOT NULL',
+      ).withConverter<DateTime>(CodingAlias.$converterconfirmedAt);
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL DEFAULT \'\'',
+    defaultValue: const CustomExpression('\'\''),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    scope,
+    nameKey,
+    unitUcum,
+    codeSystem,
+    code,
+    confirmedAt,
+    note,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'coding_alias';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CodingAliasRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('scope')) {
+      context.handle(
+        _scopeMeta,
+        scope.isAcceptableOrUnknown(data['scope']!, _scopeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_scopeMeta);
+    }
+    if (data.containsKey('name_key')) {
+      context.handle(
+        _nameKeyMeta,
+        nameKey.isAcceptableOrUnknown(data['name_key']!, _nameKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameKeyMeta);
+    }
+    if (data.containsKey('unit_ucum')) {
+      context.handle(
+        _unitUcumMeta,
+        unitUcum.isAcceptableOrUnknown(data['unit_ucum']!, _unitUcumMeta),
+      );
+    }
+    if (data.containsKey('code_system')) {
+      context.handle(
+        _codeSystemMeta,
+        codeSystem.isAcceptableOrUnknown(data['code_system']!, _codeSystemMeta),
+      );
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {scope, nameKey, unitUcum},
+  ];
+  @override
+  CodingAliasRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CodingAliasRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      scope: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}scope'],
+      )!,
+      nameKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name_key'],
+      )!,
+      unitUcum: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}unit_ucum'],
+      )!,
+      codeSystem: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code_system'],
+      ),
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      ),
+      confirmedAt: CodingAlias.$converterconfirmedAt.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}confirmed_at'],
+        )!,
+      ),
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      )!,
+    );
+  }
+
+  @override
+  CodingAlias createAlias(String alias) {
+    return CodingAlias(attachedDatabase, alias);
+  }
+
+  static TypeConverter<DateTime, int> $converterconfirmedAt =
+      utcMillisConverter;
+  @override
+  List<String> get customConstraints => const [
+    'UNIQUE(scope, name_key, unit_ucum)',
+    'CHECK((code IS NULL)=(code_system IS NULL))',
+  ];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class CodingAliasRow extends DataClass implements Insertable<CodingAliasRow> {
+  final int id;
+
+  /// 'global' or 'person:<id>'.
+  final String scope;
+  final String nameKey;
+
+  /// '' matches any unit.
+  final String unitUcum;
+
+  /// Both NULL: confirmed as "not a standard test".
+  final String? codeSystem;
+  final String? code;
+  final DateTime confirmedAt;
+  final String note;
+  const CodingAliasRow({
+    required this.id,
+    required this.scope,
+    required this.nameKey,
+    required this.unitUcum,
+    this.codeSystem,
+    this.code,
+    required this.confirmedAt,
+    required this.note,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['scope'] = Variable<String>(scope);
+    map['name_key'] = Variable<String>(nameKey);
+    map['unit_ucum'] = Variable<String>(unitUcum);
+    if (!nullToAbsent || codeSystem != null) {
+      map['code_system'] = Variable<String>(codeSystem);
+    }
+    if (!nullToAbsent || code != null) {
+      map['code'] = Variable<String>(code);
+    }
+    {
+      map['confirmed_at'] = Variable<int>(
+        CodingAlias.$converterconfirmedAt.toSql(confirmedAt),
+      );
+    }
+    map['note'] = Variable<String>(note);
+    return map;
+  }
+
+  CodingAliasCompanion toCompanion(bool nullToAbsent) {
+    return CodingAliasCompanion(
+      id: Value(id),
+      scope: Value(scope),
+      nameKey: Value(nameKey),
+      unitUcum: Value(unitUcum),
+      codeSystem: codeSystem == null && nullToAbsent
+          ? const Value.absent()
+          : Value(codeSystem),
+      code: code == null && nullToAbsent ? const Value.absent() : Value(code),
+      confirmedAt: Value(confirmedAt),
+      note: Value(note),
+    );
+  }
+
+  factory CodingAliasRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CodingAliasRow(
+      id: serializer.fromJson<int>(json['id']),
+      scope: serializer.fromJson<String>(json['scope']),
+      nameKey: serializer.fromJson<String>(json['name_key']),
+      unitUcum: serializer.fromJson<String>(json['unit_ucum']),
+      codeSystem: serializer.fromJson<String?>(json['code_system']),
+      code: serializer.fromJson<String?>(json['code']),
+      confirmedAt: serializer.fromJson<DateTime>(json['confirmed_at']),
+      note: serializer.fromJson<String>(json['note']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'scope': serializer.toJson<String>(scope),
+      'name_key': serializer.toJson<String>(nameKey),
+      'unit_ucum': serializer.toJson<String>(unitUcum),
+      'code_system': serializer.toJson<String?>(codeSystem),
+      'code': serializer.toJson<String?>(code),
+      'confirmed_at': serializer.toJson<DateTime>(confirmedAt),
+      'note': serializer.toJson<String>(note),
+    };
+  }
+
+  CodingAliasRow copyWith({
+    int? id,
+    String? scope,
+    String? nameKey,
+    String? unitUcum,
+    Value<String?> codeSystem = const Value.absent(),
+    Value<String?> code = const Value.absent(),
+    DateTime? confirmedAt,
+    String? note,
+  }) => CodingAliasRow(
+    id: id ?? this.id,
+    scope: scope ?? this.scope,
+    nameKey: nameKey ?? this.nameKey,
+    unitUcum: unitUcum ?? this.unitUcum,
+    codeSystem: codeSystem.present ? codeSystem.value : this.codeSystem,
+    code: code.present ? code.value : this.code,
+    confirmedAt: confirmedAt ?? this.confirmedAt,
+    note: note ?? this.note,
+  );
+  CodingAliasRow copyWithCompanion(CodingAliasCompanion data) {
+    return CodingAliasRow(
+      id: data.id.present ? data.id.value : this.id,
+      scope: data.scope.present ? data.scope.value : this.scope,
+      nameKey: data.nameKey.present ? data.nameKey.value : this.nameKey,
+      unitUcum: data.unitUcum.present ? data.unitUcum.value : this.unitUcum,
+      codeSystem: data.codeSystem.present
+          ? data.codeSystem.value
+          : this.codeSystem,
+      code: data.code.present ? data.code.value : this.code,
+      confirmedAt: data.confirmedAt.present
+          ? data.confirmedAt.value
+          : this.confirmedAt,
+      note: data.note.present ? data.note.value : this.note,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CodingAliasRow(')
+          ..write('id: $id, ')
+          ..write('scope: $scope, ')
+          ..write('nameKey: $nameKey, ')
+          ..write('unitUcum: $unitUcum, ')
+          ..write('codeSystem: $codeSystem, ')
+          ..write('code: $code, ')
+          ..write('confirmedAt: $confirmedAt, ')
+          ..write('note: $note')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    scope,
+    nameKey,
+    unitUcum,
+    codeSystem,
+    code,
+    confirmedAt,
+    note,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CodingAliasRow &&
+          other.id == this.id &&
+          other.scope == this.scope &&
+          other.nameKey == this.nameKey &&
+          other.unitUcum == this.unitUcum &&
+          other.codeSystem == this.codeSystem &&
+          other.code == this.code &&
+          other.confirmedAt == this.confirmedAt &&
+          other.note == this.note);
+}
+
+class CodingAliasCompanion extends UpdateCompanion<CodingAliasRow> {
+  final Value<int> id;
+  final Value<String> scope;
+  final Value<String> nameKey;
+  final Value<String> unitUcum;
+  final Value<String?> codeSystem;
+  final Value<String?> code;
+  final Value<DateTime> confirmedAt;
+  final Value<String> note;
+  const CodingAliasCompanion({
+    this.id = const Value.absent(),
+    this.scope = const Value.absent(),
+    this.nameKey = const Value.absent(),
+    this.unitUcum = const Value.absent(),
+    this.codeSystem = const Value.absent(),
+    this.code = const Value.absent(),
+    this.confirmedAt = const Value.absent(),
+    this.note = const Value.absent(),
+  });
+  CodingAliasCompanion.insert({
+    this.id = const Value.absent(),
+    required String scope,
+    required String nameKey,
+    this.unitUcum = const Value.absent(),
+    this.codeSystem = const Value.absent(),
+    this.code = const Value.absent(),
+    required DateTime confirmedAt,
+    this.note = const Value.absent(),
+  }) : scope = Value(scope),
+       nameKey = Value(nameKey),
+       confirmedAt = Value(confirmedAt);
+  static Insertable<CodingAliasRow> custom({
+    Expression<int>? id,
+    Expression<String>? scope,
+    Expression<String>? nameKey,
+    Expression<String>? unitUcum,
+    Expression<String>? codeSystem,
+    Expression<String>? code,
+    Expression<int>? confirmedAt,
+    Expression<String>? note,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (scope != null) 'scope': scope,
+      if (nameKey != null) 'name_key': nameKey,
+      if (unitUcum != null) 'unit_ucum': unitUcum,
+      if (codeSystem != null) 'code_system': codeSystem,
+      if (code != null) 'code': code,
+      if (confirmedAt != null) 'confirmed_at': confirmedAt,
+      if (note != null) 'note': note,
+    });
+  }
+
+  CodingAliasCompanion copyWith({
+    Value<int>? id,
+    Value<String>? scope,
+    Value<String>? nameKey,
+    Value<String>? unitUcum,
+    Value<String?>? codeSystem,
+    Value<String?>? code,
+    Value<DateTime>? confirmedAt,
+    Value<String>? note,
+  }) {
+    return CodingAliasCompanion(
+      id: id ?? this.id,
+      scope: scope ?? this.scope,
+      nameKey: nameKey ?? this.nameKey,
+      unitUcum: unitUcum ?? this.unitUcum,
+      codeSystem: codeSystem ?? this.codeSystem,
+      code: code ?? this.code,
+      confirmedAt: confirmedAt ?? this.confirmedAt,
+      note: note ?? this.note,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (scope.present) {
+      map['scope'] = Variable<String>(scope.value);
+    }
+    if (nameKey.present) {
+      map['name_key'] = Variable<String>(nameKey.value);
+    }
+    if (unitUcum.present) {
+      map['unit_ucum'] = Variable<String>(unitUcum.value);
+    }
+    if (codeSystem.present) {
+      map['code_system'] = Variable<String>(codeSystem.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (confirmedAt.present) {
+      map['confirmed_at'] = Variable<int>(
+        CodingAlias.$converterconfirmedAt.toSql(confirmedAt.value),
+      );
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CodingAliasCompanion(')
+          ..write('id: $id, ')
+          ..write('scope: $scope, ')
+          ..write('nameKey: $nameKey, ')
+          ..write('unitUcum: $unitUcum, ')
+          ..write('codeSystem: $codeSystem, ')
+          ..write('code: $code, ')
+          ..write('confirmedAt: $confirmedAt, ')
+          ..write('note: $note')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class SourceFile extends Table with TableInfo<SourceFile, SourceFileRow> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -7649,6 +8915,8 @@ abstract class _$TrackfitDatabase extends GeneratedDatabase {
     'idx_coding_history_observation',
     'CREATE INDEX idx_coding_history_observation ON coding_history (observation_id, coded_at)',
   );
+  late final Concept concept = Concept(this);
+  late final CodingAlias codingAlias = CodingAlias(this);
   late final Index uqObservationIdentity = Index(
     'uq_observation_identity',
     'CREATE UNIQUE INDEX uq_observation_identity ON observation (person_id, name_key, observed_start, observed_end, source_ref, source_record_id, COALESCE(member_of, 0), COALESCE(amends, 0))',
@@ -7702,6 +8970,8 @@ abstract class _$TrackfitDatabase extends GeneratedDatabase {
     idxCodingCurrentOpen,
     codingHistory,
     idxCodingHistoryObservation,
+    concept,
+    codingAlias,
     uqObservationIdentity,
     idxObservationDay,
     idxObservationStream,

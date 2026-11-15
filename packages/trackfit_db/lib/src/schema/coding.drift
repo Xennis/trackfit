@@ -72,3 +72,43 @@ CREATE TABLE coding_history (
 ) AS CodingHistoryRow;
 
 CREATE INDEX idx_coding_history_observation ON coding_history (observation_id, coded_at);
+
+-- Display data of the codes in use, copied from the terminology database
+-- when a reading is coded. A persistent view cannot read tables of an
+-- attached database, so views join this table instead.
+CREATE TABLE concept (
+    terminology_release TEXT NOT NULL,
+    code_system         TEXT NOT NULL,
+    code                TEXT NOT NULL,
+    -- LOINC long common name.
+    display             TEXT NOT NULL,
+    display_de          TEXT NOT NULL DEFAULT '',
+    short_name          TEXT NOT NULL DEFAULT '',
+    -- Grouping in the app, e.g. 'blood-count', 'iron'.
+    category            TEXT NOT NULL DEFAULT '',
+    component           TEXT NOT NULL DEFAULT '',
+    property            TEXT NOT NULL DEFAULT '',
+    time_aspect         TEXT NOT NULL DEFAULT '',
+    system              TEXT NOT NULL DEFAULT '',
+    scale               TEXT NOT NULL DEFAULT '',
+    method              TEXT NOT NULL DEFAULT '',
+    PRIMARY KEY (terminology_release, code_system, code)
+) AS ConceptRow;
+
+-- Mappings a person confirmed. They win over the resolver and apply to
+-- every later report with the same printed name.
+CREATE TABLE coding_alias (
+    id           INTEGER NOT NULL PRIMARY KEY,
+    -- 'global' or 'person:<id>'.
+    scope        TEXT NOT NULL CHECK (scope = 'global' OR scope GLOB 'person:[0-9]*'),
+    name_key     TEXT NOT NULL,
+    -- '' matches any unit.
+    unit_ucum    TEXT NOT NULL DEFAULT '',
+    -- Both NULL: confirmed as "not a standard test".
+    code_system  TEXT,
+    code         TEXT,
+    confirmed_at INTEGER NOT NULL MAPPED BY `utcMillisConverter`,
+    note         TEXT NOT NULL DEFAULT '',
+    UNIQUE (scope, name_key, unit_ucum),
+    CHECK ((code IS NULL) = (code_system IS NULL))
+) AS CodingAliasRow;
