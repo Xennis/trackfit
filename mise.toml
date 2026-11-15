@@ -25,8 +25,12 @@ run = [
 ]
 
 [tasks."test:all"]
-description = "Analyze and run every test"
-depends = ["analyze", "test", "test:packages"]
+description = "Analyze and run every test, one after another"
+run = [
+  "mise run analyze",
+  "mise run test",
+  "mise run test:packages",
+]
 
 [tasks."test:goldens"]
 description = "Update the golden images of the app tests"
