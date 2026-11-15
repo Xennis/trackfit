@@ -20,3 +20,9 @@ final reportProvider = StreamProvider.family<ReportRow?, int>(
 final reportFilesProvider = StreamProvider.family<List<SourceFileRow>, int>(
   (ref, reportId) => ref.watch(reportRepositoryProvider).watchFiles(reportId),
 );
+
+/// Recognized pages of one report, counted across its files.
+final reportPagesProvider = StreamProvider.family<List<VReportPageData>, int>(
+  (ref, reportId) =>
+      ref.watch(pageRepositoryProvider).watchReportPages(reportId),
+);

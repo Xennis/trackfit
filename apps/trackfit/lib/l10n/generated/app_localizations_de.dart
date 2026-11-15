@@ -296,4 +296,21 @@ class AppLocalizationsDe extends AppLocalizations {
   String reportFailedReason(String reason) {
     return 'Erkennung fehlgeschlagen: $reason';
   }
+
+  @override
+  String reportPageLabel(int number) {
+    return 'Seite $number';
+  }
+
+  @override
+  String get reportTextRendered => 'Formatiert';
+
+  @override
+  String get reportTextRaw => 'Rohtext';
+
+  @override
+  String get reportCopyPage => 'Seite kopieren';
+
+  @override
+  String get reportCopied => 'Kopiert';
 }

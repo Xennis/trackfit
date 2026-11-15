@@ -78,5 +78,10 @@
   "reportRetry": "Erneut versuchen",
   "reportSetUpRecognition": "Erkennung einrichten",
   "reportWaitingForSetup": "Die Erkennung ist noch nicht eingerichtet.",
-  "reportFailedReason": "Erkennung fehlgeschlagen: {reason}"
+  "reportFailedReason": "Erkennung fehlgeschlagen: {reason}",
+  "reportPageLabel": "Seite {number}",
+  "reportTextRendered": "Formatiert",
+  "reportTextRaw": "Rohtext",
+  "reportCopyPage": "Seite kopieren",
+  "reportCopied": "Kopiert"
 }

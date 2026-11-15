@@ -571,6 +571,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recognition failed: {reason}'**
   String reportFailedReason(String reason);
+
+  /// No description provided for @reportPageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {number}'**
+  String reportPageLabel(int number);
+
+  /// No description provided for @reportTextRendered.
+  ///
+  /// In en, this message translates to:
+  /// **'Formatted'**
+  String get reportTextRendered;
+
+  /// No description provided for @reportTextRaw.
+  ///
+  /// In en, this message translates to:
+  /// **'Raw text'**
+  String get reportTextRaw;
+
+  /// No description provided for @reportCopyPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy page'**
+  String get reportCopyPage;
+
+  /// No description provided for @reportCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get reportCopied;
 }
 
 class _AppLocalizationsDelegate

@@ -13,6 +13,7 @@ import 'original_view.dart';
 import 'processing_banner.dart';
 import 'report_labels.dart';
 import 'report_providers.dart';
+import 'text_view.dart';
 
 /// One report with its original files, recognized text and values.
 class ReportDetailPage extends ConsumerWidget {
@@ -66,11 +67,7 @@ class ReportDetailPage extends ConsumerWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   OriginalView(files: files),
-                  EmptyState(
-                    icon: Icons.notes_outlined,
-                    title: l10n.reportTabText,
-                    body: l10n.reportTextEmpty,
-                  ),
+                  TextView(reportId: reportId),
                   EmptyState(
                     icon: Icons.list_alt_outlined,
                     title: l10n.reportTabValues,

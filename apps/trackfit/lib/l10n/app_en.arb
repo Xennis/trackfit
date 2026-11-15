@@ -149,5 +149,17 @@
         "type": "String"
       }
     }
-  }
+  },
+  "reportPageLabel": "Page {number}",
+  "@reportPageLabel": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "reportTextRendered": "Formatted",
+  "reportTextRaw": "Raw text",
+  "reportCopyPage": "Copy page",
+  "reportCopied": "Copied"
 }

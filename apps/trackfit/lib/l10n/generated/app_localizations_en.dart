@@ -292,4 +292,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String reportFailedReason(String reason) {
     return 'Recognition failed: $reason';
   }
+
+  @override
+  String reportPageLabel(int number) {
+    return 'Page $number';
+  }
+
+  @override
+  String get reportTextRendered => 'Formatted';
+
+  @override
+  String get reportTextRaw => 'Raw text';
+
+  @override
+  String get reportCopyPage => 'Copy page';
+
+  @override
+  String get reportCopied => 'Copied';
 }
