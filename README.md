@@ -29,12 +29,17 @@ tools/               Command line tools, e.g. building the terminology database
 
 ## Development
 
-Requirements: Flutter (stable) with Dart 3.11 or newer.
+Tool versions (Flutter, Java) are pinned in `mise.toml`. With
+[mise](https://mise.jdx.dev) installed:
 
 ```bash
-dart pub get
-dart analyze
+mise install
+mise run get
+mise run run          # start on the Linux desktop with hot reload
 ```
+
+Other tasks: `mise tasks` lists them, e.g. `analyze`, `test`,
+`build:linux`, `start:linux` and `build:apk`.
 
 ## Disclaimer
 
