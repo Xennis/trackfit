@@ -1,0 +1,3356 @@
+{
+  "_meta": {
+    "description": "This file contains a serialized version of schema entities for drift.",
+    "version": "1.3.0"
+  },
+  "options": {
+    "store_date_time_values_as_text": false
+  },
+  "entities": [
+    {
+      "id": 0,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "person",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL PRIMARY KEY",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "display_name",
+            "getter_name": "displayName",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "birth_date",
+            "getter_name": "birthDate",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "CHECK (birth_date IS NULL OR birth_date GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]')",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "sex",
+            "getter_name": "sex",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT 'unknown' CHECK (sex IN ('unknown', 'female', 'male', 'other'))",
+            "default_dart": "const CustomExpression('\\'unknown\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "sexConverter",
+              "dart_type_name": "Sex"
+            }
+          },
+          {
+            "name": "default_tz",
+            "getter_name": "defaultTz",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 1,
+      "references": [
+        0
+      ],
+      "type": "table",
+      "data": {
+        "name": "report",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL PRIMARY KEY",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "person_id",
+            "getter_name": "personId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES person(id)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "person",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "title",
+            "getter_name": "title",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "report_date",
+            "getter_name": "reportDate",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "CHECK (report_date IS NULL OR report_date GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]')",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "date_source",
+            "getter_name": "dateSource",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT '' CHECK (date_source IN ('', 'extracted', 'file-date', 'manual'))",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "dateSourceConverter",
+              "dart_type_name": "DateSource"
+            }
+          },
+          {
+            "name": "lab_name",
+            "getter_name": "labName",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "status",
+            "getter_name": "status",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'ocr', 'extracting', 'review', 'done', 'failed'))",
+            "default_dart": "const CustomExpression('\\'pending\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "reportStatusConverter",
+              "dart_type_name": "ReportStatus"
+            }
+          },
+          {
+            "name": "error",
+            "getter_name": "error",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK(status <> 'failed' OR error <> '')",
+          "CHECK((report_date IS NULL)=(date_source = ''))"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "references": [
+        0,
+        1
+      ],
+      "type": "table",
+      "data": {
+        "name": "extraction",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL PRIMARY KEY",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "person_id",
+            "getter_name": "personId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES person(id)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "person",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "source_kind",
+            "getter_name": "sourceKind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (source_kind IN ('file', 'manual', 'health-connect', 'healthkit', 'device-file'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "sourceKindConverter",
+              "dart_type_name": "SourceKind"
+            }
+          },
+          {
+            "name": "source_ref",
+            "getter_name": "sourceRef",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "report_id",
+            "getter_name": "reportId",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "REFERENCES report(id)ON DELETE CASCADE",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "report",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "extractor",
+            "getter_name": "extractor",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "status",
+            "getter_name": "status",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (status IN ('ok', 'failed', 'unverified'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "extractionStatusConverter",
+              "dart_type_name": "ExtractionStatus"
+            }
+          },
+          {
+            "name": "reason",
+            "getter_name": "reason",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "payload",
+            "getter_name": "payload",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "digest",
+            "getter_name": "digest",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "UNIQUE(source_ref, digest)",
+          "CHECK(status = 'ok' OR reason <> '')",
+          "CHECK(status = 'failed' OR payload IS NOT NULL)"
+        ],
+        "unique_keys": [
+          [
+            "source_ref",
+            "digest"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "references": [
+        0,
+        2,
+        1
+      ],
+      "type": "table",
+      "data": {
+        "name": "observation",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL PRIMARY KEY",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "person_id",
+            "getter_name": "personId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES person(id)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "person",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "kind",
+            "getter_name": "kind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (kind IN ('measurement', 'symptom', 'condition', 'note', 'finding', 'organizer'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "observationKindConverter",
+              "dart_type_name": "ObservationKind"
+            }
+          },
+          {
+            "name": "modality",
+            "getter_name": "modality",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (modality IN ('lab-report', 'device-sensed', 'self-reported', 'manual', 'derived', 'llm-unverified'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "modalityConverter",
+              "dart_type_name": "Modality"
+            }
+          },
+          {
+            "name": "source_kind",
+            "getter_name": "sourceKind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (source_kind IN ('file', 'manual', 'health-connect', 'healthkit', 'device-file'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "sourceKindConverter",
+              "dart_type_name": "SourceKind"
+            }
+          },
+          {
+            "name": "source_ref",
+            "getter_name": "sourceRef",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "source_record_id",
+            "getter_name": "sourceRecordId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "extraction_id",
+            "getter_name": "extractionId",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "REFERENCES extraction(id)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "extraction",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "report_id",
+            "getter_name": "reportId",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "REFERENCES report(id)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "report",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "page_ix",
+            "getter_name": "pageIx",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "CHECK (page_ix IS NULL OR page_ix >= 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "row_ix",
+            "getter_name": "rowIx",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "CHECK (row_ix IS NULL OR row_ix >= 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "vendor",
+            "getter_name": "vendor",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "vendor_field",
+            "getter_name": "vendorField",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "source_class",
+            "getter_name": "sourceClass",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (source_class IN ('measurer', 'profile-echo', 'aggregator', 'manual'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "sourceClassConverter",
+              "dart_type_name": "SourceClass"
+            }
+          },
+          {
+            "name": "derived_from",
+            "getter_name": "derivedFrom",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "member_of",
+            "getter_name": "memberOf",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "REFERENCES observation(id)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "panel_text",
+            "getter_name": "panelText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "observed_start",
+            "getter_name": "observedStart",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "observed_end",
+            "getter_name": "observedEnd",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "tz",
+            "getter_name": "tz",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "tz_source",
+            "getter_name": "tzSource",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (tz_source IN ('iana', 'offset-only', 'floating', 'user-default'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "tzSourceConverter",
+              "dart_type_name": "TzSource"
+            }
+          },
+          {
+            "name": "local_date",
+            "getter_name": "localDate",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (local_date GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]')",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "grain",
+            "getter_name": "grain",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (grain IN ('instant', 'window', 'day'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "grainConverter",
+              "dart_type_name": "Grain"
+            }
+          },
+          {
+            "name": "stat",
+            "getter_name": "stat",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT '' CHECK (stat IN ('', 'average', 'minimum', 'maximum', 'sum', 'count', 'last'))",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "statConverter",
+              "dart_type_name": "Stat"
+            }
+          },
+          {
+            "name": "name_text",
+            "getter_name": "nameText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "value_text",
+            "getter_name": "valueText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "unit_text",
+            "getter_name": "unitText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_text",
+            "getter_name": "refText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "flag_text",
+            "getter_name": "flagText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "method_text",
+            "getter_name": "methodText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "specimen_text",
+            "getter_name": "specimenText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "note_text",
+            "getter_name": "noteText",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "name_key",
+            "getter_name": "nameKey",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "value_kind",
+            "getter_name": "valueKind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (value_kind IN ('quantity', 'ordinal', 'nominal', 'narrative', 'absent'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "valueKindConverter",
+              "dart_type_name": "ValueKind"
+            }
+          },
+          {
+            "name": "value_num",
+            "getter_name": "valueNum",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "value_decimals",
+            "getter_name": "valueDecimals",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "CHECK (value_decimals IS NULL OR value_decimals >= 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "comparator",
+            "getter_name": "comparator",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT '' CHECK (comparator IN ('', '<', '<=', '>', '>='))",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "comparatorConverter",
+              "dart_type_name": "Comparator"
+            }
+          },
+          {
+            "name": "value_code",
+            "getter_name": "valueCode",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "data_absent_reason",
+            "getter_name": "dataAbsentReason",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "unit_ucum",
+            "getter_name": "unitUcum",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_low",
+            "getter_name": "refLow",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_high",
+            "getter_name": "refHigh",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_comparator",
+            "getter_name": "refComparator",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT '' CHECK (ref_comparator IN ('', '<', '<=', '>', '>='))",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "comparatorConverter",
+              "dart_type_name": "Comparator"
+            }
+          },
+          {
+            "name": "flag",
+            "getter_name": "flag",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT '' CHECK (flag IN ('', 'low', 'high', 'critical-low', 'critical-high', 'abnormal'))",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "flagConverter",
+              "dart_type_name": "Flag"
+            }
+          },
+          {
+            "name": "local_key",
+            "getter_name": "localKey",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "stream_key",
+            "getter_name": "streamKey",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "fingerprint",
+            "getter_name": "fingerprint",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "status",
+            "getter_name": "status",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT 'final' CHECK (status IN ('final', 'entered-in-error'))",
+            "default_dart": "const CustomExpression('\\'final\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "observationStatusConverter",
+              "dart_type_name": "ObservationStatus"
+            }
+          },
+          {
+            "name": "amends",
+            "getter_name": "amends",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "REFERENCES observation(id)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK(observed_end >= observed_start)",
+          "CHECK(grain <> 'instant' OR observed_start = observed_end)",
+          "CHECK(grain = 'instant' OR stat <> '')",
+          "CHECK(value_kind <> 'absent' OR data_absent_reason <> '')",
+          "CHECK(value_kind <> 'quantity' OR value_num IS NOT NULL)",
+          "CHECK(modality <> 'derived' OR derived_from IS NOT NULL)",
+          "CHECK(status = 'final' OR amends IS NOT NULL)",
+          "CHECK(ref_low IS NULL OR ref_high IS NULL OR ref_low <= ref_high)"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "coding_decision",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL PRIMARY KEY CHECK (length(id) = 16)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "name_key",
+            "getter_name": "nameKey",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "unit_ucum",
+            "getter_name": "unitUcum",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "value_kind",
+            "getter_name": "valueKind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (value_kind IN ('quantity', 'ordinal', 'nominal', 'narrative', 'absent'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "valueKindConverter",
+              "dart_type_name": "ValueKind"
+            }
+          },
+          {
+            "name": "terminology_release",
+            "getter_name": "terminologyRelease",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "rule",
+            "getter_name": "rule",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "evidence",
+            "getter_name": "evidence",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT '[]'",
+            "default_dart": "const CustomExpression('\\'[]\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "rejected",
+            "getter_name": "rejected",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "human",
+            "getter_name": "human",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT FALSE",
+            "default_dart": "const CustomExpression('FALSE')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 5,
+      "references": [
+        3,
+        4
+      ],
+      "type": "table",
+      "data": {
+        "name": "coding_current",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "observation_id",
+            "getter_name": "observationId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL PRIMARY KEY REFERENCES observation(id)ON DELETE CASCADE",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key",
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "observation",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "terminology_release",
+            "getter_name": "terminologyRelease",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "outcome",
+            "getter_name": "outcome",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (outcome IN ('coded', 'needs-input', 'refused'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "codingOutcomeConverter",
+              "dart_type_name": "CodingOutcome"
+            }
+          },
+          {
+            "name": "reason",
+            "getter_name": "reason",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "code_system",
+            "getter_name": "codeSystem",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "code",
+            "getter_name": "code",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "series_id",
+            "getter_name": "seriesId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "group_id",
+            "getter_name": "groupId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "value_canonical",
+            "getter_name": "valueCanonical",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "unit_canonical",
+            "getter_name": "unitCanonical",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "decision_id",
+            "getter_name": "decisionId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES coding_decision(id)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "coding_decision",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "coded_at",
+            "getter_name": "codedAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK((outcome = 'coded')=(code IS NOT NULL))",
+          "CHECK((code IS NULL)=(code_system IS NULL))",
+          "CHECK(outcome = 'coded' OR reason <> '')",
+          "CHECK((value_canonical IS NULL)=(unit_canonical IS NULL))"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "concept",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "terminology_release",
+            "getter_name": "terminologyRelease",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "code_system",
+            "getter_name": "codeSystem",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "code",
+            "getter_name": "code",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "display",
+            "getter_name": "display",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "display_de",
+            "getter_name": "displayDe",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "short_name",
+            "getter_name": "shortName",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "category",
+            "getter_name": "category",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "component",
+            "getter_name": "component",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "property",
+            "getter_name": "property",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "time_aspect",
+            "getter_name": "timeAspect",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "system",
+            "getter_name": "system",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "scale",
+            "getter_name": "scale",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "method",
+            "getter_name": "method",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "PRIMARY KEY(terminology_release, code_system, code)"
+        ],
+        "explicit_pk": [
+          "terminology_release",
+          "code_system",
+          "code"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "references": [
+        3,
+        5,
+        6
+      ],
+      "type": "view",
+      "data": {
+        "name": "v_observation",
+        "sql": "CREATE VIEW v_observation AS SELECT o.*, k.terminology_release, k.outcome, k.reason AS coding_reason, k.code_system, k.code, k.series_id, k.group_id, k.value_canonical, k.unit_canonical, k.decision_id, c.display, c.display_de, c.short_name, c.category, c.component, c.property, c.time_aspect, c.system, c.scale, c.method FROM observation AS o JOIN coding_current AS k ON k.observation_id = o.id LEFT JOIN concept AS c ON c.terminology_release = k.terminology_release AND c.code_system = k.code_system AND c.code = k.code WHERE o.status = 'final' AND NOT EXISTS (SELECT 1 FROM observation AS n WHERE n.amends = o.id)",
+        "dart_info_name": "VObservation",
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "person_id",
+            "getter_name": "personId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "kind",
+            "getter_name": "kind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "observationKindConverter",
+              "dart_type_name": "ObservationKind"
+            }
+          },
+          {
+            "name": "modality",
+            "getter_name": "modality",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "modalityConverter",
+              "dart_type_name": "Modality"
+            }
+          },
+          {
+            "name": "source_kind",
+            "getter_name": "sourceKind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "sourceKindConverter",
+              "dart_type_name": "SourceKind"
+            }
+          },
+          {
+            "name": "source_ref",
+            "getter_name": "sourceRef",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "source_record_id",
+            "getter_name": "sourceRecordId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "extraction_id",
+            "getter_name": "extractionId",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "report_id",
+            "getter_name": "reportId",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "page_ix",
+            "getter_name": "pageIx",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "row_ix",
+            "getter_name": "rowIx",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "vendor",
+            "getter_name": "vendor",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "vendor_field",
+            "getter_name": "vendorField",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "source_class",
+            "getter_name": "sourceClass",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "sourceClassConverter",
+              "dart_type_name": "SourceClass"
+            }
+          },
+          {
+            "name": "derived_from",
+            "getter_name": "derivedFrom",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "member_of",
+            "getter_name": "memberOf",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "panel_text",
+            "getter_name": "panelText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "observed_start",
+            "getter_name": "observedStart",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "observed_end",
+            "getter_name": "observedEnd",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "tz",
+            "getter_name": "tz",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "tz_source",
+            "getter_name": "tzSource",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "tzSourceConverter",
+              "dart_type_name": "TzSource"
+            }
+          },
+          {
+            "name": "local_date",
+            "getter_name": "localDate",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "grain",
+            "getter_name": "grain",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "grainConverter",
+              "dart_type_name": "Grain"
+            }
+          },
+          {
+            "name": "stat",
+            "getter_name": "stat",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "statConverter",
+              "dart_type_name": "Stat"
+            }
+          },
+          {
+            "name": "name_text",
+            "getter_name": "nameText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "value_text",
+            "getter_name": "valueText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "unit_text",
+            "getter_name": "unitText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_text",
+            "getter_name": "refText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "flag_text",
+            "getter_name": "flagText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "method_text",
+            "getter_name": "methodText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "specimen_text",
+            "getter_name": "specimenText",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "note_text",
+            "getter_name": "noteText",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "name_key",
+            "getter_name": "nameKey",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "value_kind",
+            "getter_name": "valueKind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "valueKindConverter",
+              "dart_type_name": "ValueKind"
+            }
+          },
+          {
+            "name": "value_num",
+            "getter_name": "valueNum",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "value_decimals",
+            "getter_name": "valueDecimals",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "comparator",
+            "getter_name": "comparator",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "comparatorConverter",
+              "dart_type_name": "Comparator"
+            }
+          },
+          {
+            "name": "value_code",
+            "getter_name": "valueCode",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "data_absent_reason",
+            "getter_name": "dataAbsentReason",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "unit_ucum",
+            "getter_name": "unitUcum",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_low",
+            "getter_name": "refLow",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_high",
+            "getter_name": "refHigh",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_comparator",
+            "getter_name": "refComparator",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "comparatorConverter",
+              "dart_type_name": "Comparator"
+            }
+          },
+          {
+            "name": "flag",
+            "getter_name": "flag",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "flagConverter",
+              "dart_type_name": "Flag"
+            }
+          },
+          {
+            "name": "local_key",
+            "getter_name": "localKey",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "stream_key",
+            "getter_name": "streamKey",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "fingerprint",
+            "getter_name": "fingerprint",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "status",
+            "getter_name": "status",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "observationStatusConverter",
+              "dart_type_name": "ObservationStatus"
+            }
+          },
+          {
+            "name": "amends",
+            "getter_name": "amends",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "terminology_release",
+            "getter_name": "terminologyRelease",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "outcome",
+            "getter_name": "outcome",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "codingOutcomeConverter",
+              "dart_type_name": "CodingOutcome"
+            }
+          },
+          {
+            "name": "coding_reason",
+            "getter_name": "codingReason",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "code_system",
+            "getter_name": "codeSystem",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "code",
+            "getter_name": "code",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "series_id",
+            "getter_name": "seriesId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "group_id",
+            "getter_name": "groupId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "value_canonical",
+            "getter_name": "valueCanonical",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "unit_canonical",
+            "getter_name": "unitCanonical",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "decision_id",
+            "getter_name": "decisionId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "display",
+            "getter_name": "display",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "display_de",
+            "getter_name": "displayDe",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "short_name",
+            "getter_name": "shortName",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "category",
+            "getter_name": "category",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "component",
+            "getter_name": "component",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "property",
+            "getter_name": "property",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "time_aspect",
+            "getter_name": "timeAspect",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "system",
+            "getter_name": "system",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "scale",
+            "getter_name": "scale",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "method",
+            "getter_name": "method",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "references": [
+        0,
+        1
+      ],
+      "type": "table",
+      "data": {
+        "name": "source_file",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL PRIMARY KEY",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "person_id",
+            "getter_name": "personId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES person(id)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "person",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "report_id",
+            "getter_name": "reportId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES report(id)ON DELETE CASCADE",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "report",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "position",
+            "getter_name": "position",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (position >= 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "content_hash",
+            "getter_name": "contentHash",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (length(content_hash) = 64)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "file_name",
+            "getter_name": "fileName",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "mime_type",
+            "getter_name": "mimeType",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "byte_size",
+            "getter_name": "byteSize",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (byte_size >= 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "stored_path",
+            "getter_name": "storedPath",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "kind",
+            "getter_name": "kind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (kind IN ('pdf', 'image', 'other'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "fileKindConverter",
+              "dart_type_name": "FileKind"
+            }
+          },
+          {
+            "name": "import_channel",
+            "getter_name": "importChannel",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (import_channel IN ('file-picker', 'drag-drop', 'camera', 'gallery', 'share'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "importChannelConverter",
+              "dart_type_name": "ImportChannel"
+            }
+          },
+          {
+            "name": "page_count",
+            "getter_name": "pageCount",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "CHECK (page_count IS NULL OR page_count > 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "imported_at",
+            "getter_name": "importedAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "UNIQUE(person_id, content_hash)",
+          "UNIQUE(report_id, position)"
+        ],
+        "unique_keys": [
+          [
+            "person_id",
+            "content_hash"
+          ],
+          [
+            "report_id",
+            "position"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "references": [
+        8
+      ],
+      "type": "table",
+      "data": {
+        "name": "source_page",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "source_file_id",
+            "getter_name": "sourceFileId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES source_file(id)ON DELETE CASCADE",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "source_file",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "page_ix",
+            "getter_name": "pageIx",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (page_ix >= 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "text_origin",
+            "getter_name": "textOrigin",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (text_origin <> '')",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "markdown",
+            "getter_name": "markdown",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "tables_html",
+            "getter_name": "tablesHtml",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "PRIMARY KEY(source_file_id, page_ix, text_origin)"
+        ],
+        "explicit_pk": [
+          "source_file_id",
+          "page_ix",
+          "text_origin"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "references": [
+        9,
+        8
+      ],
+      "type": "view",
+      "data": {
+        "name": "v_report_page",
+        "sql": "CREATE VIEW v_report_page AS SELECT f.report_id, f.id AS source_file_id, f.position AS file_position, p.page_ix AS file_page_ix, p.text_origin, ROW_NUMBER()OVER (PARTITION BY f.report_id, p.text_origin ORDER BY f.position, p.page_ix RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW EXCLUDE NO OTHERS) - 1 AS report_page_ix, p.markdown FROM source_page AS p JOIN source_file AS f ON f.id = p.source_file_id",
+        "dart_info_name": "VReportPage",
+        "columns": [
+          {
+            "name": "report_id",
+            "getter_name": "reportId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "source_file_id",
+            "getter_name": "sourceFileId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "file_position",
+            "getter_name": "filePosition",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "file_page_ix",
+            "getter_name": "filePageIx",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "text_origin",
+            "getter_name": "textOrigin",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "report_page_ix",
+            "getter_name": "reportPageIx",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "markdown",
+            "getter_name": "markdown",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "references": [
+        5
+      ],
+      "type": "index",
+      "data": {
+        "on": 5,
+        "name": "idx_coding_current_series",
+        "sql": "CREATE INDEX idx_coding_current_series ON coding_current (series_id, observation_id);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 12,
+      "references": [
+        5
+      ],
+      "type": "index",
+      "data": {
+        "on": 5,
+        "name": "idx_coding_current_open",
+        "sql": "CREATE INDEX idx_coding_current_open ON coding_current (outcome) WHERE outcome <> 'coded';",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 13,
+      "references": [
+        3,
+        4
+      ],
+      "type": "table",
+      "data": {
+        "name": "coding_history",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL PRIMARY KEY",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "observation_id",
+            "getter_name": "observationId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES observation(id)ON DELETE CASCADE",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "observation",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "cause",
+            "getter_name": "cause",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (cause IN ('ingest', 'amend', 'correct', 'recode-release', 'recode-rules', 'recode-alias'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "codingCauseConverter",
+              "dart_type_name": "CodingCause"
+            }
+          },
+          {
+            "name": "terminology_release",
+            "getter_name": "terminologyRelease",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "outcome",
+            "getter_name": "outcome",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (outcome IN ('coded', 'needs-input', 'refused'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "codingOutcomeConverter",
+              "dart_type_name": "CodingOutcome"
+            }
+          },
+          {
+            "name": "reason",
+            "getter_name": "reason",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "code_system",
+            "getter_name": "codeSystem",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "code",
+            "getter_name": "code",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "series_id",
+            "getter_name": "seriesId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "group_id",
+            "getter_name": "groupId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "value_canonical",
+            "getter_name": "valueCanonical",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "unit_canonical",
+            "getter_name": "unitCanonical",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "decision_id",
+            "getter_name": "decisionId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES coding_decision(id)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "coding_decision",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "coded_at",
+            "getter_name": "codedAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 14,
+      "references": [
+        13
+      ],
+      "type": "index",
+      "data": {
+        "on": 13,
+        "name": "idx_coding_history_observation",
+        "sql": "CREATE INDEX idx_coding_history_observation ON coding_history (observation_id, coded_at);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 15,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "coding_alias",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL PRIMARY KEY",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "scope",
+            "getter_name": "scope",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (scope = 'global' OR scope GLOB 'person:[0-9]*')",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "name_key",
+            "getter_name": "nameKey",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "unit_ucum",
+            "getter_name": "unitUcum",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "code_system",
+            "getter_name": "codeSystem",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "code",
+            "getter_name": "code",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "confirmed_at",
+            "getter_name": "confirmedAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "utcMillisConverter",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "note",
+            "getter_name": "note",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT ''",
+            "default_dart": "const CustomExpression('\\'\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "UNIQUE(scope, name_key, unit_ucum)",
+          "CHECK((code IS NULL)=(code_system IS NULL))"
+        ],
+        "unique_keys": [
+          [
+            "scope",
+            "name_key",
+            "unit_ucum"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "references": [
+        3
+      ],
+      "type": "index",
+      "data": {
+        "on": 3,
+        "name": "uq_observation_identity",
+        "sql": "CREATE UNIQUE INDEX uq_observation_identity ON observation (\n    person_id, name_key, observed_start, observed_end, source_ref,\n    source_record_id, COALESCE(member_of, 0), COALESCE(amends, 0)\n);",
+        "unique": true,
+        "columns": []
+      }
+    },
+    {
+      "id": 17,
+      "references": [
+        3
+      ],
+      "type": "index",
+      "data": {
+        "on": 3,
+        "name": "idx_observation_day",
+        "sql": "CREATE INDEX idx_observation_day ON observation (person_id, local_date);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 18,
+      "references": [
+        3
+      ],
+      "type": "index",
+      "data": {
+        "on": 3,
+        "name": "idx_observation_stream",
+        "sql": "CREATE INDEX idx_observation_stream ON observation (person_id, stream_key, observed_start);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 19,
+      "references": [
+        3
+      ],
+      "type": "index",
+      "data": {
+        "on": 3,
+        "name": "idx_observation_source",
+        "sql": "CREATE INDEX idx_observation_source ON observation (source_ref);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 20,
+      "references": [
+        3
+      ],
+      "type": "index",
+      "data": {
+        "on": 3,
+        "name": "idx_observation_report",
+        "sql": "CREATE INDEX idx_observation_report ON observation (report_id) WHERE report_id IS NOT NULL;",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 21,
+      "references": [
+        3
+      ],
+      "type": "index",
+      "data": {
+        "on": 3,
+        "name": "idx_observation_amends",
+        "sql": "CREATE INDEX idx_observation_amends ON observation (amends) WHERE amends IS NOT NULL;",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 22,
+      "references": [
+        3
+      ],
+      "type": "index",
+      "data": {
+        "on": 3,
+        "name": "idx_observation_created",
+        "sql": "CREATE INDEX idx_observation_created ON observation (person_id, created_at);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 23,
+      "references": [
+        2
+      ],
+      "type": "index",
+      "data": {
+        "on": 2,
+        "name": "idx_extraction_report",
+        "sql": "CREATE INDEX idx_extraction_report ON extraction (report_id);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 24,
+      "references": [
+        1
+      ],
+      "type": "index",
+      "data": {
+        "on": 1,
+        "name": "idx_report_person_date",
+        "sql": "CREATE INDEX idx_report_person_date ON report (person_id, report_date);",
+        "unique": false,
+        "columns": []
+      }
+    }
+  ],
+  "fixed_sql": [
+    {
+      "name": "person",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"person\" (\"id\" INTEGER NOT NULL PRIMARY KEY, \"display_name\" TEXT NOT NULL, \"birth_date\" TEXT CHECK (birth_date IS NULL OR birth_date GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'), \"sex\" TEXT NOT NULL DEFAULT 'unknown' CHECK (sex IN ('unknown', 'female', 'male', 'other')), \"default_tz\" TEXT NOT NULL, \"created_at\" INTEGER NOT NULL);"
+        }
+      ]
+    },
+    {
+      "name": "report",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"report\" (\"id\" INTEGER NOT NULL PRIMARY KEY, \"person_id\" INTEGER NOT NULL REFERENCES person(id), \"title\" TEXT NOT NULL DEFAULT '', \"report_date\" TEXT CHECK (report_date IS NULL OR report_date GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'), \"date_source\" TEXT NOT NULL DEFAULT '' CHECK (date_source IN ('', 'extracted', 'file-date', 'manual')), \"lab_name\" TEXT NOT NULL DEFAULT '', \"status\" TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'ocr', 'extracting', 'review', 'done', 'failed')), \"error\" TEXT NOT NULL DEFAULT '', \"created_at\" INTEGER NOT NULL, \"deleted_at\" INTEGER, CHECK(status <> 'failed' OR error <> ''), CHECK((report_date IS NULL)=(date_source = '')));"
+        }
+      ]
+    },
+    {
+      "name": "extraction",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"extraction\" (\"id\" INTEGER NOT NULL PRIMARY KEY, \"person_id\" INTEGER NOT NULL REFERENCES person(id), \"source_kind\" TEXT NOT NULL CHECK (source_kind IN ('file', 'manual', 'health-connect', 'healthkit', 'device-file')), \"source_ref\" TEXT NOT NULL, \"report_id\" INTEGER REFERENCES report(id)ON DELETE CASCADE, \"extractor\" TEXT NOT NULL, \"status\" TEXT NOT NULL CHECK (status IN ('ok', 'failed', 'unverified')), \"reason\" TEXT NOT NULL DEFAULT '', \"payload\" TEXT, \"digest\" TEXT NOT NULL, \"created_at\" INTEGER NOT NULL, UNIQUE(source_ref, digest), CHECK(status = 'ok' OR reason <> ''), CHECK(status = 'failed' OR payload IS NOT NULL));"
+        }
+      ]
+    },
+    {
+      "name": "observation",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"observation\" (\"id\" INTEGER NOT NULL PRIMARY KEY, \"person_id\" INTEGER NOT NULL REFERENCES person(id), \"kind\" TEXT NOT NULL CHECK (kind IN ('measurement', 'symptom', 'condition', 'note', 'finding', 'organizer')), \"modality\" TEXT NOT NULL CHECK (modality IN ('lab-report', 'device-sensed', 'self-reported', 'manual', 'derived', 'llm-unverified')), \"source_kind\" TEXT NOT NULL CHECK (source_kind IN ('file', 'manual', 'health-connect', 'healthkit', 'device-file')), \"source_ref\" TEXT NOT NULL, \"source_record_id\" TEXT NOT NULL DEFAULT '', \"extraction_id\" INTEGER REFERENCES extraction(id), \"report_id\" INTEGER REFERENCES report(id), \"page_ix\" INTEGER CHECK (page_ix IS NULL OR page_ix >= 0), \"row_ix\" INTEGER CHECK (row_ix IS NULL OR row_ix >= 0), \"vendor\" TEXT NOT NULL DEFAULT '', \"vendor_field\" TEXT NOT NULL DEFAULT '', \"source_class\" TEXT NOT NULL CHECK (source_class IN ('measurer', 'profile-echo', 'aggregator', 'manual')), \"derived_from\" TEXT, \"member_of\" INTEGER REFERENCES observation(id), \"panel_text\" TEXT NOT NULL DEFAULT '', \"observed_start\" INTEGER NOT NULL, \"observed_end\" INTEGER NOT NULL, \"tz\" TEXT NOT NULL, \"tz_source\" TEXT NOT NULL CHECK (tz_source IN ('iana', 'offset-only', 'floating', 'user-default')), \"local_date\" TEXT NOT NULL CHECK (local_date GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'), \"grain\" TEXT NOT NULL CHECK (grain IN ('instant', 'window', 'day')), \"stat\" TEXT NOT NULL DEFAULT '' CHECK (stat IN ('', 'average', 'minimum', 'maximum', 'sum', 'count', 'last')), \"name_text\" TEXT NOT NULL, \"value_text\" TEXT NOT NULL DEFAULT '', \"unit_text\" TEXT NOT NULL DEFAULT '', \"ref_text\" TEXT NOT NULL DEFAULT '', \"flag_text\" TEXT NOT NULL DEFAULT '', \"method_text\" TEXT NOT NULL DEFAULT '', \"specimen_text\" TEXT NOT NULL DEFAULT '', \"note_text\" TEXT, \"name_key\" TEXT NOT NULL, \"value_kind\" TEXT NOT NULL CHECK (value_kind IN ('quantity', 'ordinal', 'nominal', 'narrative', 'absent')), \"value_num\" REAL, \"value_decimals\" INTEGER CHECK (value_decimals IS NULL OR value_decimals >= 0), \"comparator\" TEXT NOT NULL DEFAULT '' CHECK (comparator IN ('', '<', '<=', '>', '>=')), \"value_code\" TEXT NOT NULL DEFAULT '', \"data_absent_reason\" TEXT NOT NULL DEFAULT '', \"unit_ucum\" TEXT NOT NULL DEFAULT '', \"ref_low\" REAL, \"ref_high\" REAL, \"ref_comparator\" TEXT NOT NULL DEFAULT '' CHECK (ref_comparator IN ('', '<', '<=', '>', '>=')), \"flag\" TEXT NOT NULL DEFAULT '' CHECK (flag IN ('', 'low', 'high', 'critical-low', 'critical-high', 'abnormal')), \"local_key\" TEXT NOT NULL, \"stream_key\" TEXT NOT NULL, \"fingerprint\" TEXT NOT NULL, \"status\" TEXT NOT NULL DEFAULT 'final' CHECK (status IN ('final', 'entered-in-error')), \"amends\" INTEGER REFERENCES observation(id), \"created_at\" INTEGER NOT NULL, CHECK(observed_end >= observed_start), CHECK(grain <> 'instant' OR observed_start = observed_end), CHECK(grain = 'instant' OR stat <> ''), CHECK(value_kind <> 'absent' OR data_absent_reason <> ''), CHECK(value_kind <> 'quantity' OR value_num IS NOT NULL), CHECK(modality <> 'derived' OR derived_from IS NOT NULL), CHECK(status = 'final' OR amends IS NOT NULL), CHECK(ref_low IS NULL OR ref_high IS NULL OR ref_low <= ref_high));"
+        }
+      ]
+    },
+    {
+      "name": "coding_decision",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"coding_decision\" (\"id\" TEXT NOT NULL PRIMARY KEY CHECK (length(id) = 16), \"name_key\" TEXT NOT NULL, \"unit_ucum\" TEXT NOT NULL DEFAULT '', \"value_kind\" TEXT NOT NULL CHECK (value_kind IN ('quantity', 'ordinal', 'nominal', 'narrative', 'absent')), \"terminology_release\" TEXT NOT NULL, \"rule\" TEXT NOT NULL, \"evidence\" TEXT NOT NULL DEFAULT '[]', \"rejected\" TEXT, \"human\" INTEGER NOT NULL DEFAULT FALSE, \"created_at\" INTEGER NOT NULL);"
+        }
+      ]
+    },
+    {
+      "name": "coding_current",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"coding_current\" (\"observation_id\" INTEGER NOT NULL PRIMARY KEY REFERENCES observation(id)ON DELETE CASCADE, \"terminology_release\" TEXT NOT NULL, \"outcome\" TEXT NOT NULL CHECK (outcome IN ('coded', 'needs-input', 'refused')), \"reason\" TEXT NOT NULL DEFAULT '', \"code_system\" TEXT, \"code\" TEXT, \"series_id\" TEXT NOT NULL, \"group_id\" TEXT, \"value_canonical\" REAL, \"unit_canonical\" TEXT, \"decision_id\" TEXT NOT NULL REFERENCES coding_decision(id), \"coded_at\" INTEGER NOT NULL, CHECK((outcome = 'coded')=(code IS NOT NULL)), CHECK((code IS NULL)=(code_system IS NULL)), CHECK(outcome = 'coded' OR reason <> ''), CHECK((value_canonical IS NULL)=(unit_canonical IS NULL)));"
+        }
+      ]
+    },
+    {
+      "name": "concept",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"concept\" (\"terminology_release\" TEXT NOT NULL, \"code_system\" TEXT NOT NULL, \"code\" TEXT NOT NULL, \"display\" TEXT NOT NULL, \"display_de\" TEXT NOT NULL DEFAULT '', \"short_name\" TEXT NOT NULL DEFAULT '', \"category\" TEXT NOT NULL DEFAULT '', \"component\" TEXT NOT NULL DEFAULT '', \"property\" TEXT NOT NULL DEFAULT '', \"time_aspect\" TEXT NOT NULL DEFAULT '', \"system\" TEXT NOT NULL DEFAULT '', \"scale\" TEXT NOT NULL DEFAULT '', \"method\" TEXT NOT NULL DEFAULT '', PRIMARY KEY(terminology_release, code_system, code));"
+        }
+      ]
+    },
+    {
+      "name": "v_observation",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE VIEW v_observation AS SELECT o.*, k.terminology_release, k.outcome, k.reason AS coding_reason, k.code_system, k.code, k.series_id, k.group_id, k.value_canonical, k.unit_canonical, k.decision_id, c.display, c.display_de, c.short_name, c.category, c.component, c.property, c.time_aspect, c.system, c.scale, c.method FROM observation AS o JOIN coding_current AS k ON k.observation_id = o.id LEFT JOIN concept AS c ON c.terminology_release = k.terminology_release AND c.code_system = k.code_system AND c.code = k.code WHERE o.status = 'final' AND NOT EXISTS (SELECT 1 FROM observation AS n WHERE n.amends = o.id)"
+        }
+      ]
+    },
+    {
+      "name": "source_file",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"source_file\" (\"id\" INTEGER NOT NULL PRIMARY KEY, \"person_id\" INTEGER NOT NULL REFERENCES person(id), \"report_id\" INTEGER NOT NULL REFERENCES report(id)ON DELETE CASCADE, \"position\" INTEGER NOT NULL CHECK (position >= 0), \"content_hash\" TEXT NOT NULL CHECK (length(content_hash) = 64), \"file_name\" TEXT NOT NULL, \"mime_type\" TEXT NOT NULL, \"byte_size\" INTEGER NOT NULL CHECK (byte_size >= 0), \"stored_path\" TEXT NOT NULL, \"kind\" TEXT NOT NULL CHECK (kind IN ('pdf', 'image', 'other')), \"import_channel\" TEXT NOT NULL CHECK (import_channel IN ('file-picker', 'drag-drop', 'camera', 'gallery', 'share')), \"page_count\" INTEGER CHECK (page_count IS NULL OR page_count > 0), \"imported_at\" INTEGER NOT NULL, UNIQUE(person_id, content_hash), UNIQUE(report_id, position));"
+        }
+      ]
+    },
+    {
+      "name": "source_page",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"source_page\" (\"source_file_id\" INTEGER NOT NULL REFERENCES source_file(id)ON DELETE CASCADE, \"page_ix\" INTEGER NOT NULL CHECK (page_ix >= 0), \"text_origin\" TEXT NOT NULL CHECK (text_origin <> ''), \"markdown\" TEXT NOT NULL, \"tables_html\" TEXT NOT NULL DEFAULT '', \"created_at\" INTEGER NOT NULL, PRIMARY KEY(source_file_id, page_ix, text_origin));"
+        }
+      ]
+    },
+    {
+      "name": "v_report_page",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE VIEW v_report_page AS SELECT f.report_id, f.id AS source_file_id, f.position AS file_position, p.page_ix AS file_page_ix, p.text_origin, ROW_NUMBER()OVER (PARTITION BY f.report_id, p.text_origin ORDER BY f.position, p.page_ix RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW EXCLUDE NO OTHERS) - 1 AS report_page_ix, p.markdown FROM source_page AS p JOIN source_file AS f ON f.id = p.source_file_id"
+        }
+      ]
+    },
+    {
+      "name": "idx_coding_current_series",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX idx_coding_current_series ON coding_current (series_id, observation_id)"
+        }
+      ]
+    },
+    {
+      "name": "idx_coding_current_open",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX idx_coding_current_open ON coding_current (outcome) WHERE outcome <> 'coded'"
+        }
+      ]
+    },
+    {
+      "name": "coding_history",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"coding_history\" (\"id\" INTEGER NOT NULL PRIMARY KEY, \"observation_id\" INTEGER NOT NULL REFERENCES observation(id)ON DELETE CASCADE, \"cause\" TEXT NOT NULL CHECK (cause IN ('ingest', 'amend', 'correct', 'recode-release', 'recode-rules', 'recode-alias')), \"terminology_release\" TEXT NOT NULL, \"outcome\" TEXT NOT NULL CHECK (outcome IN ('coded', 'needs-input', 'refused')), \"reason\" TEXT NOT NULL DEFAULT '', \"code_system\" TEXT, \"code\" TEXT, \"series_id\" TEXT NOT NULL, \"group_id\" TEXT, \"value_canonical\" REAL, \"unit_canonical\" TEXT, \"decision_id\" TEXT NOT NULL REFERENCES coding_decision(id), \"coded_at\" INTEGER NOT NULL);"
+        }
+      ]
+    },
+    {
+      "name": "idx_coding_history_observation",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX idx_coding_history_observation ON coding_history (observation_id, coded_at)"
+        }
+      ]
+    },
+    {
+      "name": "coding_alias",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"coding_alias\" (\"id\" INTEGER NOT NULL PRIMARY KEY, \"scope\" TEXT NOT NULL CHECK (scope = 'global' OR scope GLOB 'person:[0-9]*'), \"name_key\" TEXT NOT NULL, \"unit_ucum\" TEXT NOT NULL DEFAULT '', \"code_system\" TEXT, \"code\" TEXT, \"confirmed_at\" INTEGER NOT NULL, \"note\" TEXT NOT NULL DEFAULT '', UNIQUE(scope, name_key, unit_ucum), CHECK((code IS NULL)=(code_system IS NULL)));"
+        }
+      ]
+    },
+    {
+      "name": "uq_observation_identity",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE UNIQUE INDEX uq_observation_identity ON observation (person_id, name_key, observed_start, observed_end, source_ref, source_record_id, COALESCE(member_of, 0), COALESCE(amends, 0))"
+        }
+      ]
+    },
+    {
+      "name": "idx_observation_day",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX idx_observation_day ON observation (person_id, local_date)"
+        }
+      ]
+    },
+    {
+      "name": "idx_observation_stream",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX idx_observation_stream ON observation (person_id, stream_key, observed_start)"
+        }
+      ]
+    },
+    {
+      "name": "idx_observation_source",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX idx_observation_source ON observation (source_ref)"
+        }
+      ]
+    },
+    {
+      "name": "idx_observation_report",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX idx_observation_report ON observation (report_id) WHERE report_id IS NOT NULL"
+        }
+      ]
+    },
+    {
+      "name": "idx_observation_amends",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX idx_observation_amends ON observation (amends) WHERE amends IS NOT NULL"
+        }
+      ]
+    },
+    {
+      "name": "idx_observation_created",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX idx_observation_created ON observation (person_id, created_at)"
+        }
+      ]
+    },
+    {
+      "name": "idx_extraction_report",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX idx_extraction_report ON extraction (report_id)"
+        }
+      ]
+    },
+    {
+      "name": "idx_report_person_date",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX idx_report_person_date ON report (person_id, report_date)"
+        }
+      ]
+    }
+  ]
+}
