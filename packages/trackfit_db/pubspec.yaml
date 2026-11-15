@@ -8,6 +8,7 @@ environment:
 resolution: workspace
 
 dependencies:
+  crypto: ^3.0.8
   drift: 2.34.0
   trackfit_core:
     path: ../trackfit_core

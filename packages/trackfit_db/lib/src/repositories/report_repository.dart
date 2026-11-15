@@ -152,6 +152,34 @@ class ReportRepository {
           .map((row) => row.id)
           .watch();
 
+  /// Sets date and laboratory of a report. A date entered by the person is
+  /// never replaced by an extracted one.
+  Future<void> setReportInfo(
+    int reportId, {
+    String? reportDate,
+    DateSource dateSource = DateSource.extracted,
+    String? labName,
+  }) => _db.transaction(() async {
+    final report = await getReport(reportId);
+    if (report == null) return;
+    final keepDate =
+        report.dateSource == DateSource.manual &&
+        dateSource != DateSource.manual;
+    await (_db.update(_db.report)..where((r) => r.id.equals(reportId))).write(
+      ReportCompanion(
+        reportDate: reportDate == null || keepDate
+            ? const Value.absent()
+            : Value(reportDate),
+        dateSource: reportDate == null || keepDate
+            ? const Value.absent()
+            : Value(dateSource),
+        labName: labName == null || labName.isEmpty
+            ? const Value.absent()
+            : Value(labName),
+      ),
+    );
+  });
+
   /// Sets the processing state; [error] is required for [ReportStatus.failed].
   Future<void> setStatus(
     int reportId,
