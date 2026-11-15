@@ -4,11 +4,14 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/misc.dart';
+import 'package:standardize/standardize.dart';
+import 'package:trackfit/application/reading_builder.dart';
 import 'package:trackfit/application/recognition_settings.dart';
 import 'package:trackfit/data/database_providers.dart';
 import 'package:trackfit/data/file_store.dart';
 import 'package:trackfit/data/secret_store.dart';
 import 'package:trackfit/platform/ocr/ocr.dart';
+import 'package:trackfit_core/trackfit_core.dart';
 import 'package:trackfit_db/trackfit_db.dart';
 
 /// A fresh in-memory database.
@@ -73,4 +76,55 @@ class FakeOcr implements Ocr {
     if (failure != null) throw failure;
     return pages;
   }
+}
+
+/// Creates a report of the default person with lab readings for
+/// [reportDate] and returns its id.
+Future<int> seedReport(
+  TrackfitDatabase db, {
+  required String reportDate,
+  required List<ObservationDraft> drafts,
+  String hash = '',
+  Coder coder = const NoCoder(),
+}) async {
+  final personId = await PersonRepository(
+    db,
+  ).ensureDefaultPerson(defaultTz: 'Europe/Berlin', now: DateTime.utc(2026));
+  final reports = ReportRepository(db);
+  final reportId = await reports.createReport(
+    personId: personId,
+    files: [
+      NewSourceFile(
+        contentHash: hash.isEmpty
+            ? reportDate.hashCode.toRadixString(16).padLeft(64, '0')
+            : hash,
+        fileName: 'befund.pdf',
+        mimeType: 'application/pdf',
+        byteSize: 1,
+        storedPath: 'files/missing.pdf',
+        kind: FileKind.pdf,
+        importChannel: ImportChannel.filePicker,
+      ),
+    ],
+    now: DateTime.utc(2026),
+  );
+  await reports.setReportInfo(reportId, reportDate: reportDate);
+  await reports.setStatus(reportId, ReportStatus.review);
+  final source = ReadingSource(
+    personId: personId,
+    reportId: reportId,
+    reportDate: reportDate,
+    timeZone: 'Europe/Berlin',
+    now: DateTime.utc(2026),
+  );
+  await ObservationRepository(db).replaceReportReadings(reportId, [
+    for (final (row, draft) in drafts.indexed)
+      buildLabReading(
+        standardizeDraft(draft, coder),
+        source,
+        rowIx: row,
+        terminologyRelease: coder.release,
+      ),
+  ], now: DateTime.utc(2026));
+  return reportId;
 }

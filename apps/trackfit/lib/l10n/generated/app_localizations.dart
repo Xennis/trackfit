@@ -619,6 +619,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change report date'**
   String get reportChangeDate;
+
+  /// No description provided for @valueReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Ref {range}'**
+  String valueReference(String range);
+
+  /// No description provided for @valuePage.
+  ///
+  /// In en, this message translates to:
+  /// **'p. {number}'**
+  String valuePage(int number);
+
+  /// No description provided for @valueOpenQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Not assigned yet'**
+  String get valueOpenQuestion;
+
+  /// No description provided for @valueOtherPanel.
+  ///
+  /// In en, this message translates to:
+  /// **'Other values'**
+  String get valueOtherPanel;
+
+  /// No description provided for @flagLow.
+  ///
+  /// In en, this message translates to:
+  /// **'low'**
+  String get flagLow;
+
+  /// No description provided for @flagHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'high'**
+  String get flagHigh;
+
+  /// No description provided for @flagCriticalLow.
+  ///
+  /// In en, this message translates to:
+  /// **'critically low'**
+  String get flagCriticalLow;
+
+  /// No description provided for @flagCriticalHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'critically high'**
+  String get flagCriticalHigh;
+
+  /// No description provided for @flagAbnormal.
+  ///
+  /// In en, this message translates to:
+  /// **'abnormal'**
+  String get flagAbnormal;
 }
 
 class _AppLocalizationsDelegate

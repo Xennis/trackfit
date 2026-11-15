@@ -26,3 +26,11 @@ final reportPagesProvider = StreamProvider.family<List<VReportPageData>, int>(
   (ref, reportId) =>
       ref.watch(pageRepositoryProvider).watchReportPages(reportId),
 );
+
+/// Current readings of one report.
+final reportReadingsProvider =
+    StreamProvider.family<List<VObservationData>, int>(
+      (ref, reportId) => ref
+          .watch(observationRepositoryProvider)
+          .watchReportReadings(reportId),
+    );

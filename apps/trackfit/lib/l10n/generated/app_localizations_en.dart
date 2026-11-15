@@ -319,4 +319,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportChangeDate => 'Change report date';
+
+  @override
+  String valueReference(String range) {
+    return 'Ref $range';
+  }
+
+  @override
+  String valuePage(int number) {
+    return 'p. $number';
+  }
+
+  @override
+  String get valueOpenQuestion => 'Not assigned yet';
+
+  @override
+  String get valueOtherPanel => 'Other values';
+
+  @override
+  String get flagLow => 'low';
+
+  @override
+  String get flagHigh => 'high';
+
+  @override
+  String get flagCriticalLow => 'critically low';
+
+  @override
+  String get flagCriticalHigh => 'critically high';
+
+  @override
+  String get flagAbnormal => 'abnormal';
 }

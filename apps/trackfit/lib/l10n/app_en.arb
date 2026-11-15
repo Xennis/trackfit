@@ -164,5 +164,28 @@
   "reportCopied": "Copied",
   "reportDateMissing": "The report date is missing. Values appear in the history once it is set.",
   "reportSetDate": "Set date",
-  "reportChangeDate": "Change report date"
+  "reportChangeDate": "Change report date",
+  "valueReference": "Ref {range}",
+  "@valueReference": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      }
+    }
+  },
+  "valuePage": "p. {number}",
+  "@valuePage": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "valueOpenQuestion": "Not assigned yet",
+  "valueOtherPanel": "Other values",
+  "flagLow": "low",
+  "flagHigh": "high",
+  "flagCriticalLow": "critically low",
+  "flagCriticalHigh": "critically high",
+  "flagAbnormal": "abnormal"
 }

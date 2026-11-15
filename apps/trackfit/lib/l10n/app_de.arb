@@ -86,5 +86,14 @@
   "reportCopied": "Kopiert",
   "reportDateMissing": "Das Befunddatum fehlt. Die Werte erscheinen im Verlauf, sobald es gesetzt ist.",
   "reportSetDate": "Datum wählen",
-  "reportChangeDate": "Befunddatum ändern"
+  "reportChangeDate": "Befunddatum ändern",
+  "valueReference": "Ref {range}",
+  "valuePage": "S. {number}",
+  "valueOpenQuestion": "Noch nicht zugeordnet",
+  "valueOtherPanel": "Weitere Werte",
+  "flagLow": "niedrig",
+  "flagHigh": "hoch",
+  "flagCriticalLow": "kritisch niedrig",
+  "flagCriticalHigh": "kritisch hoch",
+  "flagAbnormal": "auffällig"
 }

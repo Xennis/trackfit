@@ -323,4 +323,35 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get reportChangeDate => 'Befunddatum ändern';
+
+  @override
+  String valueReference(String range) {
+    return 'Ref $range';
+  }
+
+  @override
+  String valuePage(int number) {
+    return 'S. $number';
+  }
+
+  @override
+  String get valueOpenQuestion => 'Noch nicht zugeordnet';
+
+  @override
+  String get valueOtherPanel => 'Weitere Werte';
+
+  @override
+  String get flagLow => 'niedrig';
+
+  @override
+  String get flagHigh => 'hoch';
+
+  @override
+  String get flagCriticalLow => 'kritisch niedrig';
+
+  @override
+  String get flagCriticalHigh => 'kritisch hoch';
+
+  @override
+  String get flagAbnormal => 'auffällig';
 }

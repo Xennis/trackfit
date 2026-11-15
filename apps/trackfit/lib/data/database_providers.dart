@@ -55,3 +55,7 @@ final reportRepositoryProvider = Provider<ReportRepository>(
 final pageRepositoryProvider = Provider<PageRepository>(
   (ref) => PageRepository(ref.watch(databaseProvider)),
 );
+
+final observationRepositoryProvider = Provider<ObservationRepository>(
+  (ref) => ObservationRepository(ref.watch(databaseProvider)),
+);

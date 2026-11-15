@@ -7,13 +7,13 @@ import '../../application/delete_report.dart';
 import '../../data/database_providers.dart';
 
 import '../../l10n/generated/app_localizations.dart';
-import '../common/empty_state.dart';
 import 'delete_report_dialog.dart';
 import 'original_view.dart';
 import 'processing_banner.dart';
 import 'report_date_picker.dart';
 import 'report_labels.dart';
 import 'report_providers.dart';
+import 'report_values_view.dart';
 import 'text_view.dart';
 
 /// One report with its original files, recognized text and values.
@@ -75,11 +75,7 @@ class ReportDetailPage extends ConsumerWidget {
                 children: [
                   OriginalView(files: files),
                   TextView(reportId: reportId),
-                  EmptyState(
-                    icon: Icons.list_alt_outlined,
-                    title: l10n.reportTabValues,
-                    body: l10n.reportValuesEmpty,
-                  ),
+                  ReportValuesView(reportId: reportId),
                 ],
               ),
             ),
