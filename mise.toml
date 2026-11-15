@@ -1,3 +1,52 @@
 [tools]
 flutter = "3.44.6"
 java = "temurin-21.0.13+9.0.LTS"
+
+[tasks.get]
+description = "Resolve dependencies for the whole workspace"
+run = "flutter pub get"
+
+[tasks.analyze]
+description = "Analyze all packages"
+run = "flutter analyze"
+
+[tasks.test]
+description = "Run the app tests"
+dir = "{{config_root}}/apps/trackfit"
+run = "flutter test"
+
+[tasks.l10n]
+description = "Regenerate localizations from the ARB files"
+dir = "{{config_root}}/apps/trackfit"
+run = "flutter gen-l10n"
+
+[tasks.run]
+description = "Run the app on the Linux desktop (debug, hot reload)"
+dir = "{{config_root}}/apps/trackfit"
+run = "flutter run -d linux"
+
+[tasks."build:linux"]
+description = "Build the Linux desktop app (release)"
+dir = "{{config_root}}/apps/trackfit"
+run = "flutter build linux --release"
+
+[tasks."start:linux"]
+description = "Build and start the Linux release app"
+depends = ["build:linux"]
+dir = "{{config_root}}/apps/trackfit"
+run = "./build/linux/x64/release/bundle/trackfit"
+
+[tasks."build:apk"]
+description = "Build a debug APK with the JDK from this file"
+dir = "{{config_root}}/apps/trackfit"
+# `flutter build apk` prefers the JDK bundled with Android Studio over
+# JAVA_HOME. Calling Gradle directly makes it use the JDK pinned above.
+run = [
+  "flutter build apk --debug --config-only",
+  "cd android && ./gradlew assembleDebug",
+]
+
+[tasks.clean]
+description = "Remove build output of the app"
+dir = "{{config_root}}/apps/trackfit"
+run = "flutter clean"
