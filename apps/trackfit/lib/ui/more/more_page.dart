@@ -32,6 +32,8 @@ class MorePage extends ConsumerWidget {
             leading: const Icon(Icons.info_outline),
             title: Text(l10n.moreAbout),
             subtitle: Text(l10n.moreDisclaimer),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.go(Routes.about),
           ),
         ],
       ),

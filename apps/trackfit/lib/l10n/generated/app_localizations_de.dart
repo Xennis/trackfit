@@ -354,4 +354,23 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get flagAbnormal => 'auffällig';
+
+  @override
+  String get aboutTitle => 'Über trackfit';
+
+  @override
+  String get aboutBody =>
+      'trackfit speichert deine Laborwerte auf diesem Gerät und zeigt, wie sie sich über die Zeit entwickeln.';
+
+  @override
+  String get aboutLoinc =>
+      'Diese App verwendet LOINC®-Codes. LOINC ist urheberrechtlich geschützt © Regenstrief Institute, Inc. und das LOINC Committee und steht kostenlos unter der Lizenz auf loinc.org/license zur Verfügung. LOINC® ist eine in den USA eingetragene Marke des Regenstrief Institute, Inc.';
+
+  @override
+  String get aboutLicenses => 'Open-Source-Lizenzen';
+
+  @override
+  String aboutTerminology(String release) {
+    return 'Terminologie: $release';
+  }
 }

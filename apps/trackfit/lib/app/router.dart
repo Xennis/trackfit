@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../ui/more/about_page.dart';
 import '../ui/more/more_page.dart';
 import '../ui/more/recognition_settings_page.dart';
 import '../ui/overview/overview_page.dart';
@@ -18,6 +19,7 @@ abstract final class Routes {
   static const more = '/more';
 
   static const recognitionSettings = '$more/recognition';
+  static const about = '$more/about';
 
   static String report(int id) => '$reports/$id';
 }
@@ -51,6 +53,10 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'recognition',
                 builder: (context, state) => const RecognitionSettingsPage(),
+              ),
+              GoRoute(
+                path: 'about',
+                builder: (context, state) => const AboutPage(),
               ),
             ],
           ),

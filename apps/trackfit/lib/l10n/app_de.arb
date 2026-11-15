@@ -95,5 +95,10 @@
   "flagHigh": "hoch",
   "flagCriticalLow": "kritisch niedrig",
   "flagCriticalHigh": "kritisch hoch",
-  "flagAbnormal": "auffällig"
+  "flagAbnormal": "auffällig",
+  "aboutTitle": "Über trackfit",
+  "aboutBody": "trackfit speichert deine Laborwerte auf diesem Gerät und zeigt, wie sie sich über die Zeit entwickeln.",
+  "aboutLoinc": "Diese App verwendet LOINC®-Codes. LOINC ist urheberrechtlich geschützt © Regenstrief Institute, Inc. und das LOINC Committee und steht kostenlos unter der Lizenz auf loinc.org/license zur Verfügung. LOINC® ist eine in den USA eingetragene Marke des Regenstrief Institute, Inc.",
+  "aboutLicenses": "Open-Source-Lizenzen",
+  "aboutTerminology": "Terminologie: {release}"
 }

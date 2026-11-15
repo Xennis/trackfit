@@ -673,6 +673,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'abnormal'**
   String get flagAbnormal;
+
+  /// No description provided for @aboutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About trackfit'**
+  String get aboutTitle;
+
+  /// No description provided for @aboutBody.
+  ///
+  /// In en, this message translates to:
+  /// **'trackfit stores your lab values on this device and shows how they change over time.'**
+  String get aboutBody;
+
+  /// No description provided for @aboutLoinc.
+  ///
+  /// In en, this message translates to:
+  /// **'This app uses LOINC® codes. LOINC is copyright © Regenstrief Institute, Inc. and the LOINC Committee and is available at no cost under the license at loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc.'**
+  String get aboutLoinc;
+
+  /// No description provided for @aboutLicenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Open source licenses'**
+  String get aboutLicenses;
+
+  /// No description provided for @aboutTerminology.
+  ///
+  /// In en, this message translates to:
+  /// **'Terminology: {release}'**
+  String aboutTerminology(String release);
 }
 
 class _AppLocalizationsDelegate
