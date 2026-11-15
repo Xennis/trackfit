@@ -4,6 +4,8 @@ import 'quantity_unit.dart';
 /// by their folded printed form.
 const _special = <String, String>{
   '%': '%',
+  'vol%': '%',
+  'vol.%': '%',
   'mm/h': 'mm/h',
   'mm/1h': 'mm/h',
   's': 's',
@@ -43,6 +45,11 @@ const _counts = <String, int>{
   'giga': 9,
   'tpt': 12,
   'tera': 12,
+  // Cells, as in `c/nl` or `Zellen/µl`: a plain count.
+  'c': 0,
+  'zellen': 0,
+  'mrd': 9,
+  'mrd.': 9,
 };
 
 /// Printed atoms, keyed by their folded form.

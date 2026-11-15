@@ -35,6 +35,11 @@ void main() {
     'mmHg': 'mm[Hg]',
     'ml/min/1,73m²': 'mL/min/{1.73_m2}',
     ' mg / dl ': 'mg/dL',
+    'c/nl': '/nL',
+    'c/pl': '/pL',
+    'Zellen/µl': '/uL',
+    'Mrd/ml': '10*9/mL',
+    'Vol%': '%',
   };
 
   for (final MapEntry(key: printed, value: expected) in cases.entries) {

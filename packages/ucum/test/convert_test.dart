@@ -8,6 +8,9 @@ void main() {
     expect(convertValue(6.5, '10*9/L', '10*3/uL'), closeTo(6.5, 1e-9));
     expect(convertValue(4.2, '10*6/uL', '10*12/L'), closeTo(4.2, 1e-9));
     expect(convertValue(2, 'mU/L', 'U/L'), closeTo(0.002, 1e-12));
+    expect(convertValue(6.5, '/nL', '10*3/uL'), closeTo(6.5, 1e-9));
+    expect(convertValue(4.6, '/pL', '10*6/uL'), closeTo(4.6, 1e-9));
+    expect(convertValue(4.6, '10*9/mL', '10*6/uL'), closeTo(4.6, 1e-9));
   });
 
   test('converts mass and amount with a molar mass', () {
