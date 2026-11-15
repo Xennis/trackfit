@@ -79,7 +79,8 @@ dir = "{{config_root}}/apps/trackfit"
 # JAVA_HOME. Calling Gradle directly makes it use the JDK pinned above.
 run = [
   "flutter build apk --debug --config-only",
-  "cd android && ./gradlew assembleDebug",
+  # No daemon: Gradle frees its memory when the build is done.
+  "cd android && ./gradlew --no-daemon assembleDebug",
 ]
 
 [tasks.clean]
