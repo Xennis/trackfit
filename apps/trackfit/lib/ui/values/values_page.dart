@@ -5,10 +5,12 @@ import 'package:go_router/go_router.dart';
 import '../../app/router.dart';
 import '../../data/database_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../charts/range_bar.dart';
 import '../charts/sparkline.dart';
 import '../common/content_width.dart';
 import '../common/empty_state.dart';
 import '../common/list_card.dart';
+import '../shell/app_shell.dart';
 import 'series_view_model.dart';
 import 'value_format.dart';
 import 'values_providers.dart';
@@ -158,6 +160,26 @@ class SeriesTile extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final latest = series.latest;
+    final wide = MediaQuery.sizeOf(context).width >= expandedBreakpoint;
+    // The bar needs the newest measurement as a number with both bounds.
+    final point = series.points.lastOrNull;
+    final low = point?.refLow;
+    final high = point?.refHigh;
+    final hasRange =
+        point != null &&
+        point.reading.id == latest.id &&
+        low != null &&
+        high != null &&
+        high > low;
+    const barWidth = 88.0;
+    final value = Text(
+      formatPrintedValue(latest),
+      overflow: TextOverflow.ellipsis,
+      textAlign: TextAlign.end,
+      style: theme.textTheme.bodyLarge?.copyWith(
+        fontFeatures: const [FontFeature.tabularFigures()],
+      ),
+    );
     return ListTile(
       title: Text(series.name),
       subtitle: Text(
@@ -174,17 +196,28 @@ class SeriesTile extends StatelessWidget {
             values: [for (final p in series.points) p.value],
             highlightLast: series.isAbnormal,
           ),
+          if (wide) ...[
+            const SizedBox(width: 20),
+            if (hasRange)
+              RangeBar(
+                value: point.value,
+                low: low,
+                high: high,
+                flag: latest.flag,
+                width: barWidth,
+              )
+            else
+              const SizedBox(width: barWidth),
+          ],
           const SizedBox(width: 12),
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 120),
-            child: Text(
-              formatPrintedValue(latest),
-              overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                fontFeatures: const [FontFeature.tabularFigures()],
-              ),
+          // A fixed width on wide windows lines the columns up.
+          if (wide)
+            SizedBox(width: 120, child: value)
+          else
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 120),
+              child: value,
             ),
-          ),
           const SizedBox(width: 4),
           FlagMark(latest.flag),
         ],
