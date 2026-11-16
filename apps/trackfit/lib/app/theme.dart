@@ -15,6 +15,7 @@ abstract final class AppTheme {
     );
     return ThemeData(
       colorScheme: colorScheme,
+      fontFamily: 'Inter',
       visualDensity: VisualDensity.adaptivePlatformDensity,
       appBarTheme: AppBarTheme(
         centerTitle: false,
