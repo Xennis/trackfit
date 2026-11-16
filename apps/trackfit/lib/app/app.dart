@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,6 +27,20 @@ class TrackfitApp extends ConsumerWidget {
       darkTheme: AppTheme.dark,
       themeMode: ref.watch(themeModeProvider).value ?? ThemeMode.system,
       routerConfig: ref.watch(routerProvider),
+      // The app draws behind the system navigation bar, so that bar must not
+      // paint a background of its own. A region is needed: without one the
+      // framework does not send the color of the bar.
+      builder: (context, child) => AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarContrastEnforced: false,
+          systemNavigationBarIconBrightness:
+              Theme.of(context).brightness == Brightness.light
+              ? Brightness.dark
+              : Brightness.light,
+        ),
+        child: child!,
+      ),
     );
   }
 }

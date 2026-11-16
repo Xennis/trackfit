@@ -11,12 +11,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // Draw behind the system bars, so the navigation bar reaches the edge.
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarContrastEnforced: false,
-    ),
-  );
   // The bundled font is listed on the license page.
   LicenseRegistry.addLicense(() async* {
     yield LicenseEntryWithLineBreaks([
