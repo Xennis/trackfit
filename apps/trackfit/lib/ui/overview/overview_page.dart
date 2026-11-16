@@ -39,6 +39,7 @@ class OverviewPage extends ConsumerWidget {
         icon: Icons.note_add_outlined,
         title: l10n.overviewEmptyTitle,
         body: l10n.overviewEmptyBody,
+        hint: isDesktop ? l10n.importDropHint : null,
       );
     } else {
       final processing = reports

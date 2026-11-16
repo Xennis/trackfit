@@ -28,6 +28,7 @@ class ReportsPage extends ConsumerWidget {
           icon: Icons.description_outlined,
           title: l10n.reportsEmptyTitle,
           body: l10n.reportsEmptyBody,
+          hint: isDesktop ? l10n.importDropHint : null,
         ),
         AsyncData(value: final list) => ContentWidth(
           child: ListView.separated(

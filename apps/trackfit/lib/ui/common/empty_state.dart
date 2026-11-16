@@ -6,12 +6,16 @@ class EmptyState extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.body,
+    this.hint,
     super.key,
   });
 
   final IconData icon;
   final String title;
   final String body;
+
+  /// A second, quieter line, e.g. another way to get started.
+  final String? hint;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +28,16 @@ class EmptyState extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 48, color: theme.colorScheme.primary),
-              const SizedBox(height: 16),
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primaryContainer,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, size: 32, color: theme.colorScheme.primary),
+              ),
+              const SizedBox(height: 20),
               Text(
                 title,
                 style: theme.textTheme.titleLarge,
@@ -39,6 +51,16 @@ class EmptyState extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
+              if (hint != null) ...[
+                const SizedBox(height: 4),
+                Text(
+                  hint!,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.outline,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ],
           ),
         ),
