@@ -101,6 +101,7 @@ abstract final class AppTheme {
 
   static ThemeData _build(Brightness brightness) {
     final dense = _dense;
+    final textTheme = _textTheme(dense: dense);
     final colors = _colors(brightness);
     final line = BorderSide(color: colors.outlineVariant);
     RoundedRectangleBorder rounded(double radius, [BorderSide? side]) =>
@@ -123,7 +124,7 @@ abstract final class AppTheme {
         brightness == Brightness.light ? StatusColors.light : StatusColors.dark,
       ],
       fontFamily: 'Inter',
-      textTheme: _textTheme(dense: dense),
+      textTheme: textTheme,
       visualDensity: dense ? VisualDensity.compact : VisualDensity.standard,
       scaffoldBackgroundColor: colors.surface,
       appBarTheme: AppBarTheme(
@@ -147,6 +148,11 @@ abstract final class AppTheme {
       listTileTheme: ListTileThemeData(
         iconColor: colors.onSurfaceVariant,
         dense: dense,
+        // Values at the end of a row read as content, not as a caption.
+        leadingAndTrailingTextStyle: textTheme.bodyMedium?.copyWith(
+          fontFamily: 'Inter',
+          color: colors.onSurface,
+        ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,

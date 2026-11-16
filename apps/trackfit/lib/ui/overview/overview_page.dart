@@ -166,6 +166,7 @@ class _AbnormalCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(width: 6),
                     FlagMark(series.latest.flag),
                   ],
                 ),
