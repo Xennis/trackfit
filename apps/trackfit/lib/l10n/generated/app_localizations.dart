@@ -122,6 +122,12 @@ abstract class AppLocalizations {
   /// **'Reports'**
   String get navReports;
 
+  /// Note at the bottom of the sidebar: everything is stored locally.
+  ///
+  /// In en, this message translates to:
+  /// **'{reports, plural, =1{1 report} other{{reports} reports}} on this device'**
+  String sidebarLocal(int reports);
+
   /// Navigation destination for settings and info.
   ///
   /// In en, this message translates to:

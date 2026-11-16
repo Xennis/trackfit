@@ -4,6 +4,7 @@
   "navOverview": "Übersicht",
   "navValues": "Werte",
   "navReports": "Befunde",
+  "sidebarLocal": "{reports, plural, =1{1 Bericht} other{{reports} Berichte}} auf diesem Gerät",
   "navMore": "Mehr",
   "overviewEmptyTitle": "Ersten Befund hinzufügen",
   "overviewEmptyBody": "Importiere einen Laborbefund als PDF oder Foto, um loszulegen.",

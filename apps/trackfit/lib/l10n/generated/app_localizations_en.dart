@@ -21,6 +21,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navReports => 'Reports';
 
   @override
+  String sidebarLocal(int reports) {
+    String _temp0 = intl.Intl.pluralLogic(
+      reports,
+      locale: localeName,
+      other: '$reports reports',
+      one: '1 report',
+    );
+    return '$_temp0 on this device';
+  }
+
+  @override
   String get navMore => 'More';
 
   @override

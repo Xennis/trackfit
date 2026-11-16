@@ -23,6 +23,9 @@ abstract final class Radii {
 abstract final class AppTheme {
   static const Color _seed = Color(0xFF0B7C8A);
 
+  /// Second color of the brand gradient; never used on its own.
+  static const Color accent = Color(0xFF2BB3A3);
+
   static ThemeData get light => _build(Brightness.light);
 
   static ThemeData get dark => _build(Brightness.dark);

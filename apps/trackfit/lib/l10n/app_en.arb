@@ -16,6 +16,15 @@
   "@navReports": {
     "description": "Navigation destination for imported lab reports."
   },
+  "sidebarLocal": "{reports, plural, =1{1 report} other{{reports} reports}} on this device",
+  "@sidebarLocal": {
+    "description": "Note at the bottom of the sidebar: everything is stored locally.",
+    "placeholders": {
+      "reports": {
+        "type": "int"
+      }
+    }
+  },
   "navMore": "More",
   "@navMore": {
     "description": "Navigation destination for settings and info."

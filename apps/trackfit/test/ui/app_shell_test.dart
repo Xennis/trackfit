@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:trackfit/app/app.dart';
+import 'package:trackfit/ui/shell/sidebar.dart';
 
 import '../helpers.dart';
 
@@ -24,13 +25,18 @@ void main() {
     await _pumpApp(tester, const Size(400, 800));
 
     expect(find.byType(NavigationBar), findsOneWidget);
-    expect(find.byType(NavigationRail), findsNothing);
+    expect(find.byType(Sidebar), findsNothing);
+    expect(find.byType(FloatingActionButton), findsOneWidget);
   });
 
-  testWidgets('uses a navigation rail on wide screens', (tester) async {
+  testWidgets('uses a sidebar with the import button on wide screens', (
+    tester,
+  ) async {
     await _pumpApp(tester, const Size(1000, 800));
 
-    expect(find.byType(NavigationRail), findsOneWidget);
+    expect(find.byType(Sidebar), findsOneWidget);
+    expect(find.widgetWithText(FilledButton, 'Add report'), findsOneWidget);
+    expect(find.byType(FloatingActionButton), findsNothing);
     expect(find.byType(NavigationBar), findsNothing);
   });
 
