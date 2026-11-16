@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../app/status_colors.dart';
+
 /// A small line of the latest values, without axes.
 class Sparkline extends StatelessWidget {
   const Sparkline({
@@ -29,7 +31,9 @@ class Sparkline extends StatelessWidget {
               painter: _SparklinePainter(
                 values: values,
                 line: colors.primary,
-                last: highlightLast ? colors.tertiary : colors.primary,
+                last: highlightLast
+                    ? StatusColors.of(context).warning
+                    : colors.primary,
               ),
             ),
     );

@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:trackfit_core/trackfit_core.dart';
 
+import '../../app/status_colors.dart';
 import '../values/series_view_model.dart';
 
 /// Values of one series over time, with the reference range of each
@@ -32,6 +33,7 @@ class HistoryChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
+    final status = StatusColors.of(context);
     if (points.isEmpty) return SizedBox(height: height);
 
     final xs = [for (final p in points) _x(p.date)];
@@ -86,8 +88,8 @@ class HistoryChart extends StatelessWidget {
             radius: 5,
             color: switch (flag) {
               Flag.none => colors.primary,
-              Flag.criticalLow || Flag.criticalHigh => colors.error,
-              _ => colors.tertiary,
+              Flag.criticalLow || Flag.criticalHigh => status.critical,
+              _ => status.warning,
             },
             strokeWidth: 2,
             strokeColor: colors.surface,

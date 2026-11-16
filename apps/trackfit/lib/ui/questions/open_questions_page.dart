@@ -7,6 +7,7 @@ import '../../app/router.dart';
 import '../../application/processing_providers.dart';
 import '../../data/database_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../common/content_width.dart';
 import '../common/empty_state.dart';
 import '../values/value_format.dart';
 import 'choose_test_dialog.dart';
@@ -27,14 +28,16 @@ class OpenQuestionsPage extends ConsumerWidget {
           title: l10n.questionsTitle,
           body: l10n.questionsEmpty,
         ),
-        AsyncData(value: final list) => ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            for (final question in list) ...[
-              QuestionCard(question: question),
-              const SizedBox(height: 12),
+        AsyncData(value: final list) => ContentWidth(
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              for (final question in list) ...[
+                QuestionCard(question: question),
+                const SizedBox(height: 12),
+              ],
             ],
-          ],
+          ),
         ),
         AsyncError() => Center(child: Text(l10n.loadFailed)),
         _ => const Center(child: CircularProgressIndicator()),

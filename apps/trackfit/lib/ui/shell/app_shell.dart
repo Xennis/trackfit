@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../app/theme.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../import/file_drop_zone.dart';
 import '../import/import_flow.dart';
+import 'sidebar.dart';
 
 /// Width below which the bottom navigation bar is used (Material 3 compact).
 const double compactBreakpoint = 600;
 
-/// Width from which the navigation rail shows its labels next to the icons.
-const double expandedBreakpoint = 1200;
+/// Width from which the sidebar shows its labels next to the icons.
+const double expandedBreakpoint = 800;
 
-/// Top level navigation: a bottom bar on compact screens, a rail otherwise.
+/// Top level navigation: a bottom bar on compact screens, a sidebar
+/// next to the content panel otherwise.
 class AppShell extends StatelessWidget {
   const AppShell({required this.navigationShell, super.key});
 
@@ -34,63 +37,65 @@ class AppShell extends StatelessWidget {
         body: isDesktop
             ? FileDropZone(child: navigationShell)
             : navigationShell,
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: navigationShell.currentIndex,
-          onDestinationSelected: _onSelect,
-          destinations: [
-            for (final d in destinations)
-              NavigationDestination(
-                icon: Icon(d.icon),
-                selectedIcon: Icon(d.selectedIcon),
-                label: d.label,
+        // A hairline instead of a tinted block sets the bar off.
+        bottomNavigationBar: DecoratedBox(
+          position: DecorationPosition.foreground,
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Theme.of(context).colorScheme.outlineVariant,
               ),
-          ],
+            ),
+          ),
+          child: NavigationBar(
+            selectedIndex: navigationShell.currentIndex,
+            onDestinationSelected: _onSelect,
+            destinations: [
+              for (final d in destinations)
+                NavigationDestination(
+                  icon: Icon(d.icon),
+                  selectedIcon: Icon(d.selectedIcon),
+                  label: d.label,
+                ),
+            ],
+          ),
         ),
       );
     }
 
-    final extended = width >= expandedBreakpoint;
+    final colors = Theme.of(context).colorScheme;
     final body = Row(
       children: [
-        NavigationRail(
+        Sidebar(
+          destinations: destinations,
           selectedIndex: navigationShell.currentIndex,
-          onDestinationSelected: _onSelect,
-          extended: extended,
-          labelType: extended
-              ? NavigationRailLabelType.none
-              : NavigationRailLabelType.all,
-          destinations: [
-            for (final d in destinations)
-              NavigationRailDestination(
-                icon: Icon(d.icon),
-                selectedIcon: Icon(d.selectedIcon),
-                label: Text(d.label),
-              ),
-          ],
+          onSelect: _onSelect,
+          extended: width >= expandedBreakpoint,
         ),
-        const VerticalDivider(width: 1),
-        Expanded(child: navigationShell),
+        Expanded(
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              color: colors.surface,
+              border: Border.all(color: colors.outlineVariant),
+              borderRadius: BorderRadius.circular(Radii.large),
+            ),
+            child: navigationShell,
+          ),
+        ),
       ],
     );
-    return Scaffold(body: isDesktop ? FileDropZone(child: body) : body);
+    return Scaffold(
+      backgroundColor: colors.surfaceContainer,
+      body: isDesktop ? FileDropZone(child: body) : body,
+    );
   }
 
-  List<_Destination> _destinations(AppLocalizations l10n) => [
-    _Destination(Icons.dashboard_outlined, Icons.dashboard, l10n.navOverview),
-    _Destination(Icons.show_chart_outlined, Icons.show_chart, l10n.navValues),
-    _Destination(
-      Icons.description_outlined,
-      Icons.description,
-      l10n.navReports,
-    ),
-    _Destination(Icons.more_horiz, Icons.more_horiz, l10n.navMore),
+  List<Destination> _destinations(AppLocalizations l10n) => [
+    Destination(Icons.dashboard_outlined, Icons.dashboard, l10n.navOverview),
+    Destination(Icons.show_chart_outlined, Icons.show_chart, l10n.navValues),
+    Destination(Icons.description_outlined, Icons.description, l10n.navReports),
+    Destination(Icons.settings_outlined, Icons.settings, l10n.navSettings),
   ];
-}
-
-class _Destination {
-  const _Destination(this.icon, this.selectedIcon, this.label);
-
-  final IconData icon;
-  final IconData selectedIcon;
-  final String label;
 }

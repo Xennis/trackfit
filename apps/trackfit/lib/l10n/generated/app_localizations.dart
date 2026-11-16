@@ -122,11 +122,17 @@ abstract class AppLocalizations {
   /// **'Reports'**
   String get navReports;
 
+  /// Note at the bottom of the sidebar: everything is stored locally.
+  ///
+  /// In en, this message translates to:
+  /// **'{reports, plural, =1{1 report} other{{reports} reports}} on this device'**
+  String sidebarLocal(int reports);
+
   /// Navigation destination for settings and info.
   ///
   /// In en, this message translates to:
-  /// **'More'**
-  String get navMore;
+  /// **'Settings'**
+  String get navSettings;
 
   /// No description provided for @overviewEmptyTitle.
   ///
@@ -1063,6 +1069,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 report is being processed} other{{count} reports are being processed}}'**
   String overviewProcessing(int count);
+
+  /// Label of the number of values whose latest measurement is not flagged.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get overviewNormal;
+
+  /// Follows a number: how many values there are in total.
+  ///
+  /// In en, this message translates to:
+  /// **'of {total}'**
+  String overviewOfTotal(int total);
 
   /// No description provided for @overviewAbnormal.
   ///

@@ -21,7 +21,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navReports => 'Reports';
 
   @override
-  String get navMore => 'More';
+  String sidebarLocal(int reports) {
+    String _temp0 = intl.Intl.pluralLogic(
+      reports,
+      locale: localeName,
+      other: '$reports reports',
+      one: '1 report',
+    );
+    return '$_temp0 on this device';
+  }
+
+  @override
+  String get navSettings => 'Settings';
 
   @override
   String get overviewEmptyTitle => 'Add your first report';
@@ -595,6 +606,14 @@ class AppLocalizationsEn extends AppLocalizations {
       one: '1 report is being processed',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get overviewNormal => 'Normal';
+
+  @override
+  String overviewOfTotal(int total) {
+    return 'of $total';
   }
 
   @override

@@ -21,7 +21,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get navReports => 'Befunde';
 
   @override
-  String get navMore => 'Mehr';
+  String sidebarLocal(int reports) {
+    String _temp0 = intl.Intl.pluralLogic(
+      reports,
+      locale: localeName,
+      other: '$reports Berichte',
+      one: '1 Bericht',
+    );
+    return '$_temp0 auf diesem Gerät';
+  }
+
+  @override
+  String get navSettings => 'Einstellungen';
 
   @override
   String get overviewEmptyTitle => 'Ersten Befund hinzufügen';
@@ -600,6 +611,14 @@ class AppLocalizationsDe extends AppLocalizations {
       one: '1 Befund wird verarbeitet',
     );
     return '$_temp0';
+  }
+
+  @override
+  String get overviewNormal => 'Unauffällig';
+
+  @override
+  String overviewOfTotal(int total) {
+    return 'von $total';
   }
 
   @override

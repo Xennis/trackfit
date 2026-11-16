@@ -5,9 +5,12 @@ import 'package:trackfit_core/trackfit_core.dart';
 import 'package:trackfit_db/trackfit_db.dart';
 
 import '../../app/router.dart';
+import '../../app/theme.dart';
 import '../../application/recognition_settings.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../common/content_width.dart';
 import '../common/empty_state.dart';
+import '../common/list_card.dart';
 import '../import/import_flow.dart';
 import 'report_labels.dart';
 import 'report_providers.dart';
@@ -27,12 +30,19 @@ class ReportsPage extends ConsumerWidget {
           icon: Icons.description_outlined,
           title: l10n.reportsEmptyTitle,
           body: l10n.reportsEmptyBody,
+          hint: isDesktop ? l10n.importDropHint : null,
         ),
-        AsyncData(value: final list) => ListView.separated(
-          padding: const EdgeInsets.only(bottom: 88),
-          itemCount: list.length,
-          separatorBuilder: (_, _) => const Divider(height: 1),
-          itemBuilder: (context, index) => ReportTile(summary: list[index]),
+        AsyncData(value: final list) => ContentWidth(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 88),
+            children: [
+              ListCard(
+                children: [
+                  for (final summary in list) ReportTile(summary: summary),
+                ],
+              ),
+            ],
+          ),
         ),
         AsyncError() => Center(child: Text(l10n.loadFailed)),
         _ => const Center(child: CircularProgressIndicator()),
@@ -66,10 +76,20 @@ class ReportTile extends ConsumerWidget {
       if (summary.openCount > 0) l10n.reportOpenQuestions(summary.openCount),
     ];
     return ListTile(
-      leading: Icon(
-        summary.firstFileKind == FileKind.pdf
-            ? Icons.picture_as_pdf_outlined
-            : Icons.image_outlined,
+      leading: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(Radii.small + 2),
+        ),
+        child: Icon(
+          summary.firstFileKind == FileKind.pdf
+              ? Icons.picture_as_pdf_outlined
+              : Icons.image_outlined,
+          size: 18,
+          color: theme.colorScheme.onPrimaryContainer,
+        ),
       ),
       title: Text(reportTitle(context, report)),
       subtitle: Text(

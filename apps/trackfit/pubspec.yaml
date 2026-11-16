@@ -52,3 +52,13 @@ flutter:
   assets:
     # Built by tools/build_terminology, do not edit by hand.
     - assets/terminology.sqlite
+    - assets/fonts/Inter-LICENSE.txt
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600

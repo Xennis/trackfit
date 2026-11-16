@@ -9,6 +9,7 @@ import '../../application/import_providers.dart';
 import '../../application/import_service.dart';
 import '../../data/database_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../shell/app_shell.dart';
 import 'consent_flow.dart';
 
 /// Opens the sheet with the ways to add a report.
@@ -197,14 +198,20 @@ String _summary(AppLocalizations l10n, ImportOutcome outcome) => [
 ].join('\n');
 
 /// Floating button that opens the import sheet.
+///
+/// Empty on wide windows, where the sidebar has the button.
 class ImportButton extends ConsumerWidget {
   const ImportButton({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) =>
-      FloatingActionButton.extended(
-        onPressed: () => showImportSheet(context, ref),
-        icon: const Icon(Icons.add),
-        label: Text(AppLocalizations.of(context).importAction),
-      );
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (MediaQuery.sizeOf(context).width >= compactBreakpoint) {
+      return const SizedBox.shrink();
+    }
+    return FloatingActionButton.extended(
+      onPressed: () => showImportSheet(context, ref),
+      icon: const Icon(Icons.add),
+      label: Text(AppLocalizations.of(context).importAction),
+    );
+  }
 }

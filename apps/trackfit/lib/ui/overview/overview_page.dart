@@ -3,15 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/router.dart';
+import '../../app/status_colors.dart';
+import '../../app/theme.dart';
 import '../../application/recognition_settings.dart';
 import '../../data/database_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../charts/sparkline.dart';
+import '../common/content_width.dart';
 import '../common/empty_state.dart';
+import '../common/list_card.dart';
 import '../import/import_flow.dart';
 import '../reports/report_labels.dart';
 import '../reports/report_providers.dart';
 import '../reports/reports_page.dart';
+import '../shell/app_shell.dart';
 import '../values/series_view_model.dart';
 import '../values/value_format.dart';
 import '../values/values_providers.dart';
@@ -37,6 +42,7 @@ class OverviewPage extends ConsumerWidget {
         icon: Icons.note_add_outlined,
         title: l10n.overviewEmptyTitle,
         body: l10n.overviewEmptyBody,
+        hint: isDesktop ? l10n.importDropHint : null,
       );
     } else {
       final processing = reports
@@ -47,54 +53,158 @@ class OverviewPage extends ConsumerWidget {
           .length;
       final openCount = questions.fold(0, (n, q) => n + q.readings.length);
       final abnormal = series.where((s) => s.isAbnormal).toList();
-      body = ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
-        children: [
-          if (openCount > 0)
-            _Notice(
-              icon: Icons.help_outline,
-              text: l10n.questionsBanner(openCount),
-              onTap: () => context.go(Routes.questions),
-            ),
-          if (waiting > 0)
-            _Notice(
-              icon: Icons.settings_outlined,
-              text: l10n.overviewNeedsSetup(waiting),
-              onTap: () => context.go(Routes.recognitionSettings),
-            ),
-          if (processing > 0)
-            _Notice(
-              icon: Icons.hourglass_top,
-              text: l10n.overviewProcessing(processing),
-              onTap: () => context.go(Routes.reports),
-            ),
-          const SizedBox(height: 8),
-          Text(l10n.overviewAbnormal, style: theme.textTheme.titleMedium),
-          const SizedBox(height: 8),
-          if (abnormal.isEmpty)
-            Text(
-              l10n.overviewNoAbnormal,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+      body = ContentWidth(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
+          children: [
+            if (openCount > 0)
+              _Notice(
+                icon: Icons.help_outline,
+                text: l10n.questionsBanner(openCount),
+                onTap: () => context.go(Routes.questions),
               ),
-            )
-          else
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: [for (final s in abnormal) _AbnormalCard(series: s)],
-            ),
-          const SizedBox(height: 24),
-          Text(l10n.overviewLatestReport, style: theme.textTheme.titleMedium),
-          ReportTile(summary: reports.first),
-        ],
+            if (waiting > 0)
+              _Notice(
+                icon: Icons.settings_outlined,
+                text: l10n.overviewNeedsSetup(waiting),
+                onTap: () => context.go(Routes.recognitionSettings),
+              ),
+            if (processing > 0)
+              _Notice(
+                icon: Icons.hourglass_top,
+                text: l10n.overviewProcessing(processing),
+                onTap: () => context.go(Routes.reports),
+              ),
+            if (series.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  _StatTile(
+                    label: l10n.overviewNormal,
+                    value: series.length - abnormal.length,
+                    detail: l10n.overviewOfTotal(series.length),
+                    highlighted: true,
+                  ),
+                  _StatTile(
+                    label: l10n.overviewAbnormal,
+                    value: abnormal.length,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+            ],
+            const SizedBox(height: 8),
+            Text(l10n.overviewAbnormal, style: theme.textTheme.titleMedium),
+            const SizedBox(height: 8),
+            if (abnormal.isEmpty)
+              Text(
+                l10n.overviewNoAbnormal,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              )
+            else
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [for (final s in abnormal) _AbnormalCard(series: s)],
+              ),
+            const SizedBox(height: 24),
+            Text(l10n.overviewLatestReport, style: theme.textTheme.titleMedium),
+            const SizedBox(height: 8),
+            ListCard(children: [ReportTile(summary: reports.first)]),
+          ],
+        ),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appTitle)),
+      appBar: AppBar(
+        // Wide windows show the name of the app in the sidebar.
+        title: Text(
+          MediaQuery.sizeOf(context).width < compactBreakpoint
+              ? l10n.appTitle
+              : l10n.navOverview,
+        ),
+      ),
       floatingActionButton: const ImportButton(),
       body: body,
+    );
+  }
+}
+
+/// A number with its label; the [highlighted] one carries the brand colors.
+class _StatTile extends StatelessWidget {
+  const _StatTile({
+    required this.label,
+    required this.value,
+    this.detail,
+    this.highlighted = false,
+  });
+
+  final String label;
+  final int value;
+
+  /// Follows the number in small type.
+  final String? detail;
+  final bool highlighted;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final text = highlighted ? Colors.white : colors.onSurface;
+    final labelColor = highlighted
+        ? Colors.white
+        : value > 0
+        ? StatusColors.of(context).warning
+        : colors.onSurfaceVariant;
+    return Container(
+      width: 168,
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(Radii.medium),
+        color: highlighted ? null : colors.surfaceContainerLowest,
+        border: highlighted ? null : Border.all(color: colors.outlineVariant),
+        gradient: highlighted
+            ? LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [colors.primary, AppTheme.accent],
+              )
+            : null,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: labelColor,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text.rich(
+            TextSpan(
+              text: '$value',
+              children: [
+                if (detail != null)
+                  TextSpan(
+                    text: ' $detail',
+                    style: theme.textTheme.bodySmall?.copyWith(color: text),
+                  ),
+              ],
+            ),
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: text,
+              fontFeatures: const [FontFeature.tabularFigures()],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -155,6 +265,7 @@ class _AbnormalCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(width: 6),
                     FlagMark(series.latest.flag),
                   ],
                 ),

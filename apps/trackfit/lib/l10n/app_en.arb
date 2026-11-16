@@ -16,8 +16,17 @@
   "@navReports": {
     "description": "Navigation destination for imported lab reports."
   },
-  "navMore": "More",
-  "@navMore": {
+  "sidebarLocal": "{reports, plural, =1{1 report} other{{reports} reports}} on this device",
+  "@sidebarLocal": {
+    "description": "Note at the bottom of the sidebar: everything is stored locally.",
+    "placeholders": {
+      "reports": {
+        "type": "int"
+      }
+    }
+  },
+  "navSettings": "Settings",
+  "@navSettings": {
     "description": "Navigation destination for settings and info."
   },
   "overviewEmptyTitle": "Add your first report",
@@ -305,6 +314,19 @@
   "@overviewProcessing": {
     "placeholders": {
       "count": {
+        "type": "int"
+      }
+    }
+  },
+  "overviewNormal": "Normal",
+  "@overviewNormal": {
+    "description": "Label of the number of values whose latest measurement is not flagged."
+  },
+  "overviewOfTotal": "of {total}",
+  "@overviewOfTotal": {
+    "description": "Follows a number: how many values there are in total.",
+    "placeholders": {
+      "total": {
         "type": "int"
       }
     }

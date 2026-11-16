@@ -75,8 +75,7 @@ class _EditValueDialogState extends State<_EditValueDialog> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final editing = widget.initial != null;
-    InputDecoration label(String text) =>
-        InputDecoration(labelText: text, border: const OutlineInputBorder());
+    InputDecoration label(String text) => InputDecoration(labelText: text);
     return AlertDialog(
       title: Text(editing ? l10n.editValueTitle : l10n.addValueTitle),
       content: SizedBox(

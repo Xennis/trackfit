@@ -44,7 +44,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('1 value needs your help'), findsOneWidget);
-    expect(find.text('Abnormal'), findsOneWidget);
+    // Once on the tile with the count, once as the heading of the cards.
+    expect(find.text('Abnormal'), findsNWidgets(2));
+    expect(find.text('Normal'), findsOneWidget);
     expect(find.text('Eisen'), findsOneWidget);
     expect(find.text('Hämoglobin'), findsNothing);
     expect(find.text('Latest report'), findsOneWidget);

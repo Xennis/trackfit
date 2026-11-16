@@ -19,7 +19,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('More'));
+    await tester.tap(find.text('Settings'));
     await tester.pumpAndSettle();
     expect(find.text('Mistral AI · not set up'), findsOneWidget);
     await tester.tap(find.text('Recognition'));
