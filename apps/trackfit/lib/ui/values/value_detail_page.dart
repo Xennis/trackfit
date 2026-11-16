@@ -154,10 +154,15 @@ class _ValueDetailPageState extends ConsumerState<ValueDetailPage> {
             if (view.points.isEmpty)
               Text(l10n.valueNoChart)
             else
-              HistoryChart(
-                points: points,
-                unit: view.unit,
-                onSelect: (point) => _showPoint(context, point),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 20, 20, 8),
+                  child: HistoryChart(
+                    points: points,
+                    unit: view.unit,
+                    onSelect: (point) => _showPoint(context, point),
+                  ),
+                ),
               ),
             const SizedBox(height: 24),
             Text(l10n.valueHistory, style: theme.textTheme.titleMedium),
