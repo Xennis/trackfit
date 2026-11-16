@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Corner radii used across the app.
@@ -54,7 +55,47 @@ abstract final class AppTheme {
     );
   }
 
+  /// Whether sizes suit a mouse and a desktop viewing distance.
+  ///
+  /// Material's defaults are sized for fingers on a phone and look heavy on
+  /// a desktop.
+  static bool get _dense => switch (defaultTargetPlatform) {
+    TargetPlatform.linux ||
+    TargetPlatform.macOS ||
+    TargetPlatform.windows => true,
+    _ => false,
+  };
+
+  static TextTheme _textTheme({required bool dense}) {
+    TextStyle style(
+      double size,
+      double denseSize, {
+      FontWeight? weight,
+      double spacing = 0,
+    }) => TextStyle(
+      fontSize: dense ? denseSize : size,
+      fontWeight: weight,
+      // Material's wide letter spacing is tuned for Roboto.
+      letterSpacing: spacing,
+    );
+    const semiBold = FontWeight.w600;
+    return TextTheme(
+      headlineMedium: style(28, 26, weight: semiBold, spacing: -0.5),
+      headlineSmall: style(24, 22, weight: semiBold, spacing: -0.3),
+      titleLarge: style(22, 19, weight: semiBold, spacing: -0.3),
+      titleMedium: style(16, 14, weight: semiBold),
+      titleSmall: style(14, 13, weight: semiBold),
+      bodyLarge: style(16, 14),
+      bodyMedium: style(14, 13),
+      bodySmall: style(12, 12),
+      labelLarge: style(14, 13),
+      labelMedium: style(12, 12),
+      labelSmall: style(11, 11),
+    );
+  }
+
   static ThemeData _build(Brightness brightness) {
+    final dense = _dense;
     final colors = _colors(brightness);
     final line = BorderSide(color: colors.outlineVariant);
     RoundedRectangleBorder rounded(double radius, [BorderSide? side]) =>
@@ -74,33 +115,15 @@ abstract final class AppTheme {
     return ThemeData(
       colorScheme: colors,
       fontFamily: 'Inter',
-      // Material's wide letter spacing is tuned for Roboto.
-      textTheme: const TextTheme(
-        headlineMedium: TextStyle(
-          fontWeight: FontWeight.w600,
-          letterSpacing: -0.5,
-        ),
-        headlineSmall: TextStyle(
-          fontWeight: FontWeight.w600,
-          letterSpacing: -0.3,
-        ),
-        titleLarge: TextStyle(fontWeight: FontWeight.w600, letterSpacing: -0.3),
-        titleMedium: TextStyle(fontWeight: FontWeight.w600, letterSpacing: 0),
-        titleSmall: TextStyle(fontWeight: FontWeight.w600, letterSpacing: 0),
-        bodyLarge: TextStyle(letterSpacing: 0),
-        bodyMedium: TextStyle(letterSpacing: 0),
-        bodySmall: TextStyle(letterSpacing: 0),
-        labelLarge: TextStyle(letterSpacing: 0),
-        labelMedium: TextStyle(letterSpacing: 0),
-        labelSmall: TextStyle(letterSpacing: 0),
-      ),
-      visualDensity: VisualDensity.adaptivePlatformDensity,
+      textTheme: _textTheme(dense: dense),
+      visualDensity: dense ? VisualDensity.compact : VisualDensity.standard,
       scaffoldBackgroundColor: colors.surface,
       appBarTheme: AppBarTheme(
         centerTitle: false,
         backgroundColor: colors.surface,
         foregroundColor: colors.onSurface,
         scrolledUnderElevation: 0,
+        toolbarHeight: dense ? 52 : null,
       ),
       cardTheme: CardThemeData(
         elevation: 0,
@@ -113,7 +136,10 @@ abstract final class AppTheme {
         thickness: 1,
         space: 1,
       ),
-      listTileTheme: ListTileThemeData(iconColor: colors.onSurfaceVariant),
+      listTileTheme: ListTileThemeData(
+        iconColor: colors.onSurfaceVariant,
+        dense: dense,
+      ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: colors.surfaceContainer,
