@@ -5,6 +5,7 @@ import 'package:trackfit_core/trackfit_core.dart';
 import 'package:trackfit_db/trackfit_db.dart';
 
 import '../../app/router.dart';
+import '../../app/theme.dart';
 import '../../application/recognition_settings.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../common/content_width.dart';
@@ -75,10 +76,20 @@ class ReportTile extends ConsumerWidget {
       if (summary.openCount > 0) l10n.reportOpenQuestions(summary.openCount),
     ];
     return ListTile(
-      leading: Icon(
-        summary.firstFileKind == FileKind.pdf
-            ? Icons.picture_as_pdf_outlined
-            : Icons.image_outlined,
+      leading: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(Radii.small + 2),
+        ),
+        child: Icon(
+          summary.firstFileKind == FileKind.pdf
+              ? Icons.picture_as_pdf_outlined
+              : Icons.image_outlined,
+          size: 18,
+          color: theme.colorScheme.onPrimaryContainer,
+        ),
       ),
       title: Text(reportTitle(context, report)),
       subtitle: Text(
