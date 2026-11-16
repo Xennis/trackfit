@@ -1070,6 +1070,18 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{1 report is being processed} other{{count} reports are being processed}}'**
   String overviewProcessing(int count);
 
+  /// Label of the number of values whose latest measurement is not flagged.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get overviewNormal;
+
+  /// Follows a number: how many values there are in total.
+  ///
+  /// In en, this message translates to:
+  /// **'of {total}'**
+  String overviewOfTotal(int total);
+
   /// No description provided for @overviewAbnormal.
   ///
   /// In en, this message translates to:

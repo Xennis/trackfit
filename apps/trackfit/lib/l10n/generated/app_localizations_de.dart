@@ -614,6 +614,14 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get overviewNormal => 'Unauffällig';
+
+  @override
+  String overviewOfTotal(int total) {
+    return 'von $total';
+  }
+
+  @override
   String get overviewAbnormal => 'Auffällig';
 
   @override

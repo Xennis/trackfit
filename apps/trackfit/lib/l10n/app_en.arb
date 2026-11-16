@@ -318,6 +318,19 @@
       }
     }
   },
+  "overviewNormal": "Normal",
+  "@overviewNormal": {
+    "description": "Label of the number of values whose latest measurement is not flagged."
+  },
+  "overviewOfTotal": "of {total}",
+  "@overviewOfTotal": {
+    "description": "Follows a number: how many values there are in total.",
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "overviewAbnormal": "Abnormal",
   "overviewNoAbnormal": "No abnormal values in the latest measurements.",
   "overviewLatestReport": "Latest report",

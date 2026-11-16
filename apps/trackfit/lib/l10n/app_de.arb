@@ -162,6 +162,8 @@
   "reportReprocess": "Werte erneut auslesen",
   "reportReprocessStarted": "Der Befund wird erneut ausgelesen.",
   "overviewProcessing": "{count, plural, =1{1 Befund wird verarbeitet} other{{count} Befunde werden verarbeitet}}",
+  "overviewNormal": "Unauffällig",
+  "overviewOfTotal": "von {total}",
   "overviewAbnormal": "Auffällig",
   "overviewNoAbnormal": "Keine auffälligen Werte in den letzten Messungen.",
   "overviewLatestReport": "Letzter Befund",
