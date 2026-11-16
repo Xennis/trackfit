@@ -7,6 +7,7 @@ import 'package:trackfit_db/trackfit_db.dart';
 import '../../app/router.dart';
 import '../../application/recognition_settings.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../common/content_width.dart';
 import '../common/empty_state.dart';
 import '../import/import_flow.dart';
 import 'report_labels.dart';
@@ -28,11 +29,13 @@ class ReportsPage extends ConsumerWidget {
           title: l10n.reportsEmptyTitle,
           body: l10n.reportsEmptyBody,
         ),
-        AsyncData(value: final list) => ListView.separated(
-          padding: const EdgeInsets.only(bottom: 88),
-          itemCount: list.length,
-          separatorBuilder: (_, _) => const Divider(height: 1),
-          itemBuilder: (context, index) => ReportTile(summary: list[index]),
+        AsyncData(value: final list) => ContentWidth(
+          child: ListView.separated(
+            padding: const EdgeInsets.only(bottom: 88),
+            itemCount: list.length,
+            separatorBuilder: (_, _) => const Divider(height: 1),
+            itemBuilder: (context, index) => ReportTile(summary: list[index]),
+          ),
         ),
         AsyncError() => Center(child: Text(l10n.loadFailed)),
         _ => const Center(child: CircularProgressIndicator()),

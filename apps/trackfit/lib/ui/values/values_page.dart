@@ -6,6 +6,7 @@ import '../../app/router.dart';
 import '../../data/database_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../charts/sparkline.dart';
+import '../common/content_width.dart';
 import '../common/empty_state.dart';
 import 'series_view_model.dart';
 import 'value_format.dart';
@@ -86,51 +87,53 @@ class _ValuesPageState extends ConsumerState<ValuesPage> {
       ...categoryOrder.where(byCategory.containsKey),
       if (byCategory.containsKey('')) '',
     ];
-    return ListView(
-      padding: const EdgeInsets.only(bottom: 32),
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-          child: TextField(
-            decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search),
-              hintText: l10n.navValues,
-            ),
-            onChanged: (value) => setState(() => _query = value),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-          child: Wrap(
-            spacing: 8,
-            children: [
-              for (final (filter, label) in [
-                (_Filter.all, l10n.valuesFilterAll),
-                (_Filter.abnormal, l10n.valuesFilterAbnormal),
-                (_Filter.open, l10n.valuesFilterOpen),
-              ])
-                ChoiceChip(
-                  label: Text(label),
-                  selected: _filter == filter,
-                  onSelected: (_) => setState(() => _filter = filter),
-                ),
-            ],
-          ),
-        ),
-        for (final category in categories) ...[
+    return ContentWidth(
+      child: ListView(
+        padding: const EdgeInsets.only(bottom: 32),
+        children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
-            child: Text(
-              categoryLabel(l10n, category),
-              style: theme.textTheme.titleSmall?.copyWith(
-                color: theme.colorScheme.primary,
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: TextField(
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search),
+                hintText: l10n.navValues,
+              ),
+              onChanged: (value) => setState(() => _query = value),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: Wrap(
+              spacing: 8,
+              children: [
+                for (final (filter, label) in [
+                  (_Filter.all, l10n.valuesFilterAll),
+                  (_Filter.abnormal, l10n.valuesFilterAbnormal),
+                  (_Filter.open, l10n.valuesFilterOpen),
+                ])
+                  ChoiceChip(
+                    label: Text(label),
+                    selected: _filter == filter,
+                    onSelected: (_) => setState(() => _filter = filter),
+                  ),
+              ],
+            ),
+          ),
+          for (final category in categories) ...[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+              child: Text(
+                categoryLabel(l10n, category),
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: theme.colorScheme.primary,
+                ),
               ),
             ),
-          ),
-          for (final series in byCategory[category]!)
-            SeriesTile(series: series),
+            for (final series in byCategory[category]!)
+              SeriesTile(series: series),
+          ],
         ],
-      ],
+      ),
     );
   }
 }

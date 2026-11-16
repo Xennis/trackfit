@@ -7,6 +7,7 @@ import '../../app/router.dart';
 import '../../application/processing_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../charts/history_chart.dart';
+import '../common/content_width.dart';
 import '../reports/report_labels.dart';
 import 'series_view_model.dart';
 import 'value_format.dart';
@@ -86,118 +87,120 @@ class _ValueDetailPageState extends ConsumerState<ValueDetailPage> {
     final points = view.pointsSince(_since);
     return Scaffold(
       appBar: AppBar(title: Text(view.name)),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
-        children: [
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Text(
-                formatPrintedValue(latest),
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  fontFeatures: const [FontFeature.tabularFigures()],
-                ),
-              ),
-              const SizedBox(width: 8),
-              FlagMark(latest.flag, size: 28),
-              const SizedBox(width: 8),
-              Text(
-                l10n.valueLatestOn(
-                  formatDay(context, DateTime.parse(latest.localDate)),
-                ),
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Wrap(
-            spacing: 16,
-            runSpacing: 8,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              SegmentedButton<_Range>(
-                segments: [
-                  ButtonSegment(
-                    value: _Range.oneYear,
-                    label: Text(l10n.valueRange1y),
+      body: ContentWidth(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+          children: [
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Text(
+                  formatPrintedValue(latest),
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    fontFeatures: const [FontFeature.tabularFigures()],
                   ),
-                  ButtonSegment(
-                    value: _Range.threeYears,
-                    label: Text(l10n.valueRange3y),
-                  ),
-                  ButtonSegment(
-                    value: _Range.all,
-                    label: Text(l10n.valueRangeAll),
-                  ),
-                ],
-                selected: {_range},
-                onSelectionChanged: (value) =>
-                    setState(() => _range = value.first),
-              ),
-              if (units.length > 1)
-                DropdownButton<String>(
-                  value: view.unit,
-                  items: [
-                    for (final unit in units)
-                      DropdownMenuItem(value: unit, child: Text(unit)),
-                  ],
-                  onChanged: (unit) => setState(() => _unit = unit),
                 ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          if (view.points.isEmpty)
-            Text(l10n.valueNoChart)
-          else
-            HistoryChart(
-              points: points,
-              unit: view.unit,
-              onSelect: (point) => _showPoint(context, point),
+                const SizedBox(width: 8),
+                FlagMark(latest.flag, size: 28),
+                const SizedBox(width: 8),
+                Text(
+                  l10n.valueLatestOn(
+                    formatDay(context, DateTime.parse(latest.localDate)),
+                  ),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
             ),
-          const SizedBox(height: 24),
-          Text(l10n.valueHistory, style: theme.textTheme.titleMedium),
-          for (final reading in view.summary.history.reversed)
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(
-                formatDay(context, DateTime.parse(reading.localDate)),
-              ),
-              subtitle: reading.refText.isEmpty
-                  ? null
-                  : Text(l10n.valueReference(reading.refText)),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    formatPrintedValue(reading),
-                    style: const TextStyle(
-                      fontFeatures: [FontFeature.tabularFigures()],
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 16,
+              runSpacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                SegmentedButton<_Range>(
+                  segments: [
+                    ButtonSegment(
+                      value: _Range.oneYear,
+                      label: Text(l10n.valueRange1y),
                     ),
-                  ),
-                  const SizedBox(width: 4),
-                  FlagMark(reading.flag),
-                ],
-              ),
-              onTap: reading.reportId == null
-                  ? null
-                  : () => context.go(Routes.report(reading.reportId!)),
-            ),
-          if (latest.code != null) ...[
-            const SizedBox(height: 24),
-            Text(l10n.valueAbout, style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
-            Text(l10n.valueCode(latest.code!)),
-            if ((latest.display ?? '').isNotEmpty)
-              Text(
-                latest.display!,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
+                    ButtonSegment(
+                      value: _Range.threeYears,
+                      label: Text(l10n.valueRange3y),
+                    ),
+                    ButtonSegment(
+                      value: _Range.all,
+                      label: Text(l10n.valueRangeAll),
+                    ),
+                  ],
+                  selected: {_range},
+                  onSelectionChanged: (value) =>
+                      setState(() => _range = value.first),
                 ),
+                if (units.length > 1)
+                  DropdownButton<String>(
+                    value: view.unit,
+                    items: [
+                      for (final unit in units)
+                        DropdownMenuItem(value: unit, child: Text(unit)),
+                    ],
+                    onChanged: (unit) => setState(() => _unit = unit),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            if (view.points.isEmpty)
+              Text(l10n.valueNoChart)
+            else
+              HistoryChart(
+                points: points,
+                unit: view.unit,
+                onSelect: (point) => _showPoint(context, point),
               ),
+            const SizedBox(height: 24),
+            Text(l10n.valueHistory, style: theme.textTheme.titleMedium),
+            for (final reading in view.summary.history.reversed)
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  formatDay(context, DateTime.parse(reading.localDate)),
+                ),
+                subtitle: reading.refText.isEmpty
+                    ? null
+                    : Text(l10n.valueReference(reading.refText)),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      formatPrintedValue(reading),
+                      style: const TextStyle(
+                        fontFeatures: [FontFeature.tabularFigures()],
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    FlagMark(reading.flag),
+                  ],
+                ),
+                onTap: reading.reportId == null
+                    ? null
+                    : () => context.go(Routes.report(reading.reportId!)),
+              ),
+            if (latest.code != null) ...[
+              const SizedBox(height: 24),
+              Text(l10n.valueAbout, style: theme.textTheme.titleMedium),
+              const SizedBox(height: 8),
+              Text(l10n.valueCode(latest.code!)),
+              if ((latest.display ?? '').isNotEmpty)
+                Text(
+                  latest.display!,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

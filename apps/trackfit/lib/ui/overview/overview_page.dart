@@ -7,6 +7,7 @@ import '../../application/recognition_settings.dart';
 import '../../data/database_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../charts/sparkline.dart';
+import '../common/content_width.dart';
 import '../common/empty_state.dart';
 import '../import/import_flow.dart';
 import '../reports/report_labels.dart';
@@ -47,47 +48,49 @@ class OverviewPage extends ConsumerWidget {
           .length;
       final openCount = questions.fold(0, (n, q) => n + q.readings.length);
       final abnormal = series.where((s) => s.isAbnormal).toList();
-      body = ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
-        children: [
-          if (openCount > 0)
-            _Notice(
-              icon: Icons.help_outline,
-              text: l10n.questionsBanner(openCount),
-              onTap: () => context.go(Routes.questions),
-            ),
-          if (waiting > 0)
-            _Notice(
-              icon: Icons.settings_outlined,
-              text: l10n.overviewNeedsSetup(waiting),
-              onTap: () => context.go(Routes.recognitionSettings),
-            ),
-          if (processing > 0)
-            _Notice(
-              icon: Icons.hourglass_top,
-              text: l10n.overviewProcessing(processing),
-              onTap: () => context.go(Routes.reports),
-            ),
-          const SizedBox(height: 8),
-          Text(l10n.overviewAbnormal, style: theme.textTheme.titleMedium),
-          const SizedBox(height: 8),
-          if (abnormal.isEmpty)
-            Text(
-              l10n.overviewNoAbnormal,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+      body = ContentWidth(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
+          children: [
+            if (openCount > 0)
+              _Notice(
+                icon: Icons.help_outline,
+                text: l10n.questionsBanner(openCount),
+                onTap: () => context.go(Routes.questions),
               ),
-            )
-          else
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: [for (final s in abnormal) _AbnormalCard(series: s)],
-            ),
-          const SizedBox(height: 24),
-          Text(l10n.overviewLatestReport, style: theme.textTheme.titleMedium),
-          ReportTile(summary: reports.first),
-        ],
+            if (waiting > 0)
+              _Notice(
+                icon: Icons.settings_outlined,
+                text: l10n.overviewNeedsSetup(waiting),
+                onTap: () => context.go(Routes.recognitionSettings),
+              ),
+            if (processing > 0)
+              _Notice(
+                icon: Icons.hourglass_top,
+                text: l10n.overviewProcessing(processing),
+                onTap: () => context.go(Routes.reports),
+              ),
+            const SizedBox(height: 8),
+            Text(l10n.overviewAbnormal, style: theme.textTheme.titleMedium),
+            const SizedBox(height: 8),
+            if (abnormal.isEmpty)
+              Text(
+                l10n.overviewNoAbnormal,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              )
+            else
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [for (final s in abnormal) _AbnormalCard(series: s)],
+              ),
+            const SizedBox(height: 24),
+            Text(l10n.overviewLatestReport, style: theme.textTheme.titleMedium),
+            ReportTile(summary: reports.first),
+          ],
+        ),
       );
     }
 
