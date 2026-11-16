@@ -58,7 +58,6 @@ class _RecognitionSettingsPageState
                     hintText: settings.hasApiKey
                         ? '••••••••'
                         : l10n.recognitionApiKeyHint,
-                    border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       tooltip: _obscure
                           ? l10n.recognitionShowKey

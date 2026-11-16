@@ -95,8 +95,6 @@ class _ValuesPageState extends ConsumerState<ValuesPage> {
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.search),
               hintText: l10n.navValues,
-              border: const OutlineInputBorder(),
-              isDense: true,
             ),
             onChanged: (value) => setState(() => _query = value),
           ),
