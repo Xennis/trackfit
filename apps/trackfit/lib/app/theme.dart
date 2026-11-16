@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'status_colors.dart';
+
 /// Corner radii used across the app.
 abstract final class Radii {
   /// Navigation entries, chips and buttons.
@@ -114,6 +116,9 @@ abstract final class AppTheme {
 
     return ThemeData(
       colorScheme: colors,
+      extensions: [
+        brightness == Brightness.light ? StatusColors.light : StatusColors.dark,
+      ],
       fontFamily: 'Inter',
       textTheme: _textTheme(dense: dense),
       visualDensity: dense ? VisualDensity.compact : VisualDensity.standard,

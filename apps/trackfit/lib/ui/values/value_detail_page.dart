@@ -99,7 +99,7 @@ class _ValueDetailPageState extends ConsumerState<ValueDetailPage> {
                 ),
               ),
               const SizedBox(width: 8),
-              FlagMark(latest.flag, size: 24),
+              FlagMark(latest.flag, size: 28),
               const SizedBox(width: 8),
               Text(
                 l10n.valueLatestOn(
