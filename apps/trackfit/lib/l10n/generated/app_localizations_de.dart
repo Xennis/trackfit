@@ -32,7 +32,7 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get navMore => 'Mehr';
+  String get navSettings => 'Einstellungen';
 
   @override
   String get overviewEmptyTitle => 'Ersten Befund hinzufügen';

@@ -85,6 +85,6 @@ class AppShell extends StatelessWidget {
     Destination(Icons.dashboard_outlined, Icons.dashboard, l10n.navOverview),
     Destination(Icons.show_chart_outlined, Icons.show_chart, l10n.navValues),
     Destination(Icons.description_outlined, Icons.description, l10n.navReports),
-    Destination(Icons.more_horiz, Icons.more_horiz, l10n.navMore),
+    Destination(Icons.settings_outlined, Icons.settings, l10n.navSettings),
   ];
 }

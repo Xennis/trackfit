@@ -52,7 +52,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('No values yet'), findsOneWidget);
 
-    await tester.tap(find.text('More'));
+    await tester.tap(find.text('Settings'));
     await tester.pumpAndSettle();
     expect(find.text('About'), findsOneWidget);
   });

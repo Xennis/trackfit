@@ -25,7 +25,7 @@ class MorePage extends ConsumerWidget {
     final storage = ref.watch(storageInfoProvider).value;
     final reportCount = ref.watch(reportSummariesProvider).value?.length ?? 0;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.navMore)),
+      appBar: AppBar(title: Text(l10n.navSettings)),
       body: ContentWidth(
         child: ListView(
           children: [

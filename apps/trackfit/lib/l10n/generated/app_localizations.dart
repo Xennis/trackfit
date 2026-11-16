@@ -131,8 +131,8 @@ abstract class AppLocalizations {
   /// Navigation destination for settings and info.
   ///
   /// In en, this message translates to:
-  /// **'More'**
-  String get navMore;
+  /// **'Settings'**
+  String get navSettings;
 
   /// No description provided for @overviewEmptyTitle.
   ///

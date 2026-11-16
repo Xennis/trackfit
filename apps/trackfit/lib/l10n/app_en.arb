@@ -25,8 +25,8 @@
       }
     }
   },
-  "navMore": "More",
-  "@navMore": {
+  "navSettings": "Settings",
+  "@navSettings": {
     "description": "Navigation destination for settings and info."
   },
   "overviewEmptyTitle": "Add your first report",

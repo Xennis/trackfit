@@ -13,7 +13,7 @@ void main() {
       ProviderScope(overrides: testOverrides(db), child: const TrackfitApp()),
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.text('More'));
+    await tester.tap(find.text('Settings'));
     await tester.pumpAndSettle();
 
     expect(find.textContaining('0 reports · 2.0 KB'), findsOneWidget);
