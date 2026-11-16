@@ -13,6 +13,7 @@ import '../import/import_flow.dart';
 import '../reports/report_labels.dart';
 import '../reports/report_providers.dart';
 import '../reports/reports_page.dart';
+import '../shell/app_shell.dart';
 import '../values/series_view_model.dart';
 import '../values/value_format.dart';
 import '../values/values_providers.dart';
@@ -95,7 +96,14 @@ class OverviewPage extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appTitle)),
+      appBar: AppBar(
+        // Wide windows show the name of the app in the sidebar.
+        title: Text(
+          MediaQuery.sizeOf(context).width < compactBreakpoint
+              ? l10n.appTitle
+              : l10n.navOverview,
+        ),
+      ),
       floatingActionButton: const ImportButton(),
       body: body,
     );
