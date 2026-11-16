@@ -8,6 +8,7 @@ import '../../application/processing_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../charts/history_chart.dart';
 import '../common/content_width.dart';
+import '../common/list_card.dart';
 import '../reports/report_labels.dart';
 import 'series_view_model.dart';
 import 'value_format.dart';
@@ -160,32 +161,36 @@ class _ValueDetailPageState extends ConsumerState<ValueDetailPage> {
               ),
             const SizedBox(height: 24),
             Text(l10n.valueHistory, style: theme.textTheme.titleMedium),
-            for (final reading in view.summary.history.reversed)
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  formatDay(context, DateTime.parse(reading.localDate)),
-                ),
-                subtitle: reading.refText.isEmpty
-                    ? null
-                    : Text(l10n.valueReference(reading.refText)),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      formatPrintedValue(reading),
-                      style: const TextStyle(
-                        fontFeatures: [FontFeature.tabularFigures()],
-                      ),
+            const SizedBox(height: 8),
+            ListCard(
+              children: [
+                for (final reading in view.summary.history.reversed)
+                  ListTile(
+                    title: Text(
+                      formatDay(context, DateTime.parse(reading.localDate)),
                     ),
-                    const SizedBox(width: 4),
-                    FlagMark(reading.flag),
-                  ],
-                ),
-                onTap: reading.reportId == null
-                    ? null
-                    : () => context.go(Routes.report(reading.reportId!)),
-              ),
+                    subtitle: reading.refText.isEmpty
+                        ? null
+                        : Text(l10n.valueReference(reading.refText)),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          formatPrintedValue(reading),
+                          style: const TextStyle(
+                            fontFeatures: [FontFeature.tabularFigures()],
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        FlagMark(reading.flag),
+                      ],
+                    ),
+                    onTap: reading.reportId == null
+                        ? null
+                        : () => context.go(Routes.report(reading.reportId!)),
+                  ),
+              ],
+            ),
             if (latest.code != null) ...[
               const SizedBox(height: 24),
               Text(l10n.valueAbout, style: theme.textTheme.titleMedium),

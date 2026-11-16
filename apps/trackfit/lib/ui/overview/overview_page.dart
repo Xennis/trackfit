@@ -9,6 +9,7 @@ import '../../l10n/generated/app_localizations.dart';
 import '../charts/sparkline.dart';
 import '../common/content_width.dart';
 import '../common/empty_state.dart';
+import '../common/list_card.dart';
 import '../import/import_flow.dart';
 import '../reports/report_labels.dart';
 import '../reports/report_providers.dart';
@@ -90,7 +91,8 @@ class OverviewPage extends ConsumerWidget {
               ),
             const SizedBox(height: 24),
             Text(l10n.overviewLatestReport, style: theme.textTheme.titleMedium),
-            ReportTile(summary: reports.first),
+            const SizedBox(height: 8),
+            ListCard(children: [ReportTile(summary: reports.first)]),
           ],
         ),
       );

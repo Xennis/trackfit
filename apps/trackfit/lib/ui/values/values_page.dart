@@ -8,6 +8,7 @@ import '../../l10n/generated/app_localizations.dart';
 import '../charts/sparkline.dart';
 import '../common/content_width.dart';
 import '../common/empty_state.dart';
+import '../common/list_card.dart';
 import 'series_view_model.dart';
 import 'value_format.dart';
 import 'values_providers.dart';
@@ -121,16 +122,24 @@ class _ValuesPageState extends ConsumerState<ValuesPage> {
           ),
           for (final category in categories) ...[
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+              padding: const EdgeInsets.fromLTRB(20, 20, 16, 8),
               child: Text(
                 categoryLabel(l10n, category),
-                style: theme.textTheme.titleSmall?.copyWith(
-                  color: theme.colorScheme.primary,
+                style: theme.textTheme.labelMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
-            for (final series in byCategory[category]!)
-              SeriesTile(series: series),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListCard(
+                children: [
+                  for (final series in byCategory[category]!)
+                    SeriesTile(series: series),
+                ],
+              ),
+            ),
           ],
         ],
       ),

@@ -9,6 +9,7 @@ import '../../application/recognition_settings.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../common/content_width.dart';
 import '../common/empty_state.dart';
+import '../common/list_card.dart';
 import '../import/import_flow.dart';
 import 'report_labels.dart';
 import 'report_providers.dart';
@@ -31,11 +32,15 @@ class ReportsPage extends ConsumerWidget {
           hint: isDesktop ? l10n.importDropHint : null,
         ),
         AsyncData(value: final list) => ContentWidth(
-          child: ListView.separated(
-            padding: const EdgeInsets.only(bottom: 88),
-            itemCount: list.length,
-            separatorBuilder: (_, _) => const Divider(height: 1),
-            itemBuilder: (context, index) => ReportTile(summary: list[index]),
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 88),
+            children: [
+              ListCard(
+                children: [
+                  for (final summary in list) ReportTile(summary: summary),
+                ],
+              ),
+            ],
           ),
         ),
         AsyncError() => Center(child: Text(l10n.loadFailed)),
